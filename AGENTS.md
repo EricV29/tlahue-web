@@ -43,3 +43,9 @@ vite.config.ts
 - No test framework configured
 - No CI/CD workflows in `.github/`
 - Dependencies are pinned (no `^` or `~`) for reproducibility and security
+
+## Icons & SVGs
+
+- All SVG icons must be created as React components in `src/components/icons/`
+- Never inline SVG code in components; always import from the icons folder
+- If a new SVG is needed, ask the user to provide the SVG code first
