@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@theme {
+  --color-tlahue-primary: #235B4E;
+  --color-tlahue-secondary: #BC955C;
+  --color-tlahue-accent: #9F2241;
+  --color-tlahue-background: #F8F9FA;
+  --color-tlahue-dark: #333333;
+
+  --font-title: 'Montserrat', sans-serif;
+  --font-body: 'Source Sans Pro', sans-serif;
+}
