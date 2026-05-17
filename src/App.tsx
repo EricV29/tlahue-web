@@ -2,6 +2,8 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Novedades from './components/Novedades'
 import Gobierno from './components/Gobierno'
+import FloatingSocial from './components/FloatingSocial'
+import FloatingEmergency from './components/FloatingEmergency'
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Novedades />
         <Gobierno />
       </main>
+      <FloatingSocial />
+      <FloatingEmergency />
     </div>
   )
 }

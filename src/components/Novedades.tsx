@@ -235,7 +235,7 @@ export default function Novedades() {
           </h2>
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-4 mb-8 scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto pb-4 mb-8 scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {months.map((month, index) => (
             <button
               key={month}
@@ -265,7 +265,7 @@ export default function Novedades() {
           </div>
         ) : (
           <>
-            <div className="flex md:hidden gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-6 px-6">
+            <div className="flex md:hidden gap-4 overflow-x-auto pb-4 -mx-6 px-6">
               {events.map((event) => (
                 <div
                   key={event.id}

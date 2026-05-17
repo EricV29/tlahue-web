@@ -1,8 +1,7 @@
+import { useState } from "react";
 import IconPhone from "./icons/IconPhone";
 import IconMail from "./icons/IconMail";
-import IconFacebook from "./icons/IconFacebook";
-import IconInstagram from "./icons/IconInstagram";
-import IconWebsite from "./icons/IconWebsite";
+import presidenteImg from "../assets/images/presidente.webp";
 
 interface GovernmentOfficial {
   id: number;
@@ -15,19 +14,17 @@ interface GovernmentOfficial {
   image: string;
 }
 
-const president: GovernmentOfficial = {
-  id: 1,
-  name: "Mtro. Octavio Granados Hernández",
-  title: "Presidente Municipal",
-  degree: "Maestro en Administración Pública",
-  phone: "738 123 4567",
-  extension: "101",
-  email: "presidente@tlahuelilpan.gob.mx",
-  image:
-    "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop",
-};
-
-const cabinet: GovernmentOfficial[] = [
+const officials: GovernmentOfficial[] = [
+  {
+    id: 1,
+    name: "Mtro. Octavio Granados Hernández",
+    title: "Presidente Municipal",
+    degree: "Maestro en Administración Pública",
+    phone: "738 123 4567",
+    extension: "101",
+    email: "presidente@tlahuelilpan.gob.mx",
+    image: presidenteImg,
+  },
   {
     id: 2,
     name: "Lic. María Elena Sánchez Rivera",
@@ -37,7 +34,7 @@ const cabinet: GovernmentOfficial[] = [
     extension: "201",
     email: "seguridad@tlahuelilpan.gob.mx",
     image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop",
   },
   {
     id: 3,
@@ -48,7 +45,7 @@ const cabinet: GovernmentOfficial[] = [
     extension: "202",
     email: "proteccion.civil@tlahuelilpan.gob.mx",
     image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop",
   },
   {
     id: 4,
@@ -59,7 +56,7 @@ const cabinet: GovernmentOfficial[] = [
     extension: "203",
     email: "servicios@tlahuelilpan.gob.mx",
     image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop",
   },
   {
     id: 5,
@@ -70,7 +67,7 @@ const cabinet: GovernmentOfficial[] = [
     extension: "204",
     email: "tesoreria@tlahuelilpan.gob.mx",
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop",
   },
   {
     id: 6,
@@ -81,11 +78,15 @@ const cabinet: GovernmentOfficial[] = [
     extension: "205",
     email: "salud@tlahuelilpan.gob.mx",
     image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&h=800&fit=crop",
   },
 ];
 
 export default function Gobierno() {
+  const [selectedOfficial, setSelectedOfficial] = useState(0);
+
+  const selected = officials[selectedOfficial];
+
   return (
     <section id="gobierno" className="py-16 px-6 bg-[#ffffff]">
       <div className="max-w-[1280px] mx-auto">
@@ -96,105 +97,103 @@ export default function Gobierno() {
           Directorio Ciudadano de Atención Municipal
         </p>
 
-        <div className="flex justify-center mb-16">
-          <div className="max-w-2xl w-full bg-[#FEFFFC] rounded-2xl p-6 shadow-[rgba(17,24,39,0.03)_0px_8px_24px_0px] border border-[#AA642A]/20">
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div className="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0">
-                <img
-                  src={president.image}
-                  alt={president.name}
-                  className="w-full h-full object-cover"
-                />
+        <div className="flex justify-start md:justify-center gap-4 md:gap-6 mb-6 overflow-x-auto pt-3 pb-4 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {officials.map((official, index) => {
+            const isSelected = selectedOfficial === index;
+
+            return (
+              <div
+                key={official.id}
+                className="flex flex-col items-center flex-shrink-0"
+              >
+                <button
+                  onClick={() => setSelectedOfficial(index)}
+                  className={`transition-all duration-300 ease-out ${
+                    isSelected
+                      ? "scale-100 drop-shadow-md"
+                      : "scale-90 opacity-40 hover:opacity-80 hover:scale-95"
+                  }`}
+                >
+                  <div
+                    className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 transition-all duration-300 ${
+                      isSelected ? "border-[#AA642A]" : "border-transparent"
+                    }`}
+                  >
+                    <img
+                      src={official.image}
+                      alt={official.name}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </div>
+                </button>
+                <span
+                  className={`mt-2 font-body text-xs text-center max-w-[90px] leading-tight transition-all duration-300 ${
+                    isSelected
+                      ? "text-[#111827] font-semibold scale-100"
+                      : "text-[#4B5563] opacity-40 scale-95"
+                  }`}
+                >
+                  {official.title.split(" de ")[0].split(" y ")[0]}
+                </span>
               </div>
-              <div className="text-center sm:text-left">
-                <h3 className="font-display font-medium text-xl text-[#111827] mb-1">
-                  {president.name}
+            );
+          })}
+        </div>
+
+        <div className="max-w-5xl mx-auto bg-white rounded-2xl overflow-hidden shadow-[rgba(17,24,39,0.03)_0px_8px_24px_0px] border border-[#dee2de]/50 transition-all duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-12 items-center">
+            <div className="relative w-full h-[350px] md:h-[450px] md:col-span-5 bg-[#f9faf7]">
+              <img
+                src={selected.image}
+                alt={selected.name}
+                className="w-full h-full object-cover object-top"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-white/10" />
+            </div>
+            <div className="p-6 md:p-10 md:col-span-7 bg-white flex flex-col justify-between h-full">
+              <div className="text-left mb-6 md:mb-8">
+                <h3
+                  className={`font-display font-medium text-2xl md:text-3xl text-[#111827] mb-2 transition-colors ${
+                    selectedOfficial === 0 ? "text-[#AA642A]" : ""
+                  }`}
+                >
+                  {selected.name}
                 </h3>
-                <p className="font-body text-sm text-[#AA642A] font-medium mb-1">
-                  {president.title}
+
+                <span className="inline-block text-xs font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded mb-4 border border-[#D5B35F]/20">
+                  {selected.degree}
+                </span>
+
+                <p className="font-body text-base md:text-lg text-[#4B5563] font-medium leading-relaxed">
+                  {selected.title}
                 </p>
-                <p className="font-body text-sm text-[#4B5563]">
-                  {president.degree}
-                </p>
-                <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
-                  <a
-                    href={`tel:${president.phone}`}
-                    className="font-body text-sm text-[#3A85AC] hover:text-[#AA642A] transition-colors inline-flex items-center gap-1"
-                  >
-                    <IconPhone className="w-4 h-4" />
-                    {president.phone} ext. {president.extension}
-                  </a>
-                  <a
-                    href={`mailto:${president.email}`}
-                    className="font-body text-sm text-[#3A85AC] hover:text-[#AA642A] transition-colors inline-flex items-center gap-1"
-                  >
-                    <IconMail className="w-4 h-4" />
-                    {president.email}
-                  </a>
-                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[#eef1ed]">
+                {/* Teléfono: Acción principal (Jarros Barro) */}
+                <a
+                  href={`tel:${selected.phone}`}
+                  className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <IconPhone className="w-4 h-4" />
+                  <span>
+                    {selected.phone}{" "}
+                    <span className="text-white/70 text-xs ml-1">
+                      ext. {selected.extension}
+                    </span>
+                  </span>
+                </a>
+
+                <a
+                  href={`mailto:${selected.email}`}
+                  className="w-full sm:w-auto bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-5 py-2.5 font-body text-sm font-medium hover:bg-[#3A85AC]/10 transition-all inline-flex items-center justify-center gap-2"
+                >
+                  <IconMail className="w-4 h-4" />
+                  <span>{selected.email}</span>
+                </a>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cabinet.map((official) => (
-            <div
-              key={official.id}
-              className="bg-[#FEFFFC] rounded-xl p-4 shadow-[rgba(17,24,39,0.03)_0px_8px_24px_0px] border border-[#dee2de]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:bg-[#F9FAF7] group"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    src={official.image}
-                    alt={official.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-display font-medium text-lg text-[#111827]">
-                    {official.name}
-                  </h3>
-                  <p className="font-body text-xs text-[#4B5563]">
-                    {official.degree}
-                  </p>
-                  <p className="font-body text-sm text-[#AA642A] font-medium">
-                    {official.title}
-                  </p>
-                </div>
-              </div>
-
-              <div className="border-t border-[#EEF1ED] pt-3 mt-3">
-                <div className="flex items-center gap-2 text-[#4B5563] mb-2">
-                  <IconPhone className="w-4 h-4" />
-                  <span className="font-body text-xs">
-                    {official.phone} ext. {official.extension}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-[#4B5563] mb-3">
-                  <IconMail className="w-4 h-4" />
-                  <span className="font-body text-xs truncate">
-                    {official.email}
-                  </span>
-                </div>
-
-                <div className="flex gap-2">
-                  <a
-                    href={`tel:${official.phone}`}
-                    className="flex-1 bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-3 py-1.5 font-body text-xs font-medium hover:bg-[#3A85AC]/5 transition-all text-center"
-                  >
-                    Llamar
-                  </a>
-                  <a
-                    href={`mailto:${official.email}`}
-                    className="flex-1 bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-3 py-1.5 font-body text-xs font-medium hover:bg-[#3A85AC]/5 transition-all text-center"
-                  >
-                    Correo
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
 
         <div className="mt-12 text-center">
@@ -221,71 +220,6 @@ export default function Gobierno() {
               />
             </svg>
           </a>
-        </div>
-
-        <div className="mt-16">
-          <h3 className="font-display font-medium text-2xl text-[#111827] tracking-[-0.0200em] leading-[1.1] text-center mb-2">
-            Redes Sociales
-          </h3>
-          <p className="font-body text-base text-[#4B5563] text-center mb-8">
-            Síguenos en nuestras plataformas oficiales
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-6">
-            <a
-              href="https://www.facebook.com/profile.php?id=61565068632771"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center gap-3 group"
-            >
-              <div className="w-16 h-16 rounded-full bg-[#FEFFFC] border border-[#dee2de]/50 flex items-center justify-center transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-[#3A85AC]">
-                <IconFacebook className="w-7 h-7 text-[#3A85AC]" />
-              </div>
-              <span className="font-body text-sm text-[#4B5563] group-hover:text-[#AA642A] transition-colors">
-                Facebook
-              </span>
-            </a>
-
-            <a
-              href="https://www.instagram.com/gobiernotlahuelilpan?brid=YWdncwElCUxIIymqdby9WZjaKz0C"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center gap-3 group"
-            >
-              <div className="w-16 h-16 rounded-full bg-[#FEFFFC] border border-[#dee2de]/50 flex items-center justify-center transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-[#3A85AC]">
-                <IconInstagram className="w-7 h-7 text-[#3A85AC]" />
-              </div>
-              <span className="font-body text-sm text-[#4B5563] group-hover:text-[#AA642A] transition-colors">
-                Instagram
-              </span>
-            </a>
-
-            <a
-              href="https://tlahuelilpan.gob.mx"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center gap-3 group"
-            >
-              <div className="w-16 h-16 rounded-full bg-[#FEFFFC] border border-[#dee2de]/50 flex items-center justify-center transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-[#3A85AC]">
-                <IconWebsite className="w-7 h-7 text-[#3A85AC]" />
-              </div>
-              <span className="font-body text-sm text-[#4B5563] group-hover:text-[#AA642A] transition-colors">
-                Página Oficial
-              </span>
-            </a>
-
-            <a
-              href="mailto:presidenciamunicipal@tlahuelilpan.gob.mx"
-              className="flex flex-col items-center gap-3 group"
-            >
-              <div className="w-16 h-16 rounded-full bg-[#FEFFFC] border border-[#dee2de]/50 flex items-center justify-center transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-[#3A85AC]">
-                <IconMail className="w-7 h-7 text-[#3A85AC]" />
-              </div>
-              <span className="font-body text-sm text-[#4B5563] group-hover:text-[#AA642A] transition-colors">
-                Correo Oficial
-              </span>
-            </a>
-          </div>
         </div>
       </div>
     </section>
