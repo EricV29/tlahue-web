@@ -1,12 +1,21 @@
 import Navbar from './components/Navbar'
+import Hero from './components/Hero'
+import Novedades from './components/Novedades'
+import Gobierno from './components/Gobierno'
+import FloatingSocial from './components/FloatingSocial'
+import FloatingEmergency from './components/FloatingEmergency'
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#050a09]">
+    <div className="min-h-screen bg-[#ffffff]">
       <Navbar />
       <main>
-        <h1 className="text-4xl font-title text-white/80">Tlahuelilpan</h1>
+        <Hero />
+        <Novedades />
+        <Gobierno />
       </main>
+      <FloatingSocial />
+      <FloatingEmergency />
     </div>
   )
 }

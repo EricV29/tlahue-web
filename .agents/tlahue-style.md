@@ -1,85 +1,98 @@
-# TLAHU-GIGA — Design System Reference
+# TLAHU-INTELLIGENCE — Style Reference
 
-> **Vision:** Deep night over the Mezquital Valley — Cosmic calm meets Hidalguense heritage.
+> **Vision:** Architectural Gliph Sky over Hidalgo — Identity-driven premium data platform.
 
-**Theme:** Dark (Institutional & Sophisticated)
+**Theme:** Light (Hybrid with Luminous High-Contrast Hero)
 
 ## Overview
 
-TLAHU-GIGA is a fusion of the high-precision "Giga" aesthetic with the cultural identity of Tlahuelilpan, Hidalgo. It prioritizes vast dark surfaces, elegant typography (Montserrat 300), and focused, luminous highlights in Cantera Gold and Mezquite Green.
+TLAHU-INTELLIGENCE is an identity-first design system built directly from the official Tlahuelilpan glyph colors. It blends a high-contrast, sunlit, atmospheric hero section with a crisp, minimal architectural light UI. It uses Montserrat for structural headings to anchor historical weight, and Inter for precise, compact interface readouts.
 
-## Colors
+## Tokens — Colors
 
-| Name               | Hex                      | Role                               | Inspiration         |
-| ------------------ | ------------------------ | ---------------------------------- | ------------------- |
-| **Obsidian Deep**  | `#050a09`                | Primary page background            | Night in the valley |
-| **Cantera Gold**   | `#BC955C`                | Primary Action / CTA / Highlights  | Parish stone work   |
-| **Mezquite Green** | `#235B4E`                | Secondary Accents / Borders / Tags | Regional flora      |
-| **Barro Red**      | `#9F2241`                | Critical Alerts / Urgent Actions   | Traditional dyes    |
-| **Ghost White**    | `#F8F9FA`                | Primary Body Text                  | Cleanliness         |
-| **Steel Gray**     | `#808080`                | Tertiary text, subtle borders      | Concrete & stone    |
-| **Nebula Green**   | `rgba(35, 91, 78, 0.05)` | Card backgrounds / Overlays        | Atmospheric depth   |
+| Name              | Hex       | Token                   | Role                                                                                          | Inspiration                   |
+| ----------------- | --------- | ----------------------- | --------------------------------------------------------------------------------------------- | ----------------------------- |
+| **Canvas White**  | `#ffffff` | `--color-canvas-white`  | Main page background; absolute brightness and open layout space.                              | Clean light                   |
+| **Agua Blue**     | `#3A85AC` | `--color-tlahu-blue`    | **Primary Interactive Accent:** Active states, focus edges, ghost borders, and text triggers. | Glifo - El agua viva          |
+| **Tierra Gold**   | `#D5B35F` | `--color-tlahu-gold`    | **Brand Accent:** Featured element containers, icon highlights, and soft badging components.  | Glifo - La tierra fértil      |
+| **Jarros Barro**  | `#AA642A` | `--color-tlahu-clay`    | **Deep Structural Contrast:** Dark primary headlines, heavy solid actions, and hero overlays. | Glifo - El jarrón tradicional |
+| **Off White**     | `#FEFFFC` | `--color-off-white`     | Soft alternative section backing to introduce structural depth.                               | Limestone paths               |
+| **Ash Gray**      | `#F9FAF7` | `--color-ash-gray`      | Input fields, search bars, and inner container fills.                                         | Soft river gravel             |
+| **Cool Gray**     | `#EEF1ED` | `--color-cool-gray`     | Architectural micro-dividers and structural content grid borders.                             | Thin stone hairline           |
+| **Dark Charcoal** | `#111827` | `--color-dark-charcoal` | High-contrast dense body text on white surfaces.                                              | High readability              |
+| **Slate Gray**    | `#4B5563` | `--color-slate-gray`    | Muted descriptions, secondary labels, and placeholder helpers.                                | Distant horizon               |
 
-## Typography
+## Tokens — Typography
 
 ### Montserrat (Display & Headlines)
 
-- **Use:** Hero titles and section headers.
-- **Style:** Understated sophistication.
-- **Weights:** 300 (Primary), 500 (Emphasis).
-- **Letter Spacing:** -0.0300em (Crucial for the "Giga" look).
+- **Use:** Hero titles, primary section headers, and prominent display labels.
+- **Weights:** 300 (Clean Layout), 500 (Section Anchors).
+- **Sizes:** 40px, 48px, 54px
+- **Line height:** 1.10
+- **Letter spacing:** -0.0200em (Delivers a compressed, high-end editorial feel).
 
 ### Inter (UI & Body)
 
-- **Use:** Primary UI text, body copy, and secondary headlines.
-- **Weights:** 400, 500.
-- **Sizes:** 12px (UI), 14px (Body), 16px (Emphasis).
+- **Use:** Core reading text, system navigation, button labels, and tag layouts.
+- **Weights:** 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold).
+- **Sizes:** 13px to 18px
+- **Line height:** 1.20 to 1.50
+- **Letter spacing:** -0.0120em (Compact interface grid execution).
 
-### Geist Mono (Technical)
+### Type Scale
 
-- **Use:** Metadata, dates, and technical labels.
-- **Weights:** 400.
-- **Letter Spacing:** 0.0090em.
+| Role         | Size | Line Height | Letter Spacing | Font Family | Token                 |
+| ------------ | ---- | ----------- | -------------- | ----------- | --------------------- |
+| caption      | 13px | 1.5         | -0.13px        | Inter       | `--text-caption`      |
+| button-label | 16px | 1           | -0.19px        | Inter       | `--text-button-label` |
+| subheading   | 18px | 1.2         | -0.18px        | Inter       | `--text-subheading`   |
+| heading      | 40px | 1.1         | -0.8px         | Montserrat  | `--text-heading`      |
+| heading-lg   | 48px | 1.1         | -0.96px        | Montserrat  | `--text-heading-lg`   |
+| display      | 54px | 1.1         | -1.08px        | Montserrat  | `--text-display`      |
 
-## Spacing & Layout
+## Tokens — Spacing & Shapes
 
-- **Density:** Compact / Elegant.
-- **Section Gap:** 48px.
-- **Element Gap:** 10px.
-- **Max Width:** Centered content model (1280px).
+- **Base unit:** 4px | **Density:** Comfortable
+- **Section gap:** 32px | **Card padding:** 16px | **Element gap:** 8px
 
-## Components (Tailwind Implementation)
+### Border Radius
 
-### 1. The Giga Navbar
+- **Nav Capsule:** 50.496px (Seamless organic pill floating frames)
+- **Buttons:** 4px (Sharp, technical architectural termination)
+- **Cards (Large):** 24px | **Cards (Medium):** 16px | **Cards (Small):** 12px
 
-- **Classes:** `sticky top-0 z-50 bg-obsidian/80 backdrop-blur-md border-b border-white/5`
-- **Link Style:** `text-white/60 hover:text-tlahue-gold transition-all font-sans text-xs uppercase tracking-widest`
+## Components (Tailwind Native Layouts)
 
-### 2. Primary Pill Button (Cantera)
+### 1. Blurred Nav Capsule (Header Main)
 
-- **Style:** Filled, bold presence.
-- **Classes:** `bg-tlahue-gold text-obsidian px-6 py-2 rounded-full font-medium hover:scale-105 transition-transform`
+- **Role:** Floating floating navigation frame over content.
+- **Classes:** `bg-white/80 backdrop-blur-md rounded-[50.496px] shadow-[rgba(0,0,0,0.04)_0px_2px_12px_0px] border border-[#eef1ed] px-5 py-2 text-[#111827]`
 
-### 3. Ghost Pill Button (Secondary)
+### 2. Solid Primary Action (Clay Base)
 
-- **Style:** Transparent with subtle border.
-- **Classes:** `bg-white/5 text-white border border-white/10 px-6 py-2 rounded-full hover:bg-white/10 transition-all`
+- **Role:** High-emphasis interactive triggers and heavy CTAs.
+- **Classes:** `bg-[#AA642A] text-white border border-[#AA642A] rounded-md px-5 py-2.5 font-medium hover:bg-[#8f5220] transition-all`
 
-### 4. Standard Tlahue Card
+### 3. Outlined Interactive Button (Agua Border)
 
-- **Style:** Subtle transparency, no harsh borders.
-- **Classes:** `bg-white/[0.02] border border-white/[0.05] rounded-2xl p-6 backdrop-blur-sm shadow-2xl`
+- **Role:** Clear responsive secondary links inside bright UI segments.
+- **Classes:** `bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-4 py-2 font-medium hover:bg-[#3A85AC]/5 transition-all`
 
-## Imagery & Hero
+### 4. Luminous Identity Tag (Tierra Badge)
 
-- **Concept:** Full-bleed, wide-angle photography of Tlahuelilpan landmarks (Parroquia, Reloj, Cerro).
-- **Treatment:** Dark moody overlay with a bottom gradient fade to `#050a09`.
-- **Text:** Centered headline stack using Montserrat 300.
+- **Role:** Small micro-indicators pointing to cultural sections.
+- **Classes:** `bg-[#D5B35F]/10 border border-[#D5B35F]/30 text-[#8c6f27] text-xs font-semibold px-3 py-1 rounded-md`
+
+### 5. Elevated Content Card (Info Container)
+
+- **Role:** Primary component background for list arrays, news blocks, or services.
+- **Classes:** `bg-[#ffffff] rounded-xl p-4 shadow-[rgba(17,24,39,0.03)_0px_8px_24px_0px] border border-[#dee2de]/50`
 
 ## Do's and Don'ts
 
-- **Do:** Use negative letter-spacing on large headlines.
-- **Do:** Use 1000px border-radius for all buttons (Pill-shape is mandatory).
-- **Don't:** Use harsh white borders; prefer `white/10` transparency.
-- **Don't:** Use bold weights for large titles; the light weight is the signature.
-  Ñ
+- **Do:** Use the **Agua Blue (`#3A85AC`)** for actions, text highlights, and borders to keep the UI luminous and sharp.
+- **Do:** Use **Jarros Barro (`#AA642A`)** when you need heavy, readable text blocks or highly important primary buttons.
+- **Do:** Maintain an overall canvas color of clean white (`#ffffff`), letting the logo's colors act as the intentional layout conductors.
+- **Don't:** Rely on pitch-black screens or dark muddy filters; the interface must feel bright, airy, and grounded in regional landscape sunlight.
+- **Don't:** Mix random external hues; stay strictly within the clay, gold, and azure tri-color structure.
