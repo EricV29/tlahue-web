@@ -37,7 +37,7 @@ export default function Hero() {
             href="#explorar"
             className="bg-[#AA642A] text-white border border-[#AA642A] rounded-md px-5 py-2.5 font-body text-base font-medium hover:bg-[#D5B35F] transition-all"
           >
-            Explorar ahora
+            Explorar mapa
           </a>
           <a
             href="https://tlahuelilpan.gob.mx/"

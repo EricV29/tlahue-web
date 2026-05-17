@@ -1,4 +1,4 @@
-export default function IconClose({ className }: { className?: string }) {
+export default function IconMail({ className }: { className?: string }) {
   return (
     <svg
       width="24"
@@ -10,11 +10,16 @@ export default function IconClose({ className }: { className?: string }) {
       className={className}
     >
       <path
-        d="M6.75827 17.2426L12.0009 12M17.2435 6.75736L12.0009 12M12.0009 12L6.75827 6.75736M12.0009 12L17.2435 17.2426"
+        d="M7 9L12 12.5L17 9"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+      <path
+        d="M2 17V7C2 5.89543 2.89543 5 4 5H20C21.1046 5 22 5.89543 22 7V17C22 18.1046 21.1046 19 20 19H4C2.89543 19 2 18.1046 2 17Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
       />
     </svg>
   );
