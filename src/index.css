@@ -1,18 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap");
 
 @import "tailwindcss";
 
 @theme {
   --color-canvas-white: #ffffff;
-  --color-tlahu-blue: #3A85AC;
-  --color-tlahu-gold: #D5B35F;
-  --color-tlahu-clay: #AA642A;
-  --color-off-white: #FEFFFC;
-  --color-ash-gray: #F9FAF7;
-  --color-cool-gray: #EEF1ED;
+  --color-tlahu-blue: #3a85ac;
+  --color-tlahu-gold: #d5b35f;
+  --color-tlahu-clay: #aa642a;
+  --color-off-white: #fefffc;
+  --color-ash-gray: #f9faf7;
+  --color-cool-gray: #eef1ed;
   --color-dark-charcoal: #111827;
-  --color-slate-gray: #4B5563;
+  --color-slate-gray: #4b5563;
 
-  --font-display: 'Montserrat', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: "Montserrat", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #d5b35f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #aa642a;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aa642a;
 }
