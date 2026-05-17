@@ -1,5 +1,6 @@
-import tlahueM1 from "../assets/images/tlahueDia.webp";
-import IconChevronDown from "../assets/icons/IconChevronDown";
+import tlahueDia from "../assets/images/tlahueDia.webp";
+import IconChevronDown from "./icons/IconChevronDown";
+import IconExternalLink from "./icons/IconExternalLink";
 
 export default function Hero() {
   return (
@@ -7,7 +8,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{
-          backgroundImage: `url(${tlahueM1})`,
+          backgroundImage: `url(${tlahueDia})`,
         }}
       />
 
@@ -39,10 +40,13 @@ export default function Hero() {
             Explorar ahora
           </a>
           <a
-            href="#historia"
-            className="bg-transparent border-2 border-[#AA642A] text-white rounded-md px-4 py-2 font-body text-base font-medium hover:bg-[#D5B35F]/10 transition-all"
+            href="https://tlahuelilpan.gob.mx/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-transparent border-2 border-[#AA642A] text-white rounded-md px-4 py-2 font-body text-base font-medium hover:bg-[#D5B35F]/10 transition-all inline-flex items-center gap-2"
           >
-            Conocer más
+            <IconExternalLink className="w-5 h-5" />
+            Página Oficial
           </a>
         </div>
       </div>

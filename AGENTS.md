@@ -48,4 +48,5 @@ vite.config.ts
 
 - All SVG icons must be created as React components in `src/components/icons/`
 - Never inline SVG code in components; always import from the icons folder
-- If a new SVG is needed, ask the user to provide the SVG code first
+- **IMPORTANT:** ALWAYS ask the user to provide the SVG code for any new icon needed
+- Do NOT create icons from memory or guess the SVG path; request it from the user first

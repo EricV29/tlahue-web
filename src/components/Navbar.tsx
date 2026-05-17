@@ -6,7 +6,7 @@ const navLinks = [
   { label: "Inicio", href: "#" },
   { label: "Novedades", href: "#" },
   { label: "Mapa", href: "#" },
-  { label: "Servicios", href: "#" },
+  { label: "Recursos", href: "#" },
 ];
 
 export default function Navbar() {
@@ -15,7 +15,6 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-0">
       <div className="w-full md:w-fit bg-white/10 backdrop-blur-md rounded-[20px] shadow-[rgba(0,0,0,0.04)_0px_2px_12px_0px] border border-white/20 px-5 py-2 flex items-center justify-between md:justify-center gap-6 mx-auto mt-4 transition-all duration-300">
-        {/* Logo */}
         <a href="#" className="flex items-center shrink-0">
           <img src="/logo.svg" alt="Tlahuelilpan" className="h-9 w-auto" />
         </a>
