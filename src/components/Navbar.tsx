@@ -4,7 +4,7 @@ import IconClose from "./icons/IconClose";
 
 const navLinks = [
   { label: "Inicio", href: "#" },
-  { label: "Novedades", href: "#" },
+  { label: "Eventos", href: "#" },
   { label: "Mapa", href: "#" },
   { label: "Recursos", href: "#" },
 ];
