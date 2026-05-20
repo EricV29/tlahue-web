@@ -98,8 +98,8 @@ export default function Gobierno() {
   const selected = officials[selectedOfficial];
 
   return (
-    <section id="gobierno" className="py-16 px-6 bg-[#ffffff]">
-      <div className="max-w-[1280px] mx-auto">
+    <section id="gobierno" className="py-16 px-6 bg-white">
+      <div className="max-w-7xl mx-auto">
         {/* Title */}
         <div className="text-center mb-8 flex flex-col items-center gap-1.5">
           <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20">
@@ -110,9 +110,9 @@ export default function Gobierno() {
           </h2>
         </div>
 
-        <div className="flex justify-start items-center">
+        <div className="lg:flex justify-start items-center">
           {/* Selector */}
-          <div className="flex flex-col gap-6">
+          <div className="flex pt-3 md:justify-center lg:flex-col gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
             {officials.map((official, index) => {
               const isSelected = selectedOfficial === index;
               return (
@@ -152,60 +152,60 @@ export default function Gobierno() {
             })}
           </div>
 
-          <div className="w-full flex justify-center items-start p-4 relative">
+          <div className="w-full flex lg:p-4 relative justify-center lg:justify-start items-start md:flex-row flex-col">
             {/* Image avatar */}
             <img
               src={selected.image}
               alt={selected.name}
-              className="w-100 object-cover mask-[linear-gradient(to_bottom,black_80%,transparent)]"
+              className="w-full md:w-80 lg:w-130 object-cover mask-[linear-gradient(to_bottom,black_80%,transparent)]"
             />
 
             {/* Text avatar */}
             <img
               src={selected.textSvg}
               alt="txtPresidenteSvg"
-              className="absolute z-10 w-100 md:w-200 text-[10px] bottom-0 left-10 md:right-20 opacity-30 pointer-events-none select-none"
+              className="absolute z-10 w-100 md:w-150 lg:w-270 text-[10px] bottom-2/5 md:bottom-0 lg:bottom-0 lg:left-10 opacity-40 pointer-events-none select-none"
             />
 
             {/* Information */}
-            <div className="mx-auto transition-all duration-300 flex justify-center items-start">
-              <div className="p-2 md:p-5 md:col-span-7 flex flex-col justify-between h-full">
-                <div className="text-left mb-6 md:mb-8">
-                  <h3
-                    className={`font-display font-medium text-2xl md:text-3xl text-[#111827] mb-2 transition-colors ${
-                      selectedOfficial === 0 ? "text-[#AA642A]" : ""
-                    }`}
-                  >
-                    {selected.name}
-                  </h3>
+            <div className="w-full md:w-auto flex flex-col justify-center md:justify-center items-center p-5 lg:gap-5">
+              {/* Name */}
+              <div className="flex flex-col items-center justify-start">
+                <h3
+                  className={`font-display font-medium text-1xl md:text-25 lg:text-3xl text-[#111827] mb-2 transition-colors ${
+                    selectedOfficial === 0 ? "text-[#AA642A]" : ""
+                  }`}
+                >
+                  {selected.name}
+                </h3>
 
-                  <span className="inline-block text-xs font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded mb-4 border border-[#D5B35F]/20">
-                    {selected.degree}
-                  </span>
-                </div>
+                <span className="inline-block text-xs font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded mb-4 border border-[#D5B35F]/20">
+                  {selected.degree}
+                </span>
+              </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[#eef1ed]">
-                  <a
-                    href={`tel:${selected.phone}`}
-                    className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"
-                  >
-                    <IconPhone className="w-4 h-4" />
-                    <span>
-                      {selected.phone}{" "}
-                      <span className="text-white/70 text-xs ml-1">
-                        ext. {selected.extension}
-                      </span>
+              {/* Buttons */}
+              <div className="flex flex-col lg:flex-row gap-3 lg:pt-4 border-t border-[#eef1ed]">
+                <a
+                  href={`tel:${selected.phone}`}
+                  className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <IconPhone className="w-4 h-4" />
+                  <span>
+                    {selected.phone}{" "}
+                    <span className="text-white/70 text-xs ml-1">
+                      ext. {selected.extension}
                     </span>
-                  </a>
+                  </span>
+                </a>
 
-                  <a
-                    href={`mailto:${selected.email}`}
-                    className="w-full sm:w-auto bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-5 py-2.5 font-body text-sm font-medium hover:bg-[#3A85AC]/10 transition-all inline-flex items-center justify-center gap-2"
-                  >
-                    <IconMail className="w-4 h-4" />
-                    <span>{selected.email}</span>
-                  </a>
-                </div>
+                <a
+                  href={`mailto:${selected.email}`}
+                  className="w-full sm:w-auto bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-5 py-2.5 font-body text-sm font-medium hover:bg-[#3A85AC]/10 transition-all inline-flex items-center justify-center gap-2"
+                >
+                  <IconMail className="w-4 h-4" />
+                  <span>{selected.email}</span>
+                </a>
               </div>
             </div>
           </div>
