@@ -2,6 +2,11 @@ import { useState } from "react";
 import IconPhone from "./icons/IconPhone";
 import IconMail from "./icons/IconMail";
 import presidenteImg from "../assets/images/presidente.webp";
+import proteccioncivil from "../assets/images/proteccioncivil.webp";
+import txtPresidente from "../assets/images/txtPresidente.svg";
+import txtSecretaria from "../assets/images/txtSecretaria.svg";
+import txtProteccion from "../assets/images/txtProteccion.svg";
+import presidencia from "../assets/presidencia.svg";
 
 interface GovernmentOfficial {
   id: number;
@@ -12,29 +17,31 @@ interface GovernmentOfficial {
   extension: string;
   email: string;
   image: string;
+  textSvg: string;
 }
 
 const officials: GovernmentOfficial[] = [
   {
     id: 1,
     name: "Mtro. Octavio Granados Hernández",
-    title: "Presidente Municipal",
+    title: "Presidente",
     degree: "Maestro en Administración Pública",
     phone: "738 123 4567",
     extension: "101",
     email: "presidente@tlahuelilpan.gob.mx",
     image: presidenteImg,
+    textSvg: txtPresidente,
   },
   {
     id: 2,
     name: "Lic. María Elena Sánchez Rivera",
-    title: "Secretaria de Seguridad Pública",
+    title: "Protección civil",
     degree: "Lic. en Derecho",
     phone: "738 123 4567",
     extension: "201",
     email: "seguridad@tlahuelilpan.gob.mx",
-    image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop",
+    image: proteccioncivil,
+    textSvg: txtProteccion,
   },
   {
     id: 3,
@@ -46,6 +53,7 @@ const officials: GovernmentOfficial[] = [
     email: "proteccion.civil@tlahuelilpan.gob.mx",
     image:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop",
+    textSvg: txtPresidente,
   },
   {
     id: 4,
@@ -57,28 +65,31 @@ const officials: GovernmentOfficial[] = [
     email: "servicios@tlahuelilpan.gob.mx",
     image:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop",
+    textSvg: txtSecretaria,
   },
   {
     id: 5,
     name: "C.P. José Luis Martínez Bautista",
-    title: "Tesorero Municipal",
+    title: "Tesorero",
     degree: "Contador Público",
     phone: "738 123 4567",
     extension: "204",
     email: "tesoreria@tlahuelilpan.gob.mx",
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop",
+    textSvg: txtPresidente,
   },
   {
     id: 6,
     name: "Dra. Carmen Lucía Herrera Gutiérrez",
     title: "Directora de Salud Pública",
-    degree: "Doctora en Medicina",
+    degree: "Doctora",
     phone: "738 123 4567",
     extension: "205",
     email: "salud@tlahuelilpan.gob.mx",
     image:
       "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&h=800&fit=crop",
+    textSvg: txtPresidente,
   },
 ];
 
@@ -88,72 +99,87 @@ export default function Gobierno() {
   const selected = officials[selectedOfficial];
 
   return (
-    <section id="gobierno" className="py-16 px-6 bg-[#ffffff]">
-      <div className="max-w-[1280px] mx-auto">
-        <h2 className="font-display font-medium text-[40px] text-[#111827] tracking-[-0.0200em] leading-[1.1] text-center mb-2">
-          Gobierno y Gabinete
-        </h2>
-        <p className="font-body text-base text-[#4B5563] text-center mb-12">
-          Directorio Ciudadano de Atención Municipal
-        </p>
+    <section id="gobierno" className="py-16 px-6 relative">
+      <img
+        src={presidencia}
+        alt="presidenciaSvg"
+        className="absolute z-0 w-100 lg:w-150 -translate-x-1/2 lg:-translate-x-1/3 md:-translate-y-20 left-0 md:left-20 pointer-events-none opacity-10 select-none"
+      />
 
-        <div className="flex justify-start md:justify-center gap-4 md:gap-6 mb-6 overflow-x-auto pt-3 pb-4 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {officials.map((official, index) => {
-            const isSelected = selectedOfficial === index;
+      <div className="max-w-7xl mx-auto">
+        {/* Title */}
+        <div className="text-center mb-8 flex flex-col items-center gap-1.5">
+          <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20">
+            DIRECTORIO CIUDADANO
+          </span>
+          <h2 className="font-display font-light text-[40px] text-dark-charcoal tracking-[-0.0200em] leading-[1.1]">
+            Gobierno y Gabinete
+          </h2>
+        </div>
 
-            return (
-              <div
-                key={official.id}
-                className="flex flex-col items-center flex-shrink-0"
-              >
+        <div className="lg:flex justify-start items-center">
+          {/* Selector */}
+          <div className="flex pt-3 md:justify-center lg:flex-col gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+            {officials.map((official, index) => {
+              const isSelected = selectedOfficial === index;
+              return (
                 <button
+                  key={official.name || index}
                   onClick={() => setSelectedOfficial(index)}
-                  className={`transition-all duration-300 ease-out ${
+                  className={`flex flex-col items-center transition-all duration-300 ease-out outline-none ${
                     isSelected
-                      ? "scale-100 drop-shadow-md"
-                      : "scale-90 opacity-40 hover:opacity-80 hover:scale-95"
+                      ? "scale-105 drop-shadow-md"
+                      : "opacity-40 scale-95 hover:opacity-80"
                   }`}
                 >
                   <div
-                    className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 transition-all duration-300 ${
-                      isSelected ? "border-[#AA642A]" : "border-transparent"
+                    className={`w-14 h-14 rounded-full overflow-hidden border-2 transition-all duration-300 shrink-0 ${
+                      isSelected
+                        ? "border-[#AA642A] shadow-md"
+                        : "border-transparent"
                     }`}
                   >
                     <img
                       src={official.image}
                       alt={official.name}
-                      className="w-full h-full object-cover rounded-full"
+                      className="w-full h-full object-cover"
                     />
                   </div>
+                  <span
+                    className={`font-body text-xs text-center max-w-30 leading-tight transition-all duration-300 ${
+                      isSelected
+                        ? "text-[#111827] font-semibold"
+                        : "text-[#4B5563]"
+                    }`}
+                  >
+                    {official.title.split(" de ")[0].split(" y ")[0]}
+                  </span>
                 </button>
-                <span
-                  className={`mt-2 font-body text-xs text-center max-w-[90px] leading-tight transition-all duration-300 ${
-                    isSelected
-                      ? "text-[#111827] font-semibold scale-100"
-                      : "text-[#4B5563] opacity-40 scale-95"
-                  }`}
-                >
-                  {official.title.split(" de ")[0].split(" y ")[0]}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
-        <div className="max-w-5xl mx-auto bg-white rounded-2xl overflow-hidden shadow-[rgba(17,24,39,0.03)_0px_8px_24px_0px] border border-[#dee2de]/50 transition-all duration-300">
-          <div className="grid grid-cols-1 md:grid-cols-12 items-center">
-            <div className="relative w-full h-[350px] md:h-[450px] md:col-span-5 bg-[#f9faf7]">
-              <img
-                src={selected.image}
-                alt={selected.name}
-                className="w-full h-full object-cover object-top"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-white/10" />
-            </div>
-            <div className="p-6 md:p-10 md:col-span-7 bg-white flex flex-col justify-between h-full">
-              <div className="text-left mb-6 md:mb-8">
+          <div className="w-full flex lg:p-4 relative justify-center lg:justify-start items-start md:flex-row flex-col">
+            {/* Image avatar */}
+            <img
+              src={selected.image}
+              alt={selected.name}
+              className="w-full md:w-80 lg:w-130 object-cover mask-[linear-gradient(to_bottom,black_80%,transparent)]"
+            />
+
+            {/* Text avatar */}
+            <img
+              src={selected.textSvg}
+              alt="txtPresidenteSvg"
+              className="absolute z-10 w-100 md:w-150 lg:w-270 text-[10px] bottom-2/5 md:bottom-0 lg:bottom-0 lg:right-20 opacity-40 pointer-events-none select-none"
+            />
+
+            {/* Information */}
+            <div className="w-full md:w-auto flex flex-col lg:items-start justify-center md:justify-center items-center p-5 lg:gap-5">
+              {/* Name */}
+              <div className="flex flex-col items-center lg:items-start justify-start">
                 <h3
-                  className={`font-display font-medium text-2xl md:text-3xl text-[#111827] mb-2 transition-colors ${
+                  className={`font-display font-medium text-1xl md:text-25 lg:text-3xl text-[#111827] mb-2 transition-colors ${
                     selectedOfficial === 0 ? "text-[#AA642A]" : ""
                   }`}
                 >
@@ -163,14 +189,10 @@ export default function Gobierno() {
                 <span className="inline-block text-xs font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded mb-4 border border-[#D5B35F]/20">
                   {selected.degree}
                 </span>
-
-                <p className="font-body text-base md:text-lg text-[#4B5563] font-medium leading-relaxed">
-                  {selected.title}
-                </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[#eef1ed]">
-                {/* Teléfono: Acción principal (Jarros Barro) */}
+              {/* Buttons */}
+              <div className="flex flex-col lg:flex-row gap-3 lg:pt-4 border-t border-[#eef1ed]">
                 <a
                   href={`tel:${selected.phone}`}
                   className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"

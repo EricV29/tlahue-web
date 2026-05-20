@@ -114,7 +114,7 @@ export default function Novedades() {
   });
 
   return (
-    <section id="novedades" className="relative py-16 px-6 bg-[#FEFFFC]">
+    <section id="novedades" className="relative py-16 px-6">
       <img
         src={reloj}
         alt="relojSvg"
