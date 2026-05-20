@@ -164,13 +164,13 @@ export default function Gobierno() {
             <img
               src={selected.textSvg}
               alt="txtPresidenteSvg"
-              className="absolute z-10 w-100 md:w-150 lg:w-270 text-[10px] bottom-2/5 md:bottom-0 lg:bottom-0 lg:left-10 opacity-40 pointer-events-none select-none"
+              className="absolute z-10 w-100 md:w-150 lg:w-270 text-[10px] bottom-2/5 md:bottom-0 lg:bottom-0 lg:right-20 opacity-40 pointer-events-none select-none"
             />
 
             {/* Information */}
-            <div className="w-full md:w-auto flex flex-col justify-center md:justify-center items-center p-5 lg:gap-5">
+            <div className="w-full md:w-auto flex flex-col lg:items-start justify-center md:justify-center items-center p-5 lg:gap-5">
               {/* Name */}
-              <div className="flex flex-col items-center justify-start">
+              <div className="flex flex-col items-center lg:items-start justify-start">
                 <h3
                   className={`font-display font-medium text-1xl md:text-25 lg:text-3xl text-[#111827] mb-2 transition-colors ${
                     selectedOfficial === 0 ? "text-[#AA642A]" : ""
