@@ -6,6 +6,7 @@ import proteccioncivil from "../assets/images/proteccioncivil.webp";
 import txtPresidente from "../assets/images/txtPresidente.svg";
 import txtSecretaria from "../assets/images/txtSecretaria.svg";
 import txtProteccion from "../assets/images/txtProteccion.svg";
+import presidencia from "../assets/presidencia.svg";
 
 interface GovernmentOfficial {
   id: number;
@@ -98,7 +99,13 @@ export default function Gobierno() {
   const selected = officials[selectedOfficial];
 
   return (
-    <section id="gobierno" className="py-16 px-6 bg-white">
+    <section id="gobierno" className="py-16 px-6 relative">
+      <img
+        src={presidencia}
+        alt="presidenciaSvg"
+        className="absolute z-0 w-100 lg:w-150 -translate-x-1/2 lg:-translate-x-1/3 md:-translate-y-20 left-0 md:left-20 pointer-events-none opacity-10 select-none"
+      />
+
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <div className="text-center mb-8 flex flex-col items-center gap-1.5">
