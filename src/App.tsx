@@ -11,8 +11,10 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <Events />
-        <Government />
+        <div className="relative z-10 mt-[100vh] bg-canvas-white">
+          <Events />
+          <Government />
+        </div>
       </main>
       <FloatingSocial />
       <FloatingEmergency />

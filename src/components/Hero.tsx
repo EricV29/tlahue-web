@@ -4,7 +4,7 @@ import IconExternalLink from "./icons/IconExternalLink";
 
 export default function Hero() {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="fixed inset-0 z-0 overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{
