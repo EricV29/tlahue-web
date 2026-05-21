@@ -6,6 +6,8 @@ const navLinks = [
   { label: "Inicio", href: "#" },
   { label: "Eventos", href: "#" },
   { label: "Mapa", href: "#" },
+  { label: "Gobierno", href: "#" },
+  { label: "Historia", href: "#" },
   { label: "Recursos", href: "#" },
 ];
 
@@ -13,7 +15,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Detecta el scroll del usuario para cambiar los estilos de la Navbar
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
