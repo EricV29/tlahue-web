@@ -4,27 +4,51 @@ import IconClose from "./icons/IconClose";
 
 const navLinks = [
   { label: "Inicio", href: "#" },
-  { label: "Eventos", href: "#" },
+  { label: "Eventos", href: "#novedades" },
   { label: "Mapa", href: "#" },
-  { label: "Gobierno", href: "#" },
+  { label: "Gobierno", href: "#gobierno" },
   { label: "Historia", href: "#" },
   { label: "Recursos", href: "#" },
 ];
 
+const sectionIds = ["novedades", "gobierno"] as const;
+type SectionId = (typeof sectionIds)[number] | "inicio";
+
+const sectionMap: Record<string, SectionId> = {
+  Inicio: "inicio",
+  Eventos: "novedades",
+  Gobierno: "gobierno",
+};
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<SectionId>("inicio");
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
+      setIsScrolled(window.scrollY > 20);
+
+      let offsets: Record<string, number> = {};
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          offsets[id] = el.getBoundingClientRect().top + window.scrollY - 100;
+        }
+      }
+
+      const scrollY = window.scrollY;
+      if (scrollY >= offsets.gobierno) {
+        setActiveSection("gobierno");
+      } else if (scrollY >= offsets.novedades) {
+        setActiveSection("novedades");
       } else {
-        setIsScrolled(false);
+        setActiveSection("inicio");
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -49,19 +73,24 @@ export default function Navbar() {
 
         {/* Enlaces de PC */}
         <div className="hidden md:flex items-center gap-2">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={`px-4 py-1.5 font-body text-sm font-medium rounded-md transition-all whitespace-nowrap ${
-                isScrolled
-                  ? "text-[#111827] hover:text-[#3A85AC] hover:bg-gray-100"
-                  : "text-white hover:text-[#D5B35F] hover:bg-white/10"
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = sectionMap[link.label] === activeSection;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`px-4 py-1.5 font-body text-sm font-medium rounded-md transition-all whitespace-nowrap ${
+                  isActive
+                    ? "text-[#3A85AC]"
+                    : isScrolled
+                      ? "text-[#111827] hover:text-[#3A85AC] hover:bg-gray-100"
+                      : "text-white hover:text-[#D5B35F] hover:bg-white/10"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* Botón de Menú Móvil */}
@@ -91,20 +120,25 @@ export default function Navbar() {
         }`}
       >
         <div className="px-5 py-4 flex flex-col gap-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={`px-4 py-3 font-body text-sm font-medium rounded-lg transition-all text-center ${
-                isScrolled
-                  ? "text-[#111827] hover:text-[#3A85AC] hover:bg-gray-100"
-                  : "text-white hover:text-[#D5B35F] hover:bg-white/10"
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = sectionMap[link.label] === activeSection;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`px-4 py-3 font-body text-sm font-medium rounded-lg transition-all text-center ${
+                  isActive
+                    ? "text-[#3A85AC]"
+                    : isScrolled
+                      ? "text-[#111827] hover:text-[#3A85AC] hover:bg-gray-100"
+                      : "text-white hover:text-[#D5B35F] hover:bg-white/10"
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
       </div>
     </nav>
