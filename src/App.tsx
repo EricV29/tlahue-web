@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Events from "./components/Events";
 import Government from "./components/Government";
+import Footer from "./components/Footer";
 import FloatingSocial from "./components/FloatingSocial";
 import FloatingEmergency from "./components/FloatingEmergency";
 
@@ -16,6 +17,7 @@ function App() {
           <Government />
         </div>
       </main>
+      <Footer />
       <FloatingSocial />
       <FloatingEmergency />
     </div>
