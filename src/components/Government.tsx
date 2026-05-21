@@ -1,11 +1,18 @@
 import { useState } from "react";
 import IconPhone from "./icons/IconPhone";
 import IconMail from "./icons/IconMail";
-import presidenteImg from "../assets/images/presidente.webp";
-import proteccioncivil from "../assets/images/proteccioncivil.webp";
-import txtPresidente from "../assets/images/txtPresidente.svg";
-import txtSecretaria from "../assets/images/txtSecretaria.svg";
-import txtProteccion from "../assets/images/txtProteccion.svg";
+import presidenteImg from "../assets/images/government/presidente.webp";
+import proteccioncivil from "../assets/images/government/proteccioncivil.webp";
+import comisionagua from "../assets/images/government/comisionagua.webp";
+import desarrollosocial from "../assets/images/government/desarrollosocial.webp";
+import seguridadpublica from "../assets/images/government/seguridadpublica.webp";
+import obraspublicas from "../assets/images/government/obraspublicas.webp";
+import txtPresidente from "../assets/images/government/txtPresidente.svg";
+import txtProteccion from "../assets/images/government/txtProteccion.svg";
+import txtSeguridad from "../assets/images/government/txtSeguridad.svg";
+import txtAgua from "../assets/images/government/txtAgua.svg";
+import txtObras from "../assets/images/government/txtObras.svg";
+import txtSocial from "../assets/images/government/txtSocial.svg";
 import presidencia from "../assets/presidencia.svg";
 
 interface GovernmentOfficial {
@@ -46,50 +53,46 @@ const officials: GovernmentOfficial[] = [
   {
     id: 3,
     name: "Ing. Roberto Carlos Mendoza Torres",
-    title: "Director de Protección Civil",
+    title: "Seguridad Pública",
     degree: "Ing. Civil",
     phone: "738 123 4567",
     extension: "202",
     email: "proteccion.civil@tlahuelilpan.gob.mx",
-    image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop",
-    textSvg: txtPresidente,
+    image: seguridadpublica,
+    textSvg: txtSeguridad,
   },
   {
     id: 4,
     name: "Lic. Ana Patricia Flores Jiménez",
-    title: "Directora de Servicios Municipales",
+    title: "Comisión Agua",
     degree: "Lic. en Administración",
     phone: "738 123 4567",
     extension: "203",
     email: "servicios@tlahuelilpan.gob.mx",
-    image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop",
-    textSvg: txtSecretaria,
+    image: comisionagua,
+    textSvg: txtAgua,
   },
   {
     id: 5,
     name: "C.P. José Luis Martínez Bautista",
-    title: "Tesorero",
+    title: "Desarrollo Social",
     degree: "Contador Público",
     phone: "738 123 4567",
     extension: "204",
     email: "tesoreria@tlahuelilpan.gob.mx",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop",
-    textSvg: txtPresidente,
+    image: desarrollosocial,
+    textSvg: txtSocial,
   },
   {
     id: 6,
     name: "Dra. Carmen Lucía Herrera Gutiérrez",
-    title: "Directora de Salud Pública",
+    title: "Obras Públicas",
     degree: "Doctora",
     phone: "738 123 4567",
     extension: "205",
     email: "salud@tlahuelilpan.gob.mx",
-    image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&h=800&fit=crop",
-    textSvg: txtPresidente,
+    image: obraspublicas,
+    textSvg: txtObras,
   },
 ];
 
