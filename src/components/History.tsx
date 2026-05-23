@@ -66,11 +66,12 @@ export default function History() {
       className="relative scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
       style={{ height: "350vh" }}
     >
-      {/* Contenedor Fijo */}
       <div
         id="target-historia"
-        className="sticky top-0 h-screen w-full overflow-hidden"
-      >
+        className="absolute top-[20vh] left-0 w-full h-0 pointer-events-none"
+      />
+      {/* Contenedor Fijo */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* CAPA 1: Imagen Exterior (Iglesia) */}
         <div
           className="absolute inset-0 bg-cover bg-position-[center_15%] origin-[center_15%] will-change-transform"

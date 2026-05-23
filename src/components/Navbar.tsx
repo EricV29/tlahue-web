@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Eventos", href: "#eventos" },
   { label: "Mapa", href: "#" },
   { label: "Gobierno", href: "#gobierno" },
-  { label: "Historia", href: "#historia" },
+  { label: "Historia", href: "#target-historia" },
   { label: "Recursos", href: "#" },
 ];
 
