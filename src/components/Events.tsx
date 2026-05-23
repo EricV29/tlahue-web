@@ -141,10 +141,10 @@ export default function Novedades() {
               <button
                 key={month.name}
                 onClick={() => setSelectedMonth(month.id)}
-                className={`relative shrink-0 px-4 py-2 rounded-full font-body text-sm font-medium transition-all duration-300 ${
+                className={`relative shrink-0 px-4 py-2 rounded-full font-body text-sm font-medium transition-all duration-300 cursor-pointer ${
                   isSelected
                     ? "bg-[#AA642A] text-white"
-                    : "bg-[#F9FAF7] text-[#374151] border border-[#fff5dd] hover:bg-[#d5b35f]/20"
+                    : "bg-[#F9FAF7] text-[#374151] border border-[#fff5dd] hover:bg-tlahu-gold/20"
                 } ${month.icon ? "pr-7" : ""}`}
               >
                 {month.icon && (
@@ -274,7 +274,7 @@ export default function Novedades() {
                         </span>
                       </a>
 
-                      <button className="font-body text-sm font-medium text-[#AA642A] hover:text-[#D5B35F] transition-colors inline-flex items-center gap-1">
+                      <button className="font-body text-sm font-medium text-[#AA642A] hover:text-[#D5B35F] transition-colors inline-flex items-center gap-1 cursor-pointer">
                         Ver más
                         <IconArrowRight className="w-4 h-4" />
                       </button>

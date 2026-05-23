@@ -129,7 +129,7 @@ export default function Gobierno() {
                 <button
                   key={official.name || index}
                   onClick={() => setSelectedOfficial(index)}
-                  className={`flex flex-col items-center transition-all duration-300 ease-out outline-none ${
+                  className={`flex flex-col items-center transition-all duration-300 ease-out outline-none cursor-pointer ${
                     isSelected
                       ? "scale-105 drop-shadow-md"
                       : "opacity-40 scale-95 hover:opacity-80"
