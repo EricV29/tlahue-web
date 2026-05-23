@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import iglesiaImg from "../assets/images/history/iglesia.webp";
-import tlahueAereoImg from "../assets/images/history/tlahueAereo.webp";
 import TxtTlahue from "./icons/TxtTlahue";
-import tlahueNocheImg from "../assets/images/tlahueNoche.webp";
+import SlideOne from "../assets/images/tlahueNoche.webp";
+import SlideTwo from "../assets/images/history/iglesia.webp";
+import SlideThree from "../assets/images/history/tlahueAereo.webp";
 
 const historySlides = [
   {
@@ -97,24 +97,34 @@ export default function History() {
         id="target-historia"
         className="absolute top-[20vh] left-0 w-full h-0 pointer-events-none"
       />
-      {/* Contenedor Fijo */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* CAPA 1: Imagen Exterior (Iglesia) */}
+        {/* Slide 1 */}
         <div
           className="absolute inset-0 bg-cover bg-position-[center_15%] origin-[center_15%] will-change-transform"
           style={{
-            backgroundImage: `url(${tlahueNocheImg})`,
+            backgroundImage: `url(${SlideOne})`,
             transform: `scale(${image1Scale})`,
             opacity: image1Opacity,
             transition: "opacity 0.2s ease-out, transform 0.05s linear",
           }}
         />
 
-        {/* CAPA 2: Imagen Interior */}
+        {/* Slide 2 */}
         <div
           className="absolute inset-0 bg-cover bg-center origin-center will-change-transform"
           style={{
-            backgroundImage: `url(${iglesiaImg})`,
+            backgroundImage: `url(${SlideTwo})`,
+            transform: `scale(${Math.max(1, image2Scale)})`,
+            opacity: image2Opacity,
+            transition: "opacity 0.2s ease-in, transform 0.05s linear",
+          }}
+        />
+
+        {/* Slide 3 */}
+        <div
+          className="absolute inset-0 bg-cover bg-center origin-center will-change-transform"
+          style={{
+            backgroundImage: `url(${SlideThree})`,
             transform: `scale(${Math.max(1, image2Scale)})`,
             opacity: image2Opacity,
             transition: "opacity 0.2s ease-in, transform 0.05s linear",
