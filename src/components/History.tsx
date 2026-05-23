@@ -1,21 +1,30 @@
-import { useEffect, useRef, useState } from "react";
-import TxtTlahue from "./icons/TxtTlahue";
-import SlideOne from "../assets/images/tlahueNoche.webp";
-import SlideTwo from "../assets/images/history/iglesia.webp";
-import SlideThree from "../assets/images/history/tlahueAereo.webp";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const historySlides = [
+import TxtTlahue from "./icons/TxtTlahue";
+
+import tlahueNoche from "../assets/images/tlahueNoche.webp";
+import iglesia from "../assets/images/history/iglesia.webp";
+import tlahueAereo from "../assets/images/history/tlahueAereo.webp";
+import tlahueDia from "../assets/images/tlahueDia.webp";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const slides = [
   {
     tag: "EL ORIGEN",
-    title: TxtTlahue,
+    image: tlahueNoche,
     paragraphs: [
       "Mucho antes de la llegada española, este fértil valle fue habitado por tribus otomíes. Su nombre náhuatl evoca con orgullo al 'lugar de las aguas rebosantes'.",
       "Desde sus orígenes, esta tierra destacó por su riqueza agrícola y por ser un punto estratégico de encuentro y paso para grandes civilizaciones.",
     ],
   },
+
   {
     tag: "SAN FRANCISCO",
-    title: TxtTlahue,
+    image: iglesia,
     paragraphs: [
       "En el año 1560, los españoles fundaron el Templo de San Francisco de Asís, una joya arquitectónica considerada 'única en su género'.",
       "Su diseño plateresco logró fusionar el estilo europeo con sutiles impresiones indigenistas, dando como resultado una fachada de serena belleza.",
@@ -24,23 +33,25 @@ const historySlides = [
 
   {
     tag: "EXPLENDOR AGRÍCOLA",
-    title: TxtTlahue,
+    image: tlahueAereo,
     paragraphs: [
       "A fines del siglo XIX, se consolidó aquí una hacienda tan inmensa que explotaba tierras de Tula, Atitalaquia, Tlaxcoapan, Tezontepec y Mixquiahuala.",
       "Su enorme potencial agrícola convirtió a Tlahuelilpan en un centro de gran riqueza y en el motor económico más importante de toda la región.",
     ],
   },
+
   {
     tag: "REVOLUCIÓN y CAMBIO",
-    title: TxtTlahue,
+    image: tlahueDia,
     paragraphs: [
       "Con el movimiento revolucionario de 1910 y la caída del porfiriato, la opulencia de la gran hacienda y su situación económica declinaron por completo.",
       "Aquellas inmensas extensiones de tierra fueron recuperadas por la fuerza de su gente, dividiéndose finalmente en los ejidos y pequeñas propiedades actuales.",
     ],
   },
+
   {
     tag: "SOBERANÍA LIBRE",
-    title: TxtTlahue,
+    image: tlahueNoche,
     paragraphs: [
       "Tras pertenecer formalmente al municipio de Tlaxcoapan durante décadas, la justicia histórica llegó en el mes de enero del año 1970.",
       "En esa fecha, Tlahuelilpan fue oficialmente elevado a la categoría de Municipio, consolidando la identidad, orgullo y dinamismo que lo definen hoy.",
@@ -50,116 +61,227 @@ const historySlides = [
 
 export default function History() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
 
-  const zoomProgress = progress < 0.25 ? 0 : (progress - 0.25) / 0.75;
+  useGSAP(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
+    const images = gsap.utils.toArray<HTMLElement>("[data-bg]");
+    const texts = gsap.utils.toArray<HTMLElement>("[data-text]");
 
-      const rect = sectionRef.current.getBoundingClientRect();
-      const elementHeight = sectionRef.current.offsetHeight;
-      const viewportHeight = window.innerHeight;
+    gsap.set(images, {
+      opacity: 0,
+      scale: 1.08,
+    });
 
-      const startScroll = rect.top;
-      const totalScrollableDistance = elementHeight - viewportHeight;
+    gsap.set(images[0], {
+      opacity: 1,
+      scale: 1,
+    });
 
-      const scrolled = -startScroll;
-      const rawProgress = scrolled / totalScrollableDistance;
+    gsap.set(texts, {
+      autoAlpha: 0,
+    });
 
-      const clampedProgress = Math.max(0, Math.min(1, rawProgress));
-      setProgress(clampedProgress);
+    gsap.set(texts[0], {
+      autoAlpha: 1,
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=8000",
+        scrub: 2,
+        pin: true,
+      },
+    });
+
+    slides.forEach((_, i) => {
+      if (i === 0) return;
+
+      const prevImage = images[i - 1];
+      const currentImage = images[i];
+
+      const prevText = texts[i - 1];
+      const currentText = texts[i];
+
+      const label = `slide-${i}`;
+
+      tl.add(label);
+
+      // IMAGE TRANSITION
+
+      tl.to(
+        prevImage,
+        {
+          opacity: 0,
+          scale: 1.15,
+          duration: 2.8,
+          ease: "power2.inOut",
+        },
+        label,
+      );
+
+      tl.fromTo(
+        currentImage,
+        {
+          opacity: 0,
+          scale: 1.12,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 3.5,
+          ease: "power2.inOut",
+        },
+        label,
+      );
+
+      // TEXT OUT
+
+      tl.to(
+        prevText,
+        {
+          autoAlpha: 0,
+          duration: 0.8,
+        },
+        `${label}+=0.8`,
+      );
+
+      // TEXT IN (más tarde)
+
+      tl.fromTo(
+        currentText,
+        {
+          autoAlpha: 0,
+          y: 30,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+        },
+        `${label}+=2.3`,
+      );
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const image1Scale = 1 + zoomProgress * 3.5;
-  const image1Opacity = progress > 0.7 ? 0 : 1;
-  const image2Opacity = progress > 0.55 ? 1 : 0;
-
-  const image2Scale = progress > 0.55 ? 1.3 - (progress - 0.55) * 0.6 : 1.3;
-  const currentSlideIndex = progress > 0.6 ? 1 : 0;
-  const textOpacity = progress > 0.48 && progress < 0.62 ? 0 : 1;
-  const TitleComponent = historySlides[currentSlideIndex].title;
+  const renderParagraphs = (paragraphs: string[]) => (
+    <div className="space-y-3 max-w-lg">
+      {paragraphs.map((p, i) => (
+        <p
+          key={i}
+          className="text-white/85 text-sm md:text-base leading-relaxed"
+        >
+          {p}
+        </p>
+      ))}
+    </div>
+  );
 
   return (
     <section
-      ref={sectionRef}
       id="historia"
-      className="relative scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
-      style={{ height: "350vh" }}
+      ref={sectionRef}
+      className="relative h-screen overflow-hidden bg-black"
     >
-      <div
-        id="target-historia"
-        className="absolute top-[20vh] left-0 w-full h-0 pointer-events-none"
-      />
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Slide 1 */}
+      {/* IMAGES */}
+
+      {slides.map((slide, i) => (
         <div
-          className="absolute inset-0 bg-cover bg-position-[center_15%] origin-[center_15%] will-change-transform"
+          id="target-historia"
+          key={i}
+          data-bg
+          className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${SlideOne})`,
-            transform: `scale(${image1Scale})`,
-            opacity: image1Opacity,
-            transition: "opacity 0.2s ease-out, transform 0.05s linear",
+            backgroundImage: `url(${slide.image})`,
           }}
         />
+      ))}
 
-        {/* Slide 2 */}
-        <div
-          className="absolute inset-0 bg-cover bg-center origin-center will-change-transform"
-          style={{
-            backgroundImage: `url(${SlideTwo})`,
-            transform: `scale(${Math.max(1, image2Scale)})`,
-            opacity: image2Opacity,
-            transition: "opacity 0.2s ease-in, transform 0.05s linear",
-          }}
-        />
+      {/* DARK OVERLAY */}
 
-        {/* Slide 3 */}
-        <div
-          className="absolute inset-0 bg-cover bg-center origin-center will-change-transform"
-          style={{
-            backgroundImage: `url(${SlideThree})`,
-            transform: `scale(${Math.max(1, image2Scale)})`,
-            opacity: image2Opacity,
-            transition: "opacity 0.2s ease-in, transform 0.05s linear",
-          }}
-        />
+      <div className="absolute inset-0 z-10" />
 
-        <div className="absolute inset-0 z-20 flex flex-col justify-between p-6 md:p-12 max-w-360 mx-auto w-full pointer-events-none">
-          {/* Título */}
-          <div
-            className="w-full flex justify-end transition-opacity duration-300"
-            style={{ opacity: textOpacity }}
-          >
-            <div className="flex flex-col items-end">
-              <span className="inline-block text-[10px] font-mono tracking-wider uppercase text-white bg-[#3A85AC]/40 px-2.5 py-1 rounded border border-gray/70 mb-3">
-                {historySlides[currentSlideIndex].tag}
-              </span>
-              <TitleComponent className="md:w-187 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] select-none pointer-events-none" />
-            </div>
-          </div>
+      {/* TEXT LAYERS */}
 
-          {/* Párrafos */}
-          <div
-            className="w-80 flex justify-start pb-12 transition-opacity duration-300"
-            style={{ opacity: textOpacity }}
-          >
-            <div className="w-full max-w-xl bg-[#3A85AC]/30 backdrop-blur-lg border border-gray-200/50 rounded-3xl p-6 md:p-8 shadow-[rgba(0,0,0,0.06)_0px_4px_20px_0px] pointer-events-auto">
-              <div className="space-y-4 text-white font-body text-sm md:text-base leading-relaxed text-justify">
-                {historySlides[currentSlideIndex].paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
+      {slides.map((slide, i) => (
+        <div key={i} data-text className="absolute inset-0 z-20 p-8 md:p-16">
+          {/* SLIDE 1 */}
+
+          {i === 0 && (
+            <>
+              <div className="absolute top-10 right-10 text-right">
+                <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+                  {slide.tag}
+                </span>
+
+                <div className="mt-3">
+                  <TxtTlahue className="w-65 md:w-130 text-white" />
+                </div>
               </div>
+
+              <div className="absolute bottom-10 left-10">
+                {renderParagraphs(slide.paragraphs)}
+              </div>
+            </>
+          )}
+
+          {/* SLIDE 2 */}
+
+          {i === 1 && (
+            <div className="absolute top-10 right-10 text-right">
+              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+                {slide.tag}
+              </span>
+
+              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
             </div>
-          </div>
+          )}
+
+          {/* SLIDE 3 */}
+
+          {i === 2 && (
+            <div className="absolute top-10 left-10">
+              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+                {slide.tag}
+              </span>
+
+              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
+            </div>
+          )}
+
+          {/* SLIDE 4 */}
+
+          {i === 3 && (
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center">
+              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+                {slide.tag}
+              </span>
+
+              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
+            </div>
+          )}
+
+          {/* SLIDE 5 */}
+
+          {i === 4 && (
+            <div className="absolute bottom-10 right-10 text-right">
+              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+                {slide.tag}
+              </span>
+
+              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
+            </div>
+          )}
         </div>
-      </div>
+      ))}
     </section>
   );
 }

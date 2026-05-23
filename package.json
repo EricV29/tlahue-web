@@ -12,6 +12,8 @@
   "dependencies": {
     "@fontsource/montserrat": "5.2.8",
     "@fontsource/source-sans-pro": "5.2.5",
+    "@gsap/react": "^2.1.2",
+    "gsap": "^3.15.0",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
