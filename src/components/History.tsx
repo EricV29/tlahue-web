@@ -1,22 +1,49 @@
 import { useEffect, useRef, useState } from "react";
 import iglesiaImg from "../assets/images/history/iglesia.webp";
+import tlahueAereoImg from "../assets/images/history/tlahueAereo.webp";
 import TxtTlahue from "./icons/TxtTlahue";
+import tlahueNocheImg from "../assets/images/tlahueNoche.webp";
 
 const historySlides = [
   {
-    tag: "EL CORAZÓN",
+    tag: "EL ORIGEN",
     title: TxtTlahue,
     paragraphs: [
-      "Tlahuelilpan, tierra de tradición y herencia prehispánica, debe su nombre al náhuatl que evoca al lugar de las aguas rebosantes. Desde tiempos ancestrales, esta tierra ha sido testigo del paso de civilizaciones.",
-      "La parroquia, centro de nuestra identidad comunitaria, representa la fusión de la fe y la tradición que define a nuestro municipio. Cada piedra cuenta una historia.",
+      "Mucho antes de la llegada española, este fértil valle fue habitado por tribus otomíes. Su nombre náhuatl evoca con orgullo al 'lugar de las aguas rebosantes'.",
+      "Desde sus orígenes, esta tierra destacó por su riqueza agrícola y por ser un punto estratégico de encuentro y paso para grandes civilizaciones.",
     ],
   },
   {
-    tag: "EL CORAZÓN FRANCISCANO",
+    tag: "SAN FRANCISCO",
     title: TxtTlahue,
     paragraphs: [
-      "Al cruzar el umbral del Templo de San Francisco de Asís, nos adentramos en una joya del plateresco novohispano edificado entre 1560 y 1570.",
-      "Este complejo no solo transformó el paisaje arquitectónico de la región, sino que se convirtió en el eje central del ordenamiento civil, cultural y social de nuestra comunidad.",
+      "En el año 1560, los españoles fundaron el Templo de San Francisco de Asís, una joya arquitectónica considerada 'única en su género'.",
+      "Su diseño plateresco logró fusionar el estilo europeo con sutiles impresiones indigenistas, dando como resultado una fachada de serena belleza.",
+    ],
+  },
+
+  {
+    tag: "EXPLENDOR AGRÍCOLA",
+    title: TxtTlahue,
+    paragraphs: [
+      "A fines del siglo XIX, se consolidó aquí una hacienda tan inmensa que explotaba tierras de Tula, Atitalaquia, Tlaxcoapan, Tezontepec y Mixquiahuala.",
+      "Su enorme potencial agrícola convirtió a Tlahuelilpan en un centro de gran riqueza y en el motor económico más importante de toda la región.",
+    ],
+  },
+  {
+    tag: "REVOLUCIÓN y CAMBIO",
+    title: TxtTlahue,
+    paragraphs: [
+      "Con el movimiento revolucionario de 1910 y la caída del porfiriato, la opulencia de la gran hacienda y su situación económica declinaron por completo.",
+      "Aquellas inmensas extensiones de tierra fueron recuperadas por la fuerza de su gente, dividiéndose finalmente en los ejidos y pequeñas propiedades actuales.",
+    ],
+  },
+  {
+    tag: "SOBERANÍA LIBRE",
+    title: TxtTlahue,
+    paragraphs: [
+      "Tras pertenecer formalmente al municipio de Tlaxcoapan durante décadas, la justicia histórica llegó en el mes de enero del año 1970.",
+      "En esa fecha, Tlahuelilpan fue oficialmente elevado a la categoría de Municipio, consolidando la identidad, orgullo y dinamismo que lo definen hoy.",
     ],
   },
 ];
@@ -76,7 +103,7 @@ export default function History() {
         <div
           className="absolute inset-0 bg-cover bg-position-[center_15%] origin-[center_15%] will-change-transform"
           style={{
-            backgroundImage: `url(${iglesiaImg})`,
+            backgroundImage: `url(${tlahueNocheImg})`,
             transform: `scale(${image1Scale})`,
             opacity: image1Opacity,
             transition: "opacity 0.2s ease-out, transform 0.05s linear",
@@ -101,10 +128,10 @@ export default function History() {
             style={{ opacity: textOpacity }}
           >
             <div className="flex flex-col items-end">
-              <span className="inline-block text-[10px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#AA642A]/40 px-2.5 py-1 rounded border border-[#D5B35F]/70 mb-3">
+              <span className="inline-block text-[10px] font-mono tracking-wider uppercase text-white bg-[#3A85AC]/40 px-2.5 py-1 rounded border border-gray/70 mb-3">
                 {historySlides[currentSlideIndex].tag}
               </span>
-              <TitleComponent className="md:w-187 text-[#D5B35F] drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] select-none pointer-events-none" />
+              <TitleComponent className="md:w-187 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] select-none pointer-events-none" />
             </div>
           </div>
 
@@ -114,7 +141,7 @@ export default function History() {
             style={{ opacity: textOpacity }}
           >
             <div className="w-full max-w-xl bg-[#3A85AC]/30 backdrop-blur-lg border border-gray-200/50 rounded-3xl p-6 md:p-8 shadow-[rgba(0,0,0,0.06)_0px_4px_20px_0px] pointer-events-auto">
-              <div className="space-y-4 text-white font-body text-sm md:text-base leading-relaxed">
+              <div className="space-y-4 text-white font-body text-sm md:text-base leading-relaxed text-justify">
                 {historySlides[currentSlideIndex].paragraphs.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
