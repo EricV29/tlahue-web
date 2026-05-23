@@ -5,17 +5,18 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import TxtTlahue from "./icons/TxtTlahue";
 
+import hacienda from "../assets/images/history/hacienda.webp";
 import tlahueNoche from "../assets/images/tlahueNoche.webp";
 import iglesia from "../assets/images/history/iglesia.webp";
 import tlahueAereo from "../assets/images/history/tlahueAereo.webp";
-import tlahueDia from "../assets/images/tlahueDia.webp";
+import reloj from "../assets/images/history/reloj.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const slides = [
   {
     tag: "EL ORIGEN",
-    image: tlahueNoche,
+    image: hacienda,
     paragraphs: [
       "Mucho antes de la llegada española, este fértil valle fue habitado por tribus otomíes. Su nombre náhuatl evoca con orgullo al 'lugar de las aguas rebosantes'.",
       "Desde sus orígenes, esta tierra destacó por su riqueza agrícola y por ser un punto estratégico de encuentro y paso para grandes civilizaciones.",
@@ -42,7 +43,7 @@ const slides = [
 
   {
     tag: "REVOLUCIÓN y CAMBIO",
-    image: tlahueDia,
+    image: reloj,
     paragraphs: [
       "Con el movimiento revolucionario de 1910 y la caída del porfiriato, la opulencia de la gran hacienda y su situación económica declinaron por completo.",
       "Aquellas inmensas extensiones de tierra fueron recuperadas por la fuerza de su gente, dividiéndose finalmente en los ejidos y pequeñas propiedades actuales.",
@@ -218,7 +219,7 @@ export default function History() {
           {i === 0 && (
             <>
               <div className="absolute top-10 right-10 text-right">
-                <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+                <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                   {slide.tag}
                 </span>
 
@@ -227,8 +228,12 @@ export default function History() {
                 </div>
               </div>
 
-              <div className="absolute bottom-10 left-10">
-                {renderParagraphs(slide.paragraphs)}
+              <div className="absolute bottom-10 left-10 z-20 max-w-md">
+                <div className="absolute -inset-10 -z-10 bg-black/50 blur-3xl" />
+
+                <div className="space-y-4 text-white/95 font-body leading-relaxed text-justify">
+                  {renderParagraphs(slide.paragraphs)}
+                </div>
               </div>
             </>
           )}
@@ -237,7 +242,7 @@ export default function History() {
 
           {i === 1 && (
             <div className="absolute top-10 right-10 text-right">
-              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                 {slide.tag}
               </span>
 
@@ -249,23 +254,35 @@ export default function History() {
 
           {i === 2 && (
             <div className="absolute top-10 left-10">
-              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                 {slide.tag}
               </span>
 
-              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
+              <div className="mt-4 relative">
+                <div className="absolute -inset-4 -z-10 bg-black/50 blur-3xl" />
+
+                <div className="space-y-4 text-white/95 font-body leading-relaxed">
+                  {renderParagraphs(slide.paragraphs)}
+                </div>
+              </div>
             </div>
           )}
 
           {/* SLIDE 4 */}
 
           {i === 3 && (
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center">
-              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+            <div className="absolute top-10 right-10 text-right">
+              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                 {slide.tag}
               </span>
 
-              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
+              <div className="mt-4 relative">
+                <div className="absolute -inset-6 -z-10 bg-black/40 blur-[70px]" />
+
+                <div className="space-y-4 text-white/95 font-body leading-relaxed">
+                  {renderParagraphs(slide.paragraphs)}
+                </div>
+              </div>
             </div>
           )}
 
@@ -273,11 +290,17 @@ export default function History() {
 
           {i === 4 && (
             <div className="absolute bottom-10 right-10 text-right">
-              <span className="text-white/70 text-[10px] tracking-[0.2em] uppercase">
+              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                 {slide.tag}
               </span>
 
-              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
+              <div className="mt-4 relative">
+                <div className="absolute -inset-6 -z-10 bg-black/40 blur-[70px]" />
+
+                <div className="space-y-4 text-white/95 font-body leading-relaxed">
+                  {renderParagraphs(slide.paragraphs)}
+                </div>
+              </div>
             </div>
           )}
         </div>
