@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import type { SectionId } from "../App";
 import IconMenu from "./icons/IconMenu";
 import IconClose from "./icons/IconClose";
 
@@ -11,9 +12,6 @@ const navLinks = [
   { label: "Recursos", href: "#" },
 ];
 
-const sectionIds = ["eventos", "gobierno", "historia"] as const;
-type SectionId = (typeof sectionIds)[number] | "inicio";
-
 const sectionMap: Record<string, SectionId> = {
   Inicio: "inicio",
   Eventos: "eventos",
@@ -21,31 +19,17 @@ const sectionMap: Record<string, SectionId> = {
   Historia: "historia",
 };
 
-export default function Navbar() {
+export default function Navbar({
+  activeSection,
+}: {
+  activeSection: SectionId;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<SectionId>("inicio");
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-
-      const offsets: Record<string, number> = {};
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          offsets[id] = el.getBoundingClientRect().top + window.scrollY - 120;
-        }
-      }
-
-      const scrollY = window.scrollY;
-      if (scrollY >= offsets.gobierno) {
-        setActiveSection("gobierno");
-      } else if (scrollY >= offsets.eventos) {
-        setActiveSection("eventos");
-      } else if (scrollY >= offsets.historia) {
-        setActiveSection("historia");
-      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });

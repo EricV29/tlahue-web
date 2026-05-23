@@ -1,9 +1,14 @@
 import { useState } from "react";
+import type { SectionId } from "../App";
 import IconSiren from "./icons/IconSiren";
 import IconPhone from "./icons/IconPhone";
 import IconLocation from "./icons/IconLocation";
 
-export default function FloatingEmergency() {
+export default function FloatingEmergency({
+  activeSection,
+}: {
+  activeSection: SectionId;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const emergencyServices = [
@@ -23,7 +28,13 @@ export default function FloatingEmergency() {
   ];
 
   return (
-    <div className="fixed bottom-6 left-6 z-50 pointer-events-none">
+    <div
+      className={`fixed bottom-6 left-6 z-50 pointer-events-none transition-all duration-500 ease-in-out ${
+        activeSection === "historia"
+          ? "opacity-0 -translate-x-5"
+          : "opacity-100 translate-x-0"
+      }`}
+    >
       <div className="relative flex flex-col items-start">
         <div
           className={`transition-all duration-300 ease-in-out overflow-hidden ${
