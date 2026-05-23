@@ -51,7 +51,7 @@ export default function FloatingEmergency({
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <h4 className="font-display font-medium text-sm text-[#111827] mb-3">
+              <h4 className="font-display font-medium text-sm text-dark-charcoal mb-3">
                 {service.name}
               </h4>
 

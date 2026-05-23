@@ -151,7 +151,7 @@ export default function Gobierno() {
                   <span
                     className={`font-body text-xs text-center max-w-30 leading-tight transition-all duration-300 ${
                       isSelected
-                        ? "text-[#111827] font-semibold"
+                        ? "text-dark-charcoal font-semibold"
                         : "text-[#4B5563]"
                     }`}
                   >
@@ -182,7 +182,7 @@ export default function Gobierno() {
               {/* Name */}
               <div className="flex flex-col items-center lg:items-start justify-start">
                 <h3
-                  className={`font-display font-medium text-1xl md:text-25 lg:text-3xl text-[#111827] mb-2 transition-colors ${
+                  className={`font-display font-medium text-1xl md:text-25 lg:text-3xl text-dark-charcoal mb-2 transition-colors ${
                     selectedOfficial === 0 ? "text-[#AA642A]" : ""
                   }`}
                 >
@@ -195,7 +195,7 @@ export default function Gobierno() {
               </div>
 
               {/* Buttons */}
-              <div className="flex flex-col lg:flex-row gap-3 lg:pt-4 border-t border-[#eef1ed]">
+              <div className="flex flex-col lg:flex-row gap-3 lg:pt-4 border-t border-cool-gray">
                 <a
                   href={`tel:${selected.phone}`}
                   className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"

@@ -12,9 +12,9 @@ export default function Hero() {
         }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-[#FEFFFC]/20" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/30 to-[#FEFFFC]/20" />
 
-      <div className="relative z-10 max-w-[1280px] mx-auto px-6 text-center pt-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-32">
         <div className="inline-block backdrop-blur-sm bg-black/20 rounded-lg px-3 py-1 mb-4">
           <p className="font-body text-sm font-medium tracking-[-0.0120em] text-[#D5B35F] uppercase">
             Bienvenido a Tlahuelilpan

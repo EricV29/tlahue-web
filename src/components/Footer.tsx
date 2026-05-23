@@ -154,7 +154,7 @@ export default function Footer() {
             <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20 mb-5">
               Desarrollador
             </span>
-            <div className="flex flex-wrap justify-center md:justify-start gap-3 max-w-[156px] mb-3">
+            <div className="flex flex-wrap justify-center md:justify-start gap-3 max-w-39 mb-3">
               {developerIcons.map((link) => (
                 <a
                   key={link.name}
