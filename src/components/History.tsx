@@ -196,7 +196,6 @@ export default function History() {
 
       {slides.map((slide, i) => (
         <div
-          id="target-historia"
           key={i}
           data-bg
           className="absolute inset-0 bg-cover bg-center"
@@ -206,9 +205,7 @@ export default function History() {
         />
       ))}
 
-      {/* DARK OVERLAY */}
-
-      <div className="absolute inset-0 z-10" />
+      <div id="target-historia" />
 
       {/* TEXT LAYERS */}
 
@@ -229,7 +226,7 @@ export default function History() {
               </div>
 
               <div className="absolute bottom-10 left-10 z-20 max-w-md">
-                <div className="absolute -inset-10 -z-10 bg-black/50 blur-3xl" />
+                <div className="absolute -inset-10 bg-black/50 blur-3xl -z-10" />
 
                 <div className="space-y-4 text-white/95 font-body leading-relaxed text-justify">
                   {renderParagraphs(slide.paragraphs)}
@@ -259,7 +256,7 @@ export default function History() {
               </span>
 
               <div className="mt-4 relative">
-                <div className="absolute -inset-4 -z-10 bg-black/50 blur-3xl" />
+                <div className="absolute -z-10 -inset-4 bg-black/50 blur-3xl" />
 
                 <div className="space-y-4 text-white/95 font-body leading-relaxed">
                   {renderParagraphs(slide.paragraphs)}
@@ -277,7 +274,7 @@ export default function History() {
               </span>
 
               <div className="mt-4 relative">
-                <div className="absolute -inset-6 -z-10 bg-black/40 blur-[70px]" />
+                <div className="absolute -inset-6 bg-black/40 blur-[70px] -z-10" />
 
                 <div className="space-y-4 text-white/95 font-body leading-relaxed">
                   {renderParagraphs(slide.paragraphs)}
@@ -289,13 +286,13 @@ export default function History() {
           {/* SLIDE 5 */}
 
           {i === 4 && (
-            <div className="absolute bottom-10 right-10 text-right">
+            <div className="absolute top-10 text-left">
               <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                 {slide.tag}
               </span>
 
               <div className="mt-4 relative">
-                <div className="absolute -inset-6 -z-10 bg-black/40 blur-[70px]" />
+                <div className="absolute -z-10 -inset-6 bg-black/40 blur-[70px] " />
 
                 <div className="space-y-4 text-white/95 font-body leading-relaxed">
                   {renderParagraphs(slide.paragraphs)}
