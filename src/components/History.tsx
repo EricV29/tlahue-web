@@ -1,23 +1,59 @@
 import { useEffect, useRef, useState } from "react";
 import iglesiaImg from "../assets/images/history/iglesia.webp";
 
+const historySlides = [
+  {
+    tag: "NUESTRA ESENCIA",
+    title: (
+      <>
+        Historia de
+        <br />
+        <span className="text-[#D5B35F]">Tlahuelilpan</span>
+      </>
+    ),
+    paragraphs: [
+      "Tlahuelilpan, tierra de tradición y herencia prehispánica, debe su nombre al náhuatl que evoca al lugar de las aguas rebosantes. Desde tiempos ancestrales, esta tierra ha sido testigo del paso de civilizaciones.",
+      "La parroquia, centro de nuestra identidad comunitaria, representa la fusión de la fe y la tradición que define a nuestro municipio. Cada piedra cuenta una historia.",
+    ],
+  },
+  {
+    tag: "EL CORAZÓN FRANCISCANO",
+    title: (
+      <>
+        El Legado del
+        <br />
+        <span className="text-[#D5B35F]">Siglo XVI</span>
+      </>
+    ),
+    paragraphs: [
+      "Al cruzar el umbral del Templo de San Francisco de Asís, nos adentramos en una joya del plateresco novohispano edificado entre 1560 y 1570.",
+      "Este complejo no solo transformó el paisaje arquitectónico de la región, sino que se convirtió en el eje central del ordenamiento civil, cultural y social de nuestra comunidad.",
+    ],
+  },
+];
+
 export default function History() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+
+  const zoomProgress = progress < 0.25 ? 0 : (progress - 0.25) / 0.75;
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      if (!sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const elementHeight = sectionRef.current.offsetHeight;
       const viewportHeight = window.innerHeight;
-      const elementHeight = containerRef.current.offsetHeight;
 
-      const start = viewportHeight;
-      const end = -elementHeight + viewportHeight;
-      const rawProgress = (start - rect.top) / (start - end);
+      const startScroll = rect.top;
+      const totalScrollableDistance = elementHeight - viewportHeight;
+
+      const scrolled = -startScroll;
+      const rawProgress = scrolled / totalScrollableDistance;
+
       const clampedProgress = Math.max(0, Math.min(1, rawProgress));
-
-      setScrollProgress(clampedProgress);
+      setProgress(clampedProgress);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -25,81 +61,104 @@ export default function History() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scale = 1 + scrollProgress * 1.2;
-  const translateY = scrollProgress * 40;
+  const image1Scale = 1 + zoomProgress * 3.5;
+  const image1Opacity = progress > 0.7 ? 0 : 1;
+  const image2Opacity = progress > 0.55 ? 1 : 0;
+
+  const image2Scale = progress > 0.55 ? 1.3 - (progress - 0.55) * 0.6 : 1.3;
+  const currentSlideIndex = progress > 0.6 ? 1 : 0;
+  const textOpacity = progress > 0.48 && progress < 0.62 ? 0 : 1;
 
   return (
     <section
+      ref={sectionRef}
       id="historia"
-      className="relative"
-      style={{ height: "280vh" }}
+      className="relative bg-[#111827]"
+      style={{ height: "350vh" }}
     >
-      <div
-        ref={containerRef}
-        className="sticky top-0 h-screen overflow-hidden"
-      >
+      {/* Contenedor Fijo */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* CAPA 1: Imagen Exterior (Iglesia) */}
         <div
-          className="absolute inset-0 bg-cover bg-center origin-center"
+          className="absolute inset-0 bg-cover bg-position-[center_15%] origin-[center_15%] will-change-transform"
           style={{
             backgroundImage: `url(${iglesiaImg})`,
-            transform: `scale(${scale}) translateY(${translateY}px)`,
-            transition: "transform 0.05s linear",
+            transform: `scale(${image1Scale})`,
+            opacity: image1Opacity,
+            transition: "opacity 0.2s ease-out, transform 0.05s linear",
           }}
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-[#111827]/30 to-transparent" />
+        {/* CAPA 2: Imagen Interior */}
+        <div
+          className="absolute inset-0 bg-cover bg-center origin-center will-change-transform"
+          style={{
+            backgroundImage: `url(${iglesiaImg})`,
+            transform: `scale(${Math.max(1, image2Scale)})`,
+            opacity: image2Opacity,
+            transition: "opacity 0.2s ease-in, transform 0.05s linear",
+          }}
+        />
 
-        <div className="relative z-10 h-full flex flex-col justify-end px-8 pb-20">
-          <div className="max-w-3xl">
-            <span className="inline-block text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/20 px-3 py-1 rounded border border-[#D5B35F]/30 mb-4">
-              NUESTRA ESENCIA
-            </span>
-
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-white font-light leading-tight mb-6">
-              Historia de<br />
-              <span className="text-[#D5B35F]">Tlahuelilpan</span>
-            </h2>
-
-            <div className="space-y-4 text-white/80 font-body text-base md:text-lg leading-relaxed max-w-xl">
-              <p>
-                Tlahuelilpan, tierra de tradición y herencia prehispánica,
-                debe su nombre al náhuatl "Tlauelilocan" que significa
-                "lugar donde se venera al sol". Desde tiempos ancestrales,
-                esta tierra ha sido testigo del paso de civilizaciones que
-                dejaron huella imborrable en su cultura.
-              </p>
-              <p>
-                La iglesia, centro de nuestra identidad comunitaria,
-                representa la fusión de la fe y la tradición que define
-                a nuestro municipio. Cada piedra cuenta una historia,
-                cada rincón guarda una memoria de generaciones que
-                construyeron el Tlahuelilpan de hoy.
-              </p>
+        {/* Contenedor Global de Interfaz (Ocupa toda la pantalla) */}
+        <div className="absolute inset-0 z-20 flex flex-col justify-between p-6 md:p-12 max-w-360 mx-auto w-full pointer-events-none">
+          {/* 1. SECCIÓN SUPERIOR: Título posicionado arriba a la derecha */}
+          <div
+            className="w-full flex justify-end pt-16 md:pt-20 transition-opacity duration-300"
+            style={{ opacity: textOpacity }}
+          >
+            {/* Tarjeta Glassmorphism para el Título */}
+            <div className="bg-white/80 backdrop-blur-lg border border-gray-200/50 rounded-3xl p-6 md:p-8 text-right max-w-md shadow-lg pointer-events-auto">
+              <span className="inline-block text-[10px] font-mono tracking-wider uppercase text-[#AA642A] bg-[#AA642A]/10 px-2.5 py-1 rounded border border-[#AA642A]/20 mb-3">
+                {historySlides[currentSlideIndex].tag}
+              </span>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-gray-900 font-normal leading-[1.15]">
+                {historySlides[currentSlideIndex].title}
+              </h2>
             </div>
+          </div>
 
-            <div className="mt-8 flex items-center gap-2 text-white/50 text-sm font-mono">
-              <span className="w-2 h-2 rounded-full bg-[#D5B35F] animate-pulse" />
-              <span>Explora nuestra historia</span>
+          {/* 2. SECCIÓN INFERIOR: Párrafos de texto abajo a la izquierda */}
+          <div
+            className="w-full flex justify-start pb-12 transition-opacity duration-300"
+            style={{ opacity: textOpacity }}
+          >
+            {/* Contenedor con tu efecto Glass del Navbar adaptado a Caja de Lectura */}
+            <div className="w-full max-w-xl bg-white/80 backdrop-blur-lg border border-gray-200/50 rounded-[24px] p-6 md:p-8 shadow-[rgba(0,0,0,0.06)_0px_4px_20px_0px] pointer-events-auto">
+              <div className="space-y-4 text-gray-700 font-body text-sm md:text-base leading-relaxed">
+                {historySlides[currentSlideIndex].paragraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+
+              <div className="mt-6 flex items-center gap-2 text-gray-400 text-xs font-mono border-t border-gray-200/40 pt-4">
+                <span className="w-2 h-2 rounded-full bg-[#AA642A] animate-pulse" />
+                <span>Sigue bajando para avanzar en el tiempo</span>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Indicador de scroll inicial */}
         <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
-          style={{ opacity: scrollProgress < 0.1 ? 1 : 0, transition: "opacity 0.3s" }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30"
+          style={{
+            opacity: progress < 0.05 ? 1 : 0,
+            transition: "opacity 0.3s",
+          }}
         >
-          <div className="flex flex-col items-center animate-bounce">
+          <div className="flex flex-col items-center animate-bounce bg-white/80 backdrop-blur-md p-2 rounded-full border border-gray-200/50 shadow-md">
             <svg
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
-              className="text-white/60"
+              className="text-gray-600"
             >
               <path
                 d="M12 5v14M5 12l7 7 7-7"
                 stroke="currentColor"
-                strokeWidth="1.5"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />

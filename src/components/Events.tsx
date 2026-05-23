@@ -114,7 +114,7 @@ export default function Novedades() {
   });
 
   return (
-    <section id="novedades" className="relative py-16 px-6">
+    <section id="eventos" className="relative py-16 px-6">
       <img
         src={reloj}
         alt="relojSvg"
@@ -244,7 +244,7 @@ export default function Novedades() {
                       href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.calendarDates}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location + ", Tlahuelilpan Hidalgo")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-[#4B5563] mb-2"
+                      className="flex items-center gap-2 text-[#4B5563] w-fit mb-2"
                     >
                       <IconCalendar className="w-4 h-4" />
                       <span className="font-body text-xs hover:text-[#D5B35F] hover:underline transition-colors min-w-0">

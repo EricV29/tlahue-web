@@ -4,20 +4,21 @@ import IconClose from "./icons/IconClose";
 
 const navLinks = [
   { label: "Inicio", href: "#" },
-  { label: "Eventos", href: "#novedades" },
+  { label: "Eventos", href: "#eventos" },
   { label: "Mapa", href: "#" },
   { label: "Gobierno", href: "#gobierno" },
-  { label: "Historia", href: "#" },
+  { label: "Historia", href: "#historia" },
   { label: "Recursos", href: "#" },
 ];
 
-const sectionIds = ["novedades", "gobierno"] as const;
+const sectionIds = ["eventos", "gobierno", "historia"] as const;
 type SectionId = (typeof sectionIds)[number] | "inicio";
 
 const sectionMap: Record<string, SectionId> = {
   Inicio: "inicio",
-  Eventos: "novedades",
+  Eventos: "eventos",
   Gobierno: "gobierno",
+  Historia: "historia",
 };
 
 export default function Navbar() {
@@ -29,21 +30,21 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      let offsets: Record<string, number> = {};
+      const offsets: Record<string, number> = {};
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
-          offsets[id] = el.getBoundingClientRect().top + window.scrollY - 100;
+          offsets[id] = el.getBoundingClientRect().top + window.scrollY - 120;
         }
       }
 
       const scrollY = window.scrollY;
       if (scrollY >= offsets.gobierno) {
         setActiveSection("gobierno");
-      } else if (scrollY >= offsets.novedades) {
-        setActiveSection("novedades");
-      } else {
-        setActiveSection("inicio");
+      } else if (scrollY >= offsets.eventos) {
+        setActiveSection("eventos");
+      } else if (scrollY >= offsets.historia) {
+        setActiveSection("historia");
       }
     };
 
@@ -52,8 +53,16 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isHistory = activeSection === "historia";
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-0">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 px-4 md:px-0 transition-all duration-500 ease-in-out ${
+        isHistory
+          ? "opacity-0 -translate-y-5 pointer-events-none"
+          : "opacity-100 translate-y-0"
+      }`}
+    >
       <div
         className={`w-full md:w-fit rounded-[20px] shadow-[rgba(0,0,0,0.04)_0px_2px_12px_0px] px-5 py-2 flex items-center justify-between md:justify-center gap-6 mx-auto mt-4 transition-all duration-300 ${
           isScrolled
