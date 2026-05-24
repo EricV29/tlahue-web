@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -22,7 +22,6 @@ const slides = [
       "Desde sus orígenes, esta tierra destacó por su riqueza agrícola y por ser un punto estratégico de encuentro y paso para grandes civilizaciones.",
     ],
   },
-
   {
     tag: "SAN FRANCISCO",
     image: iglesia,
@@ -31,7 +30,6 @@ const slides = [
       "Su diseño plateresco logró fusionar el estilo europeo con sutiles impresiones indigenistas, dando como resultado una fachada de serena belleza.",
     ],
   },
-
   {
     tag: "EXPLENDOR AGRÍCOLA",
     image: tlahueAereo,
@@ -40,7 +38,6 @@ const slides = [
       "Su enorme potencial agrícola convirtió a Tlahuelilpan en un centro de gran riqueza y en el motor económico más importante de toda la región.",
     ],
   },
-
   {
     tag: "REVOLUCIÓN y CAMBIO",
     image: reloj,
@@ -49,7 +46,6 @@ const slides = [
       "Aquellas inmensas extensiones de tierra fueron recuperadas por la fuerza de su gente, dividiéndose finalmente en los ejidos y pequeñas propiedades actuales.",
     ],
   },
-
   {
     tag: "SOBERANÍA LIBRE",
     image: tlahueNoche,
@@ -63,245 +59,248 @@ const slides = [
 export default function History() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // ── MOBILE SLIDER STATE ────────────────────────────────────────
+  const [active, setActive] = useState(0);
+  const touchStartX = useRef(0);
+
+  const goTo = (index: number) =>
+    setActive(Math.max(0, Math.min(slides.length - 1, index)));
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(diff > 0 ? active + 1 : active - 1);
+  };
+
+  // ── DESKTOP GSAP (sin cambios) ─────────────────────────────────
   useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const images = gsap.utils.toArray<HTMLElement>("[data-bg]");
     const texts = gsap.utils.toArray<HTMLElement>("[data-text]");
+    const mm = gsap.matchMedia();
 
-    gsap.set(images, {
-      opacity: 0,
-      scale: 1.08,
+    mm.add("(min-width: 768px)", () => {
+      gsap.set(images, { opacity: 0, scale: 1.08 });
+      gsap.set(images[0], { opacity: 1, scale: 1 });
+      gsap.set(texts, { autoAlpha: 0 });
+      gsap.set(texts[0], { autoAlpha: 1 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=8000",
+          scrub: 2,
+          pin: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      slides.forEach((_, i) => {
+        if (i === 0) return;
+        const label = `slide-${i}`;
+        tl.add(label);
+        tl.to(
+          images[i - 1],
+          { opacity: 0, scale: 1.15, duration: 2.8, ease: "power2.inOut" },
+          label,
+        );
+        tl.fromTo(
+          images[i],
+          { opacity: 0, scale: 1.12 },
+          { opacity: 1, scale: 1, duration: 3.5, ease: "power2.inOut" },
+          label,
+        );
+        tl.to(texts[i - 1], { autoAlpha: 0, duration: 0.8 }, `${label}+=0.8`);
+        tl.fromTo(
+          texts[i],
+          { autoAlpha: 0, y: 30 },
+          { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" },
+          `${label}+=2.3`,
+        );
+      });
     });
 
-    gsap.set(images[0], {
-      opacity: 1,
-      scale: 1,
-    });
-
-    gsap.set(texts, {
-      autoAlpha: 0,
-    });
-
-    gsap.set(texts[0], {
-      autoAlpha: 1,
-    });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "+=8000",
-        scrub: 2,
-        pin: true,
-      },
-    });
-
-    slides.forEach((_, i) => {
-      if (i === 0) return;
-
-      const prevImage = images[i - 1];
-      const currentImage = images[i];
-
-      const prevText = texts[i - 1];
-      const currentText = texts[i];
-
-      const label = `slide-${i}`;
-
-      tl.add(label);
-
-      // IMAGE TRANSITION
-
-      tl.to(
-        prevImage,
-        {
-          opacity: 0,
-          scale: 1.15,
-          duration: 2.8,
-          ease: "power2.inOut",
-        },
-        label,
-      );
-
-      tl.fromTo(
-        currentImage,
-        {
-          opacity: 0,
-          scale: 1.12,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 3.5,
-          ease: "power2.inOut",
-        },
-        label,
-      );
-
-      // TEXT OUT
-
-      tl.to(
-        prevText,
-        {
-          autoAlpha: 0,
-          duration: 0.8,
-        },
-        `${label}+=0.8`,
-      );
-
-      // TEXT IN (más tarde)
-
-      tl.fromTo(
-        currentText,
-        {
-          autoAlpha: 0,
-          y: 30,
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-        },
-        `${label}+=2.3`,
-      );
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+    return () => mm.revert();
   }, []);
 
-  const renderParagraphs = (paragraphs: string[]) => (
-    <div className="space-y-3 max-w-lg">
-      {paragraphs.map((p, i) => (
-        <p
-          key={i}
-          className="text-white/85 text-sm md:text-base leading-relaxed"
-        >
-          {p}
-        </p>
-      ))}
-    </div>
-  );
-
   return (
-    <section
-      id="historia"
-      ref={sectionRef}
-      className="relative h-screen overflow-hidden bg-black"
-    >
-      {/* IMAGES */}
-
-      {slides.map((slide, i) => (
-        <div
-          key={i}
-          data-bg
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${slide.image})`,
-          }}
-        />
-      ))}
-
-      <div id="target-historia" />
-
-      {/* TEXT LAYERS */}
-
-      {slides.map((slide, i) => (
-        <div key={i} data-text className="absolute inset-0 z-20 p-8 md:p-16">
-          {/* SLIDE 1 */}
-
-          {i === 0 && (
-            <>
-              <div className="absolute top-10 right-10 text-right">
-                <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                  {slide.tag}
-                </span>
-
-                <div className="mt-3">
-                  <TxtTlahue className="w-65 md:w-130 text-white" />
-                </div>
-              </div>
-
-              <div className="absolute bottom-10 left-10 z-20 max-w-md">
-                <div className="absolute -inset-10 bg-black/50 blur-3xl -z-10" />
-
-                <div className="space-y-4 text-white/95 font-body leading-relaxed text-justify">
-                  {renderParagraphs(slide.paragraphs)}
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* SLIDE 2 */}
-
-          {i === 1 && (
-            <div className="absolute top-10 right-10 text-right">
-              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                {slide.tag}
-              </span>
-
-              <div className="mt-4">{renderParagraphs(slide.paragraphs)}</div>
+    <div id="historia">
+      {/* MOBILE*/}
+      <section
+        className="md:hidden bg-dark-charcoal"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Imagen */}
+        <div className="relative w-full aspect-video overflow-hidden">
+          {slides.map((slide, i) => (
+            <div
+              key={i}
+              className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
+              style={{
+                backgroundImage: `url(${slide.image})`,
+                opacity: i === active ? 1 : 0,
+              }}
+            >
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
             </div>
-          )}
+          ))}
 
-          {/* SLIDE 3 */}
+          {/* Tag */}
+          <div className="absolute bottom-4 left-4 z-10">
+            <span className="text-white text-[10px] tracking-[0.2em] uppercase bg-white/10 border border-white/20 backdrop-blur-md px-3 py-1 rounded-md">
+              {slides[active].tag}
+            </span>
+          </div>
 
-          {i === 2 && (
-            <div className="absolute top-10 left-10">
-              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                {slide.tag}
-              </span>
-
-              <div className="mt-4 relative">
-                <div className="absolute -z-10 -inset-4 bg-black/50 blur-3xl" />
-
-                <div className="space-y-4 text-white/95 font-body leading-relaxed">
-                  {renderParagraphs(slide.paragraphs)}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* SLIDE 4 */}
-
-          {i === 3 && (
-            <div className="absolute top-10 right-10 text-right">
-              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                {slide.tag}
-              </span>
-
-              <div className="mt-4 relative">
-                <div className="absolute -inset-6 bg-black/40 blur-[70px] -z-10" />
-
-                <div className="space-y-4 text-white/95 font-body leading-relaxed">
-                  {renderParagraphs(slide.paragraphs)}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* SLIDE 5 */}
-
-          {i === 4 && (
-            <div className="absolute top-10 text-left">
-              <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                {slide.tag}
-              </span>
-
-              <div className="mt-4 relative">
-                <div className="absolute -z-10 -inset-6 bg-black/40 blur-[70px] " />
-
-                <div className="space-y-4 text-white/95 font-body leading-relaxed">
-                  {renderParagraphs(slide.paragraphs)}
-                </div>
-              </div>
+          {/* Logo solo en slide 0 */}
+          {active === 0 && (
+            <div className="absolute top-4 right-4 z-10">
+              <TxtTlahue className="w-36 h-auto text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]" />
             </div>
           )}
         </div>
-      ))}
-    </section>
+
+        {/* Texto */}
+        <div className="px-5 py-6 space-y-3 min-h-40">
+          {slides[active].paragraphs.map((p, i) => (
+            <p
+              key={i}
+              className="text-white/80 text-sm leading-relaxed font-body"
+            >
+              {p}
+            </p>
+          ))}
+        </div>
+
+        {/* Controles */}
+        <div className="bg-dark-charcoal pb-8 flex items-center justify-center gap-4">
+          <button
+            onClick={() => goTo(active - 1)}
+            disabled={active === 0}
+            className="p-2 rounded-full border border-white/20 bg-white/5 text-white disabled:opacity-20 active:scale-95 transition-all"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          <div className="flex items-center gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  i === active ? "w-5 h-2 bg-white" : "w-2 h-2 bg-white/30"
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={() => goTo(active + 1)}
+            disabled={active === slides.length - 1}
+            className="p-2 rounded-full border border-white/20 bg-white/5 text-white disabled:opacity-20 active:scale-95 transition-all"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      {/* DESKTOP  */}
+      <section
+        ref={sectionRef}
+        className="hidden md:block relative h-screen bg-black isolate"
+      >
+        <div id="historia-desktop" />
+        {slides.map((slide, i) => (
+          <div
+            key={i}
+            data-bg
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${slide.image})` }}
+          />
+        ))}
+        {slides.map((slide, i) => (
+          <div
+            key={i}
+            data-text
+            className="absolute inset-0 z-20 p-16 pointer-events-none"
+          >
+            {i === 0 && (
+              <>
+                <div className="absolute top-10 right-10 flex flex-col items-end text-right">
+                  <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+                    {slide.tag}
+                  </span>
+                  <div className="mt-3">
+                    <TxtTlahue className="w-130 h-auto text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]" />
+                  </div>
+                </div>
+                <div className="absolute bottom-10 left-10 max-w-md pointer-events-auto z-20">
+                  <div className="absolute -inset-10 bg-black/50 blur-3xl -z-10" />
+                  <div className="space-y-3 text-white/95 font-body leading-relaxed">
+                    {slide.paragraphs.map((p, j) => (
+                      <p key={j} className="text-base leading-relaxed">
+                        {p}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {i > 0 && (
+              <div
+                className={`absolute top-10 max-w-lg pointer-events-auto flex flex-col
+                ${i === 1 || i === 3 ? "right-10 items-end text-right" : "left-10 items-start text-left"}`}
+              >
+                <span className="inline-block text-white text-[10px] tracking-[0.2em] uppercase bg-white/5 border border-white/10 backdrop-blur-md px-3 py-1 rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+                  {slide.tag}
+                </span>
+                <div className="mt-4 relative">
+                  <div className="absolute -inset-10 bg-black/50 blur-3xl -z-10" />
+                  <div className="space-y-3 text-white/95 font-body leading-relaxed">
+                    {slide.paragraphs.map((p, j) => (
+                      <p key={j} className="text-base leading-relaxed">
+                        {p}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </section>
+    </div>
   );
 }
