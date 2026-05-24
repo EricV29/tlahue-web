@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap");
-
 @import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap");
 
 @theme {
   --color-canvas-white: #ffffff;
@@ -17,25 +17,15 @@
   --font-body: "Inter", sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #d5b35f;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #aa642a;
-  border-radius: 0px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #aa642a;
+  html::-webkit-scrollbar {
+    display: visible;
+  }
 }

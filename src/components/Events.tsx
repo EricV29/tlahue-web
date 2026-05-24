@@ -114,7 +114,7 @@ export default function Novedades() {
   });
 
   return (
-    <section id="novedades" className="relative py-16 px-6">
+    <section id="eventos" className="relative py-16 px-6">
       <img
         src={reloj}
         alt="relojSvg"
@@ -141,10 +141,10 @@ export default function Novedades() {
               <button
                 key={month.name}
                 onClick={() => setSelectedMonth(month.id)}
-                className={`relative shrink-0 px-4 py-2 rounded-full font-body text-sm font-medium transition-all duration-300 ${
+                className={`relative shrink-0 px-4 py-2 rounded-full font-body text-sm font-medium transition-all duration-300 cursor-pointer ${
                   isSelected
                     ? "bg-[#AA642A] text-white"
-                    : "bg-[#F9FAF7] text-[#374151] border border-[#fff5dd] hover:bg-[#d5b35f]/20"
+                    : "bg-[#F9FAF7] text-[#374151] border border-[#fff5dd] hover:bg-tlahu-gold/20"
                 } ${month.icon ? "pr-7" : ""}`}
               >
                 {month.icon && (
@@ -244,7 +244,7 @@ export default function Novedades() {
                       href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.calendarDates}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location + ", Tlahuelilpan Hidalgo")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-[#4B5563] mb-2"
+                      className="flex items-center gap-2 text-[#4B5563] w-fit mb-2"
                     >
                       <IconCalendar className="w-4 h-4" />
                       <span className="font-body text-xs hover:text-[#D5B35F] hover:underline transition-colors min-w-0">
@@ -274,7 +274,7 @@ export default function Novedades() {
                         </span>
                       </a>
 
-                      <button className="font-body text-sm font-medium text-[#AA642A] hover:text-[#D5B35F] transition-colors inline-flex items-center gap-1">
+                      <button className="font-body text-sm font-medium text-[#AA642A] hover:text-[#D5B35F] transition-colors inline-flex items-center gap-1 cursor-pointer">
                         Ver más
                         <IconArrowRight className="w-4 h-4" />
                       </button>
