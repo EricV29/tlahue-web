@@ -133,6 +133,7 @@ export default function History() {
     <div id="historia">
       {/* MOBILE*/}
       <section
+        id="historia"
         className="md:hidden bg-dark-charcoal"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -240,7 +241,6 @@ export default function History() {
         ref={sectionRef}
         className="hidden md:block relative h-screen bg-black isolate"
       >
-        <div id="historia-desktop" />
         {slides.map((slide, i) => (
           <div
             key={i}

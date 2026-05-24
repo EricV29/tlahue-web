@@ -19,18 +19,6 @@ const sectionMap: Record<string, SectionId> = {
   Historia: "historia",
 };
 
-function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-  if (href !== "#historia") return;
-  e.preventDefault();
-
-  const targetId = window.innerWidth >= 768 ? "historia-desktop" : "historia";
-  const el = document.getElementById(targetId);
-  if (!el) return;
-
-  const top = el.getBoundingClientRect().top + window.scrollY;
-  window.scrollTo({ top, behavior: "smooth" });
-}
-
 export default function Navbar({
   activeSection,
 }: {
@@ -81,7 +69,6 @@ export default function Navbar({
           />
         </a>
 
-        {/* Links desktop */}
         <div className="hidden md:flex items-center gap-2">
           {navLinks.map((link) => {
             const isActive = sectionMap[link.label] === activeSection;
@@ -89,7 +76,6 @@ export default function Navbar({
               <a
                 key={link.label}
                 href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
                 className={`px-4 py-1.5 font-body text-sm font-medium rounded-md transition-all whitespace-nowrap ${
                   isActive
                     ? "text-[#3A85AC]"
@@ -104,7 +90,6 @@ export default function Navbar({
           })}
         </div>
 
-        {/* Botón menú móvil */}
         <button
           className={`md:hidden p-1.5 transition-colors rounded-md ${
             isScrolled
@@ -118,7 +103,6 @@ export default function Navbar({
         </button>
       </div>
 
-      {/* Menú desplegable móvil */}
       <div
         className={`md:hidden w-full border rounded-2xl overflow-hidden mt-2 transition-all duration-300 shadow-xl ${
           isScrolled
@@ -137,10 +121,6 @@ export default function Navbar({
               <a
                 key={link.label}
                 href={link.href}
-                onClick={(e) => {
-                  handleNavClick(e, link.href);
-                  setIsOpen(false);
-                }}
                 className={`px-4 py-3 font-body text-sm font-medium rounded-lg transition-all text-center ${
                   isActive
                     ? "text-[#3A85AC]"
@@ -148,6 +128,7 @@ export default function Navbar({
                       ? "text-dark-charcoal hover:text-[#3A85AC] hover:bg-gray-100"
                       : "text-white hover:text-[#D5B35F] hover:bg-white/10"
                 }`}
+                onClick={() => setIsOpen(false)}
               >
                 {link.label}
               </a>
