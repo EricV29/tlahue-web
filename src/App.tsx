@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Events from "./components/Events";
@@ -7,11 +8,12 @@ import History from "./components/History";
 import Footer from "./components/Footer";
 import FloatingSocial from "./components/FloatingSocial";
 import FloatingEmergency from "./components/FloatingEmergency";
+import GalleryPage from "./components/GalleryPage";
 
 const sectionIds = ["eventos", "gobierno", "historia"] as const;
 export type SectionId = (typeof sectionIds)[number] | "inicio";
 
-function App() {
+function HomePage() {
   const [activeSection, setActiveSection] = useState<SectionId>("inicio");
 
   useEffect(() => {
@@ -59,6 +61,15 @@ function App() {
       <FloatingSocial activeSection={activeSection} />
       <FloatingEmergency activeSection={activeSection} />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/galeria" element={<GalleryPage />} />
+    </Routes>
   );
 }
 
