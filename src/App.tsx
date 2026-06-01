@@ -1,122 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Events from "./components/Events";
+import Government from "./components/Government";
+import History from "./components/History";
+import Footer from "./components/Footer";
+import FloatingSocial from "./components/FloatingSocial";
+import FloatingEmergency from "./components/FloatingEmergency";
+import GalleryPage from "./components/GalleryPage";
+import MapTlahue from "./components/MapTlahue";
 
-function App() {
-  const [count, setCount] = useState(0)
+const sectionIds = ["eventos", "mapa", "gobierno", "historia"] as const;
+export type SectionId = (typeof sectionIds)[number] | "inicio";
+
+function HomePage() {
+  const [activeSection, setActiveSection] = useState<SectionId>("inicio");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offsets: Record<string, number> = {};
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          offsets[id] = el.getBoundingClientRect().top + window.scrollY - 120;
+        }
+      }
+
+      const scrollY = window.scrollY;
+      const sortedSections = [...sectionIds]
+        .filter((id) => offsets[id] !== undefined)
+        .sort((a, b) => offsets[b] - offsets[a]);
+      let current: SectionId = "inicio";
+      for (const id of sortedSections) {
+        if (scrollY >= offsets[id]) {
+          current = id;
+          break;
+        }
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="min-h-screen bg-canvas-white">
+      <Navbar activeSection={activeSection} />
+      <main>
+        <Hero />
+        <div className="relative z-10 mt-[100vh] bg-canvas-white">
+          <Events />
+          <MapTlahue />
+          <Government />
+          <History />
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      </main>
+      <Footer />
+      <FloatingSocial activeSection={activeSection} />
+      <FloatingEmergency activeSection={activeSection} />
+    </div>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/galeria" element={<GalleryPage />} />
+    </Routes>
+  );
+}
+
+export default App;
