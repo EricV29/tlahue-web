@@ -170,8 +170,18 @@ function MapTlahue() {
 
       // Iluminación dinámica
       const currentHour = new Date().getHours();
-      let lightPreset = "night";
+      let lightPreset = "day";
       let threeLightsConfig;
+
+      if (currentHour >= 5 && currentHour < 10) {
+        lightPreset = "dawn";
+      } else if (currentHour >= 10 && currentHour < 17) {
+        lightPreset = "day";
+      } else if (currentHour >= 17 && currentHour < 19) {
+        lightPreset = "dusk";
+      } else {
+        lightPreset = "night";
+      }
 
       if (lightPreset === "night") {
         threeLightsConfig = {
@@ -222,16 +232,6 @@ function MapTlahue() {
           exposure: 1.65,
         };
       }
-
-      // if (currentHour >= 5 && currentHour < 10) {
-      //   lightPreset = "dawn";
-      // } else if (currentHour >= 10 && currentHour < 17) {
-      //   lightPreset = "day";
-      // } else if (currentHour >= 17 && currentHour < 19) {
-      //   lightPreset = "dusk";
-      // } else {
-      //   lightPreset = "night";
-      // }
 
       mapRef.current.setConfigProperty("basemap", "lightPreset", lightPreset);
       // mapRef.current.setConfigProperty("basemap", "show3dObjects", true);
