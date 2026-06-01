@@ -30,7 +30,7 @@ export default function FloatingEmergency({
   return (
     <div
       className={`fixed bottom-6 left-6 z-50 pointer-events-none transition-all duration-500 ease-in-out ${
-        activeSection === "historia"
+        ["historia", "mapa"].includes(activeSection)
           ? "opacity-0 -translate-x-5"
           : "opacity-100 translate-x-0"
       }`}

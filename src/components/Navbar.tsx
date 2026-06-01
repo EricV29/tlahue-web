@@ -7,7 +7,7 @@ import IconClose from "./icons/IconClose";
 const navLinks = [
   { label: "Inicio", href: "/", isRouter: true },
   { label: "Eventos", href: "/#eventos", isRouter: true },
-  { label: "Mapa", href: "#", isRouter: false },
+  { label: "Mapa", href: "/#mapa", isRouter: true },
   { label: "Gobierno", href: "/#gobierno", isRouter: true },
   { label: "Historia", href: "/#historia", isRouter: true },
   { label: "Galería", href: "/galeria", isRouter: true },
@@ -16,6 +16,7 @@ const navLinks = [
 const sectionMap: Record<string, SectionId> = {
   Inicio: "inicio",
   Eventos: "eventos",
+  Mapa: "mapa",
   Gobierno: "gobierno",
   Historia: "historia",
 };
@@ -47,7 +48,7 @@ export default function Navbar({
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const isHistory = activeSection === "historia" && isDesktop;
+  const isHistory = ["historia", "mapa"].includes(activeSection) && isDesktop;
 
   const isActiveLink = (label: string) => {
     if (isGaleria) return label === "Galería";
@@ -90,11 +91,7 @@ export default function Navbar({
       );
     }
     return (
-      <a
-        key={link.label}
-        href={link.href}
-        className={linkClass(link.label)}
-      >
+      <a key={link.label} href={link.href} className={linkClass(link.label)}>
         {link.label}
       </a>
     );

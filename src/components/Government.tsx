@@ -106,7 +106,7 @@ export default function Gobierno() {
       <img
         src={presidencia}
         alt="presidenciaSvg"
-        className="absolute z-0 w-100 lg:w-150 -translate-x-1/2 lg:-translate-x-1/3 md:-translate-y-20 left-0 md:left-20 pointer-events-none opacity-10 select-none"
+        className="absolute z-0 w-100 lg:w-150 -translate-x-1/2 lg:-translate-x-1/3 md:-translate-y-15 left-0 md:left-20 pointer-events-none opacity-10 select-none"
       />
 
       <div className="max-w-7xl mx-auto">

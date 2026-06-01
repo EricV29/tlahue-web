@@ -9,8 +9,9 @@ import Footer from "./components/Footer";
 import FloatingSocial from "./components/FloatingSocial";
 import FloatingEmergency from "./components/FloatingEmergency";
 import GalleryPage from "./components/GalleryPage";
+import MapTlahue from "./components/MapTlahue";
 
-const sectionIds = ["eventos", "gobierno", "historia"] as const;
+const sectionIds = ["eventos", "mapa", "gobierno", "historia"] as const;
 export type SectionId = (typeof sectionIds)[number] | "inicio";
 
 function HomePage() {
@@ -22,8 +23,7 @@ function HomePage() {
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
-          offsets[id] =
-            el.getBoundingClientRect().top + window.scrollY - 120;
+          offsets[id] = el.getBoundingClientRect().top + window.scrollY - 120;
         }
       }
 
@@ -53,6 +53,7 @@ function HomePage() {
         <Hero />
         <div className="relative z-10 mt-[100vh] bg-canvas-white">
           <Events />
+          <MapTlahue />
           <Government />
           <History />
         </div>

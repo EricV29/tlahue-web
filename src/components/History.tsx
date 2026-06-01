@@ -2,9 +2,7 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 import TxtTlahue from "./icons/TxtTlahue";
-
 import hacienda from "../assets/images/history/hacienda.webp";
 import tlahueNoche from "../assets/images/tlahueNoche.webp";
 import iglesia from "../assets/images/history/iglesia.webp";
@@ -75,7 +73,7 @@ export default function History() {
     if (Math.abs(diff) > 50) goTo(diff > 0 ? active + 1 : active - 1);
   };
 
-  // ── DESKTOP GSAP (sin cambios) ─────────────────────────────────
+  // ── DESKTOP GSAP ─────────────────────────────────
   useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -130,7 +128,7 @@ export default function History() {
   }, []);
 
   return (
-    <div id="historia">
+    <div id="historia" className="w-full overflow-hidden">
       {/* MOBILE*/}
       <section
         id="historia"
@@ -249,6 +247,7 @@ export default function History() {
             style={{ backgroundImage: `url(${slide.image})` }}
           />
         ))}
+
         {slides.map((slide, i) => (
           <div
             key={i}
