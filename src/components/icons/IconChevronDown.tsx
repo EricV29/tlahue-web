@@ -10,11 +10,10 @@ export default function IconChevronDown({ className }: { className?: string }) {
       className={className}
     >
       <path
-        d="M12 3L12 21M12 21L20.5 12.5M12 21L3.5 12.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M5.30711 8.71299C5.4232 8.43273 5.69668 8.25 6.00002 8.25H18C18.3034 8.25 18.5768 8.43273 18.6929 8.71299C18.809 8.99324 18.7449 9.31583 18.5304 9.53033L12.5304 15.5303C12.2375 15.8232 11.7626 15.8232 11.4697 15.5303L5.46969 9.53033C5.25519 9.31583 5.19103 8.99324 5.30711 8.71299Z"
+        fill="currentColor"
       />
     </svg>
   );

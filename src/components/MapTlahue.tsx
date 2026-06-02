@@ -17,6 +17,8 @@ import geoColCentro from "../../public/assets/3D/geo/colCentro.json";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import IconChevronDown from "./icons/IconChevronDown";
+import IconReset from "./icons/IconReset";
 
 // Vista MAPA 3D mapbox
 const INITIAL_CENTER: [number, number] = [-99.2333, 20.1325];
@@ -897,7 +899,7 @@ function MapTlahue() {
           <div className="relative">
             <select
               id="territoriosSelect"
-              className="appearance-none px-5 py-2.5 min-w-56 bg-white text-dark-charcoal font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50"
+              className="appearance-none px-4 py-2.5 min-w-44 bg-white text-dark-charcoal font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50"
               value={selectedColoniaId}
               onChange={handleTerritorioChange}
             >
@@ -916,16 +918,14 @@ function MapTlahue() {
                 </option>
               ))}
             </select>
-            <span className="absolute top-1/2 -translate-y-1/2 right-4 pointer-events-none text-dark-charcoal">
-              ▼
-            </span>
+            <IconChevronDown className="absolute top-1/2 -translate-y-1/2 right-4 pointer-events-none text-dark-charcoal w-4 h-4" />
           </div>
 
           <button
             onClick={handleResetClick}
-            className="px-4 py-2.5 bg-[#AA642A] text-white text-sm font-bold rounded-md shadow-lg hover:bg-[#AA642A]/90 focus:outline-none transition-colors"
+            className="px-3 py-2.5 bg-white text-dark-charcoal rounded-md shadow-lg cursor-pointer hover:bg-gray-50 focus:outline-none transition-colors"
           >
-            R
+            <IconReset className="w-5 h-5" />
           </button>
         </div>
 
