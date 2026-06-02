@@ -69,6 +69,8 @@ function MapTlahue() {
   const fbAmbientLight = useRef<THREE.AmbientLight | null>(null);
   const fbDirectionalLight = useRef<THREE.DirectionalLight | null>(null);
   const fbSpotLight = useRef<THREE.SpotLight | null>(null);
+  const [back, setBack] = useState("#fff");
+  const [title, setTitle] = useState("text-dark-charcoal");
 
   //* HELPER para posición de modelos
   function mercatorToScenePosition(targetTransform: any) {
@@ -175,12 +177,20 @@ function MapTlahue() {
 
       if (currentHour >= 5 && currentHour < 10) {
         lightPreset = "dawn";
+        setBack("bg-[#f2d4b3]");
+        setTitle("text-dark-charcoal");
       } else if (currentHour >= 10 && currentHour < 17) {
         lightPreset = "day";
+        setBack("bg-[#f0eadd]");
+        setTitle("text-dark-charcoal");
       } else if (currentHour >= 17 && currentHour < 19) {
         lightPreset = "dusk";
+        setBack("bg-[#4a434f]");
+        setTitle("text-white");
       } else {
         lightPreset = "night";
+        setBack("bg-[#262833]");
+        setTitle("text-white");
       }
 
       if (lightPreset === "night") {
@@ -644,15 +654,25 @@ function MapTlahue() {
   return (
     <section
       id="mapa"
-      className="w-full min-h-screen overflow-x-hidden flex items-center justify-center bg-gray-200 p-4"
+      className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-20 ${back}`}
     >
-      <div className="relative w-full max-w-4xl h-150 rounded-xl shadow-2xl overflow-hidden border border-gray-300">
+      <div className="text-center mb-8 flex flex-col items-center gap-1.5">
+        <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20">
+          mapa municipal
+        </span>
+        <h2
+          className={`font-display font-light text-[40px] ${title} tracking-[-0.0200em] leading-[1.1]`}
+        >
+          Visitanos
+        </h2>
+      </div>
+      <div className="relative w-full max-w-4xl h-150 rounded-xl shadow-2xl overflow-hidden">
         <div className="absolute bottom-6 right-6 z-10 flex gap-3">
           <button
-            className={`px-6 py-2 font-bold rounded-md shadow-md cursor-pointer transition-colors ${
+            className={`px-6 py-2 font-bold rounded-md shadow-md cursor-pointer transition-colors text-white ${
               showTerritorio
-                ? "bg-blue-600 text-white"
-                : "bg-white text-black hover:bg-gray-100"
+                ? "bg-[#AA642A]"
+                : "bg-[#AA642A] hover:bg-[#D5B35F]"
             }`}
             onClick={() => setShowTerritorio(!showTerritorio)}
           >
