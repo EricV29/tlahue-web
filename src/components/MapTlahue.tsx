@@ -653,10 +653,12 @@ function MapTlahue() {
 
   return (
     <section
-      id="mapa"
       className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-20 ${back}`}
     >
-      <div className="text-center mb-8 flex flex-col items-center gap-1.5">
+      <div
+        id="mapa"
+        className="text-center mb-8 flex flex-col items-center gap-1.5"
+      >
         <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20">
           mapa municipal
         </span>
@@ -666,7 +668,7 @@ function MapTlahue() {
           Visitanos
         </h2>
       </div>
-      <div className="relative w-full max-w-4xl h-150 rounded-xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-6xl h-150 rounded-xl shadow-2xl overflow-hidden">
         <div className="absolute bottom-6 right-6 z-10 flex gap-3">
           <button
             className={`px-6 py-2 font-bold rounded-md shadow-md cursor-pointer transition-colors text-white ${
