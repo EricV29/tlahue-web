@@ -1,10 +1,24 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import poligonoTlahuelilpan from "./tlahuelilpan.json";
+import geoTlahuelilpan from "../../public/assets/3D/geo/tlahuelilpan.json";
+import geoColCerroCruz from "../../public/assets/3D/geo/colCerroCruz.json";
+import geoColCuauhtemoc from "../../public/assets/3D/geo/colCuauhtemoc.json";
+import geoColMiravalle from "../../public/assets/3D/geo/colMiravalle.json";
+import geoColRancheria from "../../public/assets/3D/geo/colRancheria.json";
+import geoColSalitre from "../../public/assets/3D/geo/colSalitre.json";
+import geoColSanFrancisco from "../../public/assets/3D/geo/colSanFrancisco.json";
+import geoColSanPrimitivo from "../../public/assets/3D/geo/colSanPrimitivo.json";
+import geoDeposito from "../../public/assets/3D/geo/deposito.json";
+import geoDexhe from "../../public/assets/3D/geo/dexhe.json";
+import geoEjidoMediaLuna from "../../public/assets/3D/geo/ejidoMediaLuna.json";
+import geoMunitepec from "../../public/assets/3D/geo/munitepec.json";
+import geoColCentro from "../../public/assets/3D/geo/colCentro.json";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import IconChevronDown from "./icons/IconChevronDown";
+import IconReset from "./icons/IconReset";
 
 // Vista MAPA 3D mapbox
 const INITIAL_CENTER: [number, number] = [-99.2333, 20.1325];
@@ -55,6 +69,128 @@ function createTransform(coords: [number, number], altitude = 0) {
   };
 }
 
+function getColoniaCenter(geoData: any): [number, number] {
+  const centerFeature = geoData.features?.find(
+    (f: any) => f.geometry?.type === "Point",
+  );
+  return centerFeature?.geometry?.coordinates ?? INITIAL_CENTER;
+}
+
+function getColoniaCP(geoData: any): string {
+  const polygonFeature = geoData.features?.find(
+    (f: any) =>
+      f.geometry?.type === "Polygon" || f.geometry?.type === "MultiPolygon",
+  );
+  return polygonFeature?.properties?.cp ?? "";
+}
+
+const catalogoColonias = [
+  {
+    id: "municipio",
+    nombre: "Tlahuelilpan",
+    cp: getColoniaCP(geoTlahuelilpan),
+    data: geoTlahuelilpan,
+    center: getColoniaCenter(geoTlahuelilpan),
+    zoom: 14,
+  },
+  {
+    id: "centro",
+    nombre: "Colonia Centro",
+    cp: getColoniaCP(geoColCentro),
+    data: geoColCentro,
+    center: getColoniaCenter(geoColCentro),
+    zoom: 15,
+  },
+  {
+    id: "cerroCruz",
+    nombre: "Cerro de la Cruz",
+    cp: getColoniaCP(geoColCerroCruz),
+    data: geoColCerroCruz,
+    center: getColoniaCenter(geoColCerroCruz),
+    zoom: 15.4,
+  },
+  {
+    id: "cuauhtemoc",
+    nombre: "Colonia Cuauhtémoc",
+    cp: getColoniaCP(geoColCuauhtemoc),
+    data: geoColCuauhtemoc,
+    center: getColoniaCenter(geoColCuauhtemoc),
+    zoom: 15.4,
+  },
+  {
+    id: "miravalle",
+    nombre: "Fracc. Miravalle",
+    cp: getColoniaCP(geoColMiravalle),
+    data: geoColMiravalle,
+    center: getColoniaCenter(geoColMiravalle),
+    zoom: 15.2,
+  },
+  {
+    id: "rancheria",
+    nombre: "Ranchería",
+    cp: getColoniaCP(geoColRancheria),
+    data: geoColRancheria,
+    center: getColoniaCenter(geoColRancheria),
+    zoom: 15,
+  },
+  {
+    id: "salitre",
+    nombre: "El Salitre",
+    cp: getColoniaCP(geoColSalitre),
+    data: geoColSalitre,
+    center: getColoniaCenter(geoColSalitre),
+    zoom: 16,
+  },
+  {
+    id: "sanFrancisco",
+    nombre: "San Francisco",
+    cp: getColoniaCP(geoColSanFrancisco),
+    data: geoColSanFrancisco,
+    center: getColoniaCenter(geoColSanFrancisco),
+    zoom: 15.4,
+  },
+  {
+    id: "sanPrimitivo",
+    nombre: "San Primitivo",
+    cp: getColoniaCP(geoColSanPrimitivo),
+    data: geoColSanPrimitivo,
+    center: getColoniaCenter(geoColSanPrimitivo),
+    zoom: 15.5,
+  },
+  {
+    id: "deposito",
+    nombre: "El Depósito",
+    cp: getColoniaCP(geoDeposito),
+    data: geoDeposito,
+    center: getColoniaCenter(geoDeposito),
+    zoom: 15,
+  },
+  {
+    id: "dexhe",
+    nombre: "El Dexhe",
+    cp: getColoniaCP(geoDexhe),
+    data: geoDexhe,
+    center: getColoniaCenter(geoDexhe),
+    zoom: 16,
+  },
+  {
+    id: "ejidoMediaLuna",
+    nombre: "Ejido Media Luna",
+    cp: getColoniaCP(geoEjidoMediaLuna),
+    data: geoEjidoMediaLuna,
+    center: getColoniaCenter(geoEjidoMediaLuna),
+    zoom: 15,
+  },
+  {
+    id: "munitepec",
+    nombre: "Munitepec",
+    cp: getColoniaCP(geoMunitepec),
+    data: geoMunitepec,
+    center: getColoniaCenter(geoMunitepec),
+    zoom: 14.5,
+  },
+];
+
 function MapTlahue() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -69,6 +205,9 @@ function MapTlahue() {
   const fbAmbientLight = useRef<THREE.AmbientLight | null>(null);
   const fbDirectionalLight = useRef<THREE.DirectionalLight | null>(null);
   const fbSpotLight = useRef<THREE.SpotLight | null>(null);
+  const [back, setBack] = useState("#fff");
+  const [title, setTitle] = useState("text-dark-charcoal");
+  const [selectedColoniaId, setSelectedColoniaId] = useState("");
 
   //* HELPER para posición de modelos
   function mercatorToScenePosition(targetTransform: any) {
@@ -99,6 +238,7 @@ function MapTlahue() {
     });
   }
 
+  //* MAPBOX Y TRHEEJS
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -175,12 +315,20 @@ function MapTlahue() {
 
       if (currentHour >= 5 && currentHour < 10) {
         lightPreset = "dawn";
+        setBack("bg-[#f2d4b3]");
+        setTitle("text-dark-charcoal");
       } else if (currentHour >= 10 && currentHour < 17) {
         lightPreset = "day";
+        setBack("bg-[#f0eadd]");
+        setTitle("text-dark-charcoal");
       } else if (currentHour >= 17 && currentHour < 19) {
         lightPreset = "dusk";
+        setBack("bg-[#4a434f]");
+        setTitle("text-white");
       } else {
         lightPreset = "night";
+        setBack("bg-[#262833]");
+        setTitle("text-white");
       }
 
       if (lightPreset === "night") {
@@ -239,7 +387,7 @@ function MapTlahue() {
       //* POLIGONO MUNICIPIO
       mapRef.current.addSource("tlahue-data", {
         type: "geojson",
-        data: poligonoTlahuelilpan as any,
+        data: geoTlahuelilpan as any,
       });
       mapRef.current.addLayer({
         id: "tlahue-fill",
@@ -529,6 +677,42 @@ function MapTlahue() {
             },
           );
 
+          //* TERRITORIOS
+          catalogoColonias.forEach((colonia) => {
+            if (colonia.id === "municipio") return;
+
+            const sourceId = `source-${colonia.id}`;
+            const fillLayerId = `layer-${colonia.id}`;
+            const lineLayerId = `line-${colonia.id}`;
+
+            mapRef.current.addSource(sourceId, {
+              type: "geojson",
+              data: colonia.data,
+            });
+
+            mapRef.current.addLayer({
+              id: fillLayerId,
+              type: "fill",
+              source: sourceId,
+              layout: { visibility: "none" },
+              paint: {
+                "fill-color": "#3A85AC", // ← mismo que tlahue-fill
+                "fill-opacity": 0.15, // ← mismo que tlahue-fill
+              },
+            });
+
+            mapRef.current.addLayer({
+              id: lineLayerId,
+              type: "line",
+              source: sourceId,
+              layout: { visibility: "none" },
+              paint: {
+                "line-color": "#111827",
+                "line-width": 4,
+              },
+            });
+          });
+
           //* MOTOR GRAFICO TRHEE PARA MAPBOX
           fbRenderer.current = new THREE.WebGLRenderer({
             canvas: map.getCanvas(),
@@ -593,77 +777,155 @@ function MapTlahue() {
     };
   }, [center, zoom, pitch, bearing]);
 
+  //* TERRITORIOS
   useEffect(() => {
     if (!mapRef.current) return;
-
     if (
-      mapRef.current.isStyleLoaded() &&
-      mapRef.current.getLayer("tlahue-fill")
-    ) {
-      const visibility = showTerritorio ? "visible" : "none";
-      mapRef.current.setLayoutProperty("tlahue-fill", "visibility", visibility);
-      mapRef.current.setLayoutProperty("tlahue-line", "visibility", visibility);
+      !mapRef.current.isStyleLoaded() ||
+      !mapRef.current.getLayer("tlahue-fill")
+    )
+      return;
 
-      if (showTerritorio) {
-        mapRef.current.flyTo({
-          center: INITIAL_CENTER,
-          zoom: TERRITORIO_ZOOM,
-          pitch: TERRITORIO_PITCH,
-          bearing: 0,
-          essential: true,
-          duration: 1500,
-        });
-      } else {
-        mapRef.current.flyTo({
-          center: INITIAL_CENTER,
-          zoom: INITIAL_ZOOM,
-          pitch: INITIAL_PITCH,
-          bearing: INITIAL_BEARING,
-          essential: true,
-          duration: 1500,
-        });
-      }
-    }
+    const visibility = showTerritorio ? "visible" : "none";
+    mapRef.current.setLayoutProperty("tlahue-fill", "visibility", visibility);
+    mapRef.current.setLayoutProperty("tlahue-line", "visibility", visibility);
   }, [showTerritorio]);
 
   //* Boton reseteo de vista
   const handleResetClick = () => {
-    if (mapRef.current) {
-      setShowTerritorio(false);
+    if (!mapRef.current) return;
+
+    // Ocultar todas las colonias
+    catalogoColonias.forEach((c) => {
+      if (c.id === "municipio") return;
+      mapRef.current!.setLayoutProperty(`layer-${c.id}`, "visibility", "none");
+      mapRef.current!.setLayoutProperty(`line-${c.id}`, "visibility", "none");
+    });
+
+    // Ocultar polígono municipio
+    mapRef.current.setLayoutProperty("tlahue-fill", "visibility", "none");
+    mapRef.current.setLayoutProperty("tlahue-line", "visibility", "none");
+
+    setShowTerritorio(false);
+    setSelectedColoniaId("");
+
+    // Volar de vuelta a vista 3D principal
+    mapRef.current.flyTo({
+      center: INITIAL_CENTER,
+      zoom: INITIAL_ZOOM,
+      pitch: INITIAL_PITCH,
+      bearing: INITIAL_BEARING,
+      essential: true,
+      duration: 1500,
+    });
+  };
+
+  const handleTerritorioChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    if (!mapRef.current) return;
+
+    const newColoniaId = event.target.value;
+    const targetColonia = catalogoColonias.find((c) => c.id === newColoniaId);
+    if (!targetColonia) return;
+
+    setSelectedColoniaId(newColoniaId);
+
+    // Ocultar siempre todo
+    catalogoColonias.forEach((c) => {
+      if (c.id === "municipio") return;
+      mapRef.current!.setLayoutProperty(`layer-${c.id}`, "visibility", "none");
+      mapRef.current!.setLayoutProperty(`line-${c.id}`, "visibility", "none");
+    });
+    mapRef.current.setLayoutProperty("tlahue-fill", "visibility", "none");
+    mapRef.current.setLayoutProperty("tlahue-line", "visibility", "none");
+
+    if (newColoniaId === "municipio") {
+      mapRef.current.setLayoutProperty("tlahue-fill", "visibility", "visible");
+      mapRef.current.setLayoutProperty("tlahue-line", "visibility", "visible");
+      setShowTerritorio(true);
 
       mapRef.current.flyTo({
-        center: INITIAL_CENTER,
-        zoom: INITIAL_ZOOM,
-        pitch: INITIAL_PITCH,
-        bearing: INITIAL_BEARING,
+        center: getColoniaCenter(geoTlahuelilpan) as [number, number],
+        zoom: TERRITORIO_ZOOM,
+        pitch: TERRITORIO_PITCH,
+        bearing: 0,
         essential: true,
+        duration: 1500,
+      });
+    } else {
+      setShowTerritorio(false);
+      mapRef.current.setLayoutProperty(
+        `layer-${newColoniaId}`,
+        "visibility",
+        "visible",
+      );
+      mapRef.current.setLayoutProperty(
+        `line-${newColoniaId}`,
+        "visibility",
+        "visible",
+      );
+      mapRef.current.flyTo({
+        center: targetColonia.center as [number, number],
+        zoom: targetColonia.zoom,
+        pitch: 0,
+        bearing: 0,
+        essential: true,
+        duration: 1500,
       });
     }
   };
 
   return (
     <section
-      id="mapa"
-      className="w-full min-h-screen overflow-x-hidden flex items-center justify-center bg-gray-200 p-4"
+      className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-20 ${back}`}
     >
-      <div className="relative w-full max-w-4xl h-150 rounded-xl shadow-2xl overflow-hidden border border-gray-300">
-        <div className="absolute bottom-6 right-6 z-10 flex gap-3">
-          <button
-            className={`px-6 py-2 font-bold rounded-md shadow-md cursor-pointer transition-colors ${
-              showTerritorio
-                ? "bg-blue-600 text-white"
-                : "bg-white text-black hover:bg-gray-100"
-            }`}
-            onClick={() => setShowTerritorio(!showTerritorio)}
-          >
-            {showTerritorio ? "Ocultar Territorio" : "Ver Territorio"}
-          </button>
+      <div
+        id="mapa"
+        className="text-center mb-8 flex flex-col items-center gap-1.5"
+      >
+        <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20">
+          mapa municipal
+        </span>
+        <h2
+          className={`font-display font-light text-[40px] ${title} tracking-[-0.0200em] leading-[1.1]`}
+        >
+          Visitanos
+        </h2>
+      </div>
+      <div className="relative w-full max-w-6xl h-150 rounded-xl shadow-2xl overflow-hidden">
+        {/* Select de Territorios */}
+        <div className="absolute top-6 right-6 z-10 flex flex-row items-center gap-2">
+          <div className="relative">
+            <select
+              id="territoriosSelect"
+              className="appearance-none px-4 py-2.5 min-w-44 bg-white text-dark-charcoal font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50"
+              value={selectedColoniaId}
+              onChange={handleTerritorioChange}
+            >
+              <option value="" disabled>
+                Territorios
+              </option>
+              {catalogoColonias.map((colonia) => (
+                <option
+                  key={colonia.id}
+                  value={colonia.id}
+                  className="text-dark-charcoal"
+                >
+                  {colonia.id === "municipio"
+                    ? "Tlahuelilpan"
+                    : `${colonia.nombre} (CP ${colonia.cp})`}
+                </option>
+              ))}
+            </select>
+            <IconChevronDown className="absolute top-1/2 -translate-y-1/2 right-4 pointer-events-none text-dark-charcoal w-4 h-4" />
+          </div>
 
           <button
-            className="px-6 py-2 bg-white text-black font-bold rounded-md shadow-md cursor-pointer hover:bg-gray-100 transition-colors"
             onClick={handleResetClick}
+            className="px-3 py-2.5 bg-white text-dark-charcoal rounded-md shadow-lg cursor-pointer hover:bg-gray-50 focus:outline-none transition-colors"
           >
-            Reiniciar Vista
+            <IconReset className="w-5 h-5" />
           </button>
         </div>
 
