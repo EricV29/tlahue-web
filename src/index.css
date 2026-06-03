@@ -42,7 +42,7 @@
 .territory-text {
   color: #d5b35f;
   font-size: 13px;
-  -webkit-text-stroke: 0.4px #000;
+  -webkit-text-stroke: 0.1px #000;
   text-shadow:
     -1px -1px 0 #000,
     1px -1px 0 #000,

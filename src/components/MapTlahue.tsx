@@ -21,9 +21,17 @@ import geoColCentro from "../../public/assets/3D/geo/colCentro.json";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import {
+  relojCard,
+  iglesiaVCard,
+  iglesiaNCard,
+  casaCulturaCard,
+  presidenciaCard,
+  jarronCard,
+  torilCard,
+} from "../data/modelCards";
 import IconChevronDown from "./icons/IconChevronDown";
 import IconReset from "./icons/IconReset";
-import { relojCard } from "../data/modelCards";
 
 // Vista MAPA 3D mapbox
 const INITIAL_CENTER: [number, number] = [-99.2333, 20.1325];
@@ -279,7 +287,7 @@ function MapTlahue() {
   const [pitch] = useState(INITIAL_PITCH);
   const [bearing] = useState(INITIAL_BEARING);
   const [showTerritorio, setShowTerritorio] = useState(false);
-  const cardActiveRef = useRef(false);
+  const cardActiveRef = useRef<string | null>(null);
   const fbScene = useRef<THREE.Scene | null>(null);
   const fbCamera = useRef<THREE.Camera | null>(null);
   const fbRenderer = useRef<THREE.WebGLRenderer | null>(null);
@@ -299,6 +307,8 @@ function MapTlahue() {
       mesh: THREE.Object3D;
       coords: [number, number];
       zoom: number;
+      bearing?: number;
+      zoomCardMin?: number;
       card?: CSS2DObject;
     }[]
   >([]);
@@ -422,16 +432,20 @@ function MapTlahue() {
 
         const modelo = modelosRef.current.find((m) => m.mesh === obj);
         if (modelo) {
+          modelosRef.current.forEach((m) => {
+            if (m.card) m.card.visible = false;
+          });
+
           mapRef.current?.flyTo({
             center: modelo.coords,
             zoom: modelo.zoom,
             pitch: 60,
-            bearing: 0,
+            bearing: modelo.bearing ?? 0,
             essential: true,
             duration: 1200,
           });
 
-          cardActiveRef.current = true;
+          cardActiveRef.current = modelo.id;
         }
       }
     });
@@ -705,13 +719,15 @@ function MapTlahue() {
 
               fbScene.current?.add(modelReloj);
 
+              // Etiqueta
               const etiqueta = create3DLabel("Reloj Monumental", "🏛️");
               etiqueta.position.set(0, 1.3, 0);
               modelReloj.add(etiqueta);
 
+              // Card
               const cardPopup = createModelCardPopup(relojCard, () => {
                 cardPopup.visible = false;
-                cardActiveRef.current = false;
+                cardActiveRef.current = null;
               });
               cardPopup.position.set(1.3, 0.5, 0);
               cardPopup.visible = false;
@@ -753,6 +769,30 @@ function MapTlahue() {
 
               fbScene.current?.add(modelIglesiaV);
 
+              // Etiqueta
+              const etiqueta = create3DLabel("Iglesia San Francisco", "🏠");
+              etiqueta.position.set(0, 0.6, 0);
+              modelIglesiaV.add(etiqueta);
+
+              // Card
+              const cardPopup = createModelCardPopup(iglesiaVCard, () => {
+                cardPopup.visible = false;
+                cardActiveRef.current = null;
+              });
+              cardPopup.position.set(0, 0, -0.8);
+              cardPopup.visible = false;
+              modelIglesiaV.add(cardPopup);
+
+              modelosRef.current.push({
+                id: "iglesia",
+                mesh: modelIglesiaV,
+                coords: [-99.232775, 20.131755],
+                zoom: 19.5,
+                zoomCardMin: 19,
+                card: cardPopup,
+                bearing: 90,
+              });
+
               if (mapRef.current) mapRef.current.triggerRepaint();
             },
             undefined,
@@ -778,6 +818,29 @@ function MapTlahue() {
               );
 
               fbScene.current?.add(modelIglesiaN);
+
+              // Etiqueta
+              const etiqueta = create3DLabel("Iglesia Nueva", "🏠");
+              etiqueta.position.set(0, 0.6, 0);
+              modelIglesiaN.add(etiqueta);
+
+              // Card
+              const cardPopup = createModelCardPopup(iglesiaNCard, () => {
+                cardPopup.visible = false;
+                cardActiveRef.current = null;
+              });
+              cardPopup.position.set(0, 0, -0.8);
+              cardPopup.visible = false;
+              modelIglesiaN.add(cardPopup);
+
+              modelosRef.current.push({
+                id: "iglesian",
+                mesh: modelIglesiaN,
+                coords: [-99.233566, 20.132749],
+                zoom: 19,
+                zoomCardMin: 19,
+                card: cardPopup,
+              });
 
               if (mapRef.current) mapRef.current.triggerRepaint();
             },
@@ -805,6 +868,30 @@ function MapTlahue() {
 
               fbScene.current?.add(modelCasacultura);
 
+              // Etiqueta
+              const etiqueta = create3DLabel("Casa de la Cultura", "🏠");
+              etiqueta.position.set(0, 1, 0);
+              modelCasacultura.add(etiqueta);
+
+              // Card
+              const cardPopup = createModelCardPopup(casaCulturaCard, () => {
+                cardPopup.visible = false;
+                cardActiveRef.current = null;
+              });
+              cardPopup.position.set(0, 0.3, -1.3);
+              cardPopup.visible = false;
+              modelCasacultura.add(cardPopup);
+
+              modelosRef.current.push({
+                id: "casac",
+                mesh: modelCasacultura,
+                coords: [-99.23509, 20.130639],
+                zoom: 20,
+                zoomCardMin: 20,
+                card: cardPopup,
+                bearing: 160,
+              });
+
               if (mapRef.current) mapRef.current.triggerRepaint();
             },
             undefined,
@@ -830,6 +917,30 @@ function MapTlahue() {
               );
 
               fbScene.current?.add(modelPresidencia);
+
+              // Etiqueta
+              const etiqueta = create3DLabel("Presidencia", "🏠");
+              etiqueta.position.set(0, 1, 0);
+              modelPresidencia.add(etiqueta);
+
+              // Card
+              const cardPopup = createModelCardPopup(presidenciaCard, () => {
+                cardPopup.visible = false;
+                cardActiveRef.current = null;
+              });
+              cardPopup.position.set(0, 0.3, -1);
+              cardPopup.visible = false;
+              modelPresidencia.add(cardPopup);
+
+              modelosRef.current.push({
+                id: "presidencia",
+                mesh: modelPresidencia,
+                coords: [-99.234655, 20.130599],
+                zoom: 20,
+                zoomCardMin: 20,
+                card: cardPopup,
+                bearing: 160,
+              });
 
               if (mapRef.current) mapRef.current.triggerRepaint();
             },
@@ -857,6 +968,30 @@ function MapTlahue() {
 
               fbScene.current?.add(modelJarron);
 
+              // Etiqueta
+              const etiqueta = create3DLabel("Jarron", "🏠");
+              etiqueta.position.set(0, 1, 0);
+              modelJarron.add(etiqueta);
+
+              // Card
+              const cardPopup = createModelCardPopup(jarronCard, () => {
+                cardPopup.visible = false;
+                cardActiveRef.current = null;
+              });
+              cardPopup.position.set(0, 0.3, -1.3);
+              cardPopup.visible = false;
+              modelJarron.add(cardPopup);
+
+              modelosRef.current.push({
+                id: "jarron",
+                mesh: modelJarron,
+                coords: [-99.234274, 20.13148],
+                zoom: 21,
+                zoomCardMin: 20,
+                card: cardPopup,
+                bearing: 90,
+              });
+
               if (mapRef.current) mapRef.current.triggerRepaint();
             },
             undefined,
@@ -880,6 +1015,29 @@ function MapTlahue() {
               modelToril.position.copy(mercatorToScenePosition(torilTransform));
 
               fbScene.current?.add(modelToril);
+
+              // Etiqueta
+              const etiqueta = create3DLabel("Toril", "🏠");
+              etiqueta.position.set(0, 0.5, 0);
+              modelToril.add(etiqueta);
+
+              // Card
+              const cardPopup = createModelCardPopup(torilCard, () => {
+                cardPopup.visible = false;
+                cardActiveRef.current = null;
+              });
+              cardPopup.position.set(-1, 0.3, 0);
+              cardPopup.visible = false;
+              modelToril.add(cardPopup);
+
+              modelosRef.current.push({
+                id: "toril",
+                mesh: modelToril,
+                coords: [-99.236034, 20.130934],
+                zoom: 19,
+                zoomCardMin: 18.5,
+                card: cardPopup,
+              });
 
               if (mapRef.current) mapRef.current.triggerRepaint();
             },
@@ -993,11 +1151,14 @@ function MapTlahue() {
                 const el = obj.element as HTMLElement;
 
                 if (el.classList.contains("model-card")) {
-                  const ZOOM_CARD_MIN = 20;
+                  const modelo = modelosRef.current.find((m) => m.card === obj);
+
+                  const ZOOM_CARD_MIN = modelo?.zoomCardMin ?? 20;
                   const wasVisible = obj.visible;
-                  obj.visible = cardActiveRef.current && zoom >= ZOOM_CARD_MIN;
+                  const isActive = cardActiveRef.current === modelo?.id;
+                  obj.visible = isActive && zoom >= ZOOM_CARD_MIN;
                   if (wasVisible && zoom < ZOOM_CARD_MIN)
-                    cardActiveRef.current = false;
+                    cardActiveRef.current = null;
                   return;
                 }
 
