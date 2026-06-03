@@ -1,6 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import {
+  CSS2DRenderer,
+  CSS2DObject,
+} from "three/examples/jsm/renderers/CSS2DRenderer.js";
 import geoTlahuelilpan from "../../public/assets/3D/geo/tlahuelilpan.json";
 import geoColCerroCruz from "../../public/assets/3D/geo/colCerroCruz.json";
 import geoColCuauhtemoc from "../../public/assets/3D/geo/colCuauhtemoc.json";
@@ -37,7 +41,8 @@ const TLAHUE_BOUNDS: [[number, number], [number, number]] = [
 ];
 
 // Coordenadas TRHEE - Reloj
-const relojTransform = createTransform([-99.232346, 20.131354]);
+const coordsReloj = [-99.232346, 20.131354];
+const relojTransform = createTransform(coordsReloj);
 
 //  Coordenadas TRHEE - Iglesia Vieja
 const iglesiaVTransform = createTransform([-99.232775, 20.131755]);
@@ -191,6 +196,19 @@ const catalogoColonias = [
   },
 ];
 
+//! ddddddddddddddddddddddddddddd
+const create3DLabel = (name, icon = "📍") => {
+  const div = document.createElement("div");
+  div.className = "territory-label";
+  div.innerHTML = `
+    <span class="territory-icon">${icon}</span>
+    <span class="territory-text">${name}</span>
+  `;
+  const labelObject = new CSS2DObject(div);
+  labelObject.position.set(0, 0, 0);
+  return labelObject;
+};
+
 function MapTlahue() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -208,6 +226,18 @@ function MapTlahue() {
   const [back, setBack] = useState("#fff");
   const [title, setTitle] = useState("text-dark-charcoal");
   const [selectedColoniaId, setSelectedColoniaId] = useState("");
+  //! ddddddddddddddddddddddddddddd
+  const markersRef = useRef([]);
+  const fbLabelRenderer = useRef(null);
+  const lastMatrixRef = useRef<THREE.Matrix4 | null>(null);
+  const modelosRef = useRef<
+    {
+      id: string;
+      mesh: THREE.Object3D;
+      coords: [number, number];
+      zoom: number;
+    }[]
+  >([]);
 
   //* HELPER para posición de modelos
   function mercatorToScenePosition(targetTransform: any) {
@@ -238,6 +268,32 @@ function MapTlahue() {
     });
   }
 
+  // Helper fuera del useEffect
+  function raycastFromMouse(
+    point: { x: number; y: number },
+    canvas: HTMLCanvasElement,
+    projectionMatrix: THREE.Matrix4,
+    objects: THREE.Object3D[],
+  ): THREE.Intersection[] {
+    const rect = canvas.getBoundingClientRect();
+    const ndcX = (point.x / rect.width) * 2 - 1;
+    const ndcY = -(point.y / rect.height) * 2 + 1;
+
+    // Reconstruir rayo manualmente desde NDC
+    const origin = new THREE.Vector3(ndcX, ndcY, -1).applyMatrix4(
+      projectionMatrix.clone().invert(),
+    );
+    const target = new THREE.Vector3(ndcX, ndcY, 1).applyMatrix4(
+      projectionMatrix.clone().invert(),
+    );
+    const direction = target.sub(origin).normalize();
+
+    const raycaster = new THREE.Raycaster();
+    raycaster.set(origin, direction);
+
+    return raycaster.intersectObjects(objects, true);
+  }
+
   //* MAPBOX Y TRHEEJS
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -257,8 +313,64 @@ function MapTlahue() {
       });
     }
 
+    //! ddddddddddddddddddddddddddddd
+    mapRef.current.on("resize", () => {
+      if (fbLabelRenderer.current && mapRef.current) {
+        fbLabelRenderer.current.setSize(
+          mapRef.current.getCanvas().clientWidth,
+          mapRef.current.getCanvas().clientHeight,
+        );
+      }
+    });
+
+    mapRef.current.on("mousemove", (e) => {
+      if (!lastMatrixRef.current || !fbScene.current) return;
+      if (mapRef.current.getZoom() < 15) return;
+
+      const canvas = mapRef.current.getCanvas();
+      const intersects = raycastFromMouse(
+        e.point,
+        canvas,
+        lastMatrixRef.current,
+        modelosRef.current.map((m) => m.mesh),
+      );
+
+      canvas.style.cursor = intersects.length > 0 ? "pointer" : "";
+    });
+
+    mapRef.current.on("click", (e) => {
+      if (!lastMatrixRef.current || !fbScene.current) return;
+      if (mapRef.current.getZoom() < 15) return;
+
+      const canvas = mapRef.current.getCanvas();
+      const intersects = raycastFromMouse(
+        e.point,
+        canvas,
+        lastMatrixRef.current,
+        modelosRef.current.map((m) => m.mesh),
+      );
+
+      if (intersects.length > 0) {
+        let obj = intersects[0].object;
+        while (obj.parent && obj.parent !== fbScene.current) {
+          obj = obj.parent;
+        }
+
+        const modelo = modelosRef.current.find((m) => m.mesh === obj);
+        if (modelo) {
+          mapRef.current?.flyTo({
+            center: modelo.coords,
+            zoom: modelo.zoom,
+            pitch: 60,
+            bearing: 0,
+            essential: true,
+            duration: 1200,
+          });
+        }
+      }
+    });
+
     mapRef.current.on("style.load", () => {
-      //!dddddddddddddddddddddddddddddddd
       mapRef.current.addSource("composite", {
         type: "vector",
         url: "mapbox://mapbox.mapbox-streets-v8",
@@ -419,7 +531,7 @@ function MapTlahue() {
         id: "objeto-3d-tlahue",
         type: "custom",
         renderingMode: "3d",
-        slot: "middle",
+        slot: "top",
         onAdd: function (map, gl) {
           fbCamera.current = new THREE.Camera();
           fbScene.current = new THREE.Scene();
@@ -496,6 +608,20 @@ function MapTlahue() {
           fbScene.current.add(lightTarget);
           fbSpotLight.current.target = lightTarget;
 
+          //! dddddddddddddddd
+          fbLabelRenderer.current = new CSS2DRenderer();
+          fbLabelRenderer.current.setSize(
+            map.getCanvas().clientWidth,
+            map.getCanvas().clientHeight,
+          );
+          fbLabelRenderer.current.domElement.style.position = "absolute";
+          fbLabelRenderer.current.domElement.style.top = "0px";
+          fbLabelRenderer.current.domElement.style.zIndex = "2";
+          fbLabelRenderer.current.domElement.style.pointerEvents = "none";
+          map
+            .getCanvasContainer()
+            .appendChild(fbLabelRenderer.current.domElement);
+
           //* MODELOS
 
           //* MODELO RELOJ
@@ -512,6 +638,17 @@ function MapTlahue() {
               modelReloj.position.copy(mercatorToScenePosition(relojTransform));
 
               fbScene.current?.add(modelReloj);
+
+              const etiqueta = create3DLabel("Reloj Monumental", "🏛️");
+              etiqueta.position.set(0, 1.3, 0);
+              modelReloj.add(etiqueta);
+
+              modelosRef.current.push({
+                id: "reloj",
+                mesh: modelReloj,
+                coords: [-99.232346, 20.131354],
+                zoom: 20.5,
+              });
 
               if (mapRef.current) {
                 mapRef.current.triggerRepaint();
@@ -729,6 +866,7 @@ function MapTlahue() {
         render: function (gl, matrix) {
           if (!fbCamera.current || !fbScene.current || !fbRenderer.current)
             return;
+
           const rotationX = new THREE.Matrix4().makeRotationAxis(
             new THREE.Vector3(1, 0, 0),
             0,
@@ -760,9 +898,40 @@ function MapTlahue() {
             .multiply(rotationY)
             .multiply(rotationZ);
 
-          fbCamera.current.projectionMatrix = m.multiply(l);
+          const combined = m.multiply(l); // ← aquí se define combined
+
+          lastMatrixRef.current = combined.clone(); // ← guarda para raycasting
+          fbCamera.current.projectionMatrix = combined;
+          fbCamera.current.projectionMatrixInverse
+            .copy(fbCamera.current.projectionMatrix)
+            .invert();
+
           fbRenderer.current.resetState();
           fbRenderer.current.render(fbScene.current, fbCamera.current);
+
+          if (fbLabelRenderer.current) {
+            const zoom = mapRef.current?.getZoom() ?? 0;
+            const ZOOM_MIN_ETIQUETAS = 16;
+
+            fbScene.current.traverse((obj) => {
+              if (obj instanceof CSS2DObject) {
+                obj.visible = zoom >= ZOOM_MIN_ETIQUETAS;
+
+                if (obj.element) {
+                  const scale = Math.max(
+                    0.5,
+                    Math.min(1.0, (zoom - 15.5) * 0.6),
+                  );
+                  (obj.element as HTMLElement).style.transform =
+                    `scale(${scale})`;
+                  (obj.element as HTMLElement).style.transformOrigin =
+                    "center bottom";
+                }
+              }
+            });
+
+            fbLabelRenderer.current.render(fbScene.current, fbCamera.current);
+          }
         },
       };
 
@@ -771,6 +940,9 @@ function MapTlahue() {
 
     return () => {
       if (mapRef.current) {
+        markersRef.current.forEach((marker) => marker.remove());
+        markersRef.current = [];
+
         mapRef.current.remove();
         mapRef.current = null;
       }
@@ -791,7 +963,7 @@ function MapTlahue() {
     mapRef.current.setLayoutProperty("tlahue-line", "visibility", visibility);
   }, [showTerritorio]);
 
-  //* Boton reseteo de vista
+  // Boton Reset view
   const handleResetClick = () => {
     if (!mapRef.current) return;
 
@@ -820,6 +992,7 @@ function MapTlahue() {
     });
   };
 
+  // Handle select territorio
   const handleTerritorioChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -895,7 +1068,7 @@ function MapTlahue() {
       </div>
       <div className="relative w-full max-w-6xl h-150 rounded-xl shadow-2xl overflow-hidden">
         {/* Select de Territorios */}
-        <div className="absolute top-6 right-6 z-10 flex flex-row items-center gap-2">
+        <div className="absolute top-6 right-6 z-20 flex flex-row items-center gap-2">
           <div className="relative">
             <select
               id="territoriosSelect"
