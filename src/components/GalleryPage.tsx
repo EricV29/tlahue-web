@@ -5,31 +5,17 @@ import GalleryCard from "./GalleryCard";
 import GalleryLightbox from "./GalleryLightbox";
 import Navbar from "./Navbar";
 import IconSearch from "./icons/IconSearch";
+import IconChevronDown from "./icons/IconChevronDown";
 import galeriaBg from "../assets/images/galeria.webp";
 import { getImages, type GalleryItem } from "../services/gallery.service";
-
-const ALL_KEY = "Todas";
-
-const filterOptions = [
-  ALL_KEY,
-  "Arquitectura",
-  "Naturaleza",
-  "Paisaje",
-  "Centro Histórico",
-  "Plaza Principal",
-  "Parque Municipal",
-];
-
-const categorySet = new Set(["Arquitectura", "Naturaleza", "Paisaje"]);
-const placeSet = new Set([
-  "Centro Histórico",
-  "Plaza Principal",
-  "Parque Municipal",
-]);
+import {
+  getCategories,
+  type CategoryItem,
+} from "../services/categories.service";
 
 export default function GalleryPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState(ALL_KEY);
+  const [selectedCategory, setSelectedCategory] = useState("Todas");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [showNavbar, setShowNavbar] = useState(true);
   const [images, setImages] = useState<GalleryItem[]>([]);
@@ -40,6 +26,7 @@ export default function GalleryPage() {
   const LIMIT = 10;
   const loadingRef = useRef(false);
   const heroRef = useRef(null);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
 
   // Carga de imágenes
   useEffect(() => {
@@ -62,6 +49,10 @@ export default function GalleryPage() {
         loadingRef.current = false;
       });
   }, [offset]);
+
+  useEffect(() => {
+    getCategories().then(setCategories).catch(console.error);
+  }, []);
 
   // Scroll infinito
   useEffect(() => {
@@ -117,17 +108,13 @@ export default function GalleryPage() {
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description?.toLowerCase().includes(searchQuery.toLowerCase());
 
-      if (activeFilter === ALL_KEY) return matchesSearch;
+      const matchesCategory =
+        selectedCategory === "Todas" ||
+        item.categories?.includes(selectedCategory);
 
-      const matchesTag = categorySet.has(activeFilter)
-        ? item.categories?.includes(activeFilter)
-        : placeSet.has(activeFilter)
-          ? item.location === activeFilter
-          : true;
-
-      return matchesSearch && matchesTag;
+      return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, activeFilter, images]);
+  }, [searchQuery, selectedCategory, images]);
 
   if (error) return <p className="text-white text-center py-20">{error}</p>;
 
@@ -168,20 +155,20 @@ export default function GalleryPage() {
               className="w-full bg-transparent border-0 border-b-2 border-white/15 pl-8 pb-2 pt-1 text-base text-white placeholder-gray-500 focus:outline-none focus:border-tlahu-gold/60 transition-colors"
             />
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
-            {filterOptions.map((option) => (
-              <button
-                key={option}
-                onClick={() => setActiveFilter(option)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap ${
-                  activeFilter === option
-                    ? "bg-tlahu-gold/20 text-tlahu-gold border border-tlahu-gold/40"
-                    : "bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                {option}
-              </button>
-            ))}
+          <div className="relative">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="px-3.5 py-2 pr-8 rounded-xl text-xs font-medium bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white transition-all outline-none cursor-pointer appearance-none"
+            >
+              <option value="Todas" className="bg-black text-gray-300">Todas</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.name} className="bg-black text-gray-300">
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+            <IconChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
         </div>
       </section>
