@@ -34,7 +34,7 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href="#explorar"
+            href="#mapa"
             className="bg-[#AA642A] text-white border border-[#AA642A] rounded-md px-5 py-2.5 font-body text-base font-medium hover:bg-[#D5B35F] transition-all"
           >
             Explorar mapa
