@@ -31,6 +31,18 @@ export default function Navbar({
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    const open = () => setLightboxOpen(true);
+    const close = () => setLightboxOpen(false);
+    document.addEventListener("lightbox:open", open);
+    document.addEventListener("lightbox:close", close);
+    return () => {
+      document.removeEventListener("lightbox:open", open);
+      document.removeEventListener("lightbox:close", close);
+    };
+  }, []);
   const location = useLocation();
   const isGaleria = location.pathname === "/galeria";
 
@@ -125,7 +137,7 @@ export default function Navbar({
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 px-4 md:px-0 transition-all duration-500 ease-in-out ${
-        isHistory || isHidden
+        isHistory || isHidden || lightboxOpen
           ? "opacity-0 -translate-y-full pointer-events-none"
           : "opacity-100 translate-y-0"
       }`}
