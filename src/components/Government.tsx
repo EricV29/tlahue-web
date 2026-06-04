@@ -1,12 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import IconPhone from "./icons/IconPhone";
 import IconMail from "./icons/IconMail";
-import presidenteImg from "../assets/images/government/presidente.webp";
-import proteccioncivil from "../assets/images/government/proteccioncivil.webp";
-import comisionagua from "../assets/images/government/comisionagua.webp";
-import desarrollosocial from "../assets/images/government/desarrollosocial.webp";
-import seguridadpublica from "../assets/images/government/seguridadpublica.webp";
-import obraspublicas from "../assets/images/government/obraspublicas.webp";
+import IconArrowRight from "./icons/IconArrowRight";
 import txtPresidente from "../assets/images/government/txtPresidente.svg";
 import txtProteccion from "../assets/images/government/txtProteccion.svg";
 import txtSeguridad from "../assets/images/government/txtSeguridad.svg";
@@ -14,92 +9,75 @@ import txtAgua from "../assets/images/government/txtAgua.svg";
 import txtObras from "../assets/images/government/txtObras.svg";
 import txtSocial from "../assets/images/government/txtSocial.svg";
 import presidencia from "../assets/presidencia.svg";
-
-interface GovernmentOfficial {
-  id: number;
-  name: string;
-  title: string;
-  degree: string;
-  phone: string;
-  extension: string;
-  email: string;
-  image: string;
-  textSvg: string;
-}
-
-const officials: GovernmentOfficial[] = [
-  {
-    id: 1,
-    name: "Mtro. Octavio Granados Hernández",
-    title: "Presidente",
-    degree: "Maestro en Administración Pública",
-    phone: "738 123 4567",
-    extension: "101",
-    email: "presidente@tlahuelilpan.gob.mx",
-    image: presidenteImg,
-    textSvg: txtPresidente,
-  },
-  {
-    id: 2,
-    name: "Lic. María Elena Sánchez Rivera",
-    title: "Protección civil",
-    degree: "Lic. en Derecho",
-    phone: "738 123 4567",
-    extension: "201",
-    email: "seguridad@tlahuelilpan.gob.mx",
-    image: proteccioncivil,
-    textSvg: txtProteccion,
-  },
-  {
-    id: 3,
-    name: "Ing. Roberto Carlos Mendoza Torres",
-    title: "Seguridad Pública",
-    degree: "Ing. Civil",
-    phone: "738 123 4567",
-    extension: "202",
-    email: "proteccion.civil@tlahuelilpan.gob.mx",
-    image: seguridadpublica,
-    textSvg: txtSeguridad,
-  },
-  {
-    id: 4,
-    name: "Lic. Ana Patricia Flores Jiménez",
-    title: "Comisión Agua",
-    degree: "Lic. en Administración",
-    phone: "738 123 4567",
-    extension: "203",
-    email: "servicios@tlahuelilpan.gob.mx",
-    image: comisionagua,
-    textSvg: txtAgua,
-  },
-  {
-    id: 5,
-    name: "C.P. José Luis Martínez Bautista",
-    title: "Desarrollo Social",
-    degree: "Contador Público",
-    phone: "738 123 4567",
-    extension: "204",
-    email: "tesoreria@tlahuelilpan.gob.mx",
-    image: desarrollosocial,
-    textSvg: txtSocial,
-  },
-  {
-    id: 6,
-    name: "Dra. Carmen Lucía Herrera Gutiérrez",
-    title: "Obras Públicas",
-    degree: "Doctora",
-    phone: "738 123 4567",
-    extension: "205",
-    email: "salud@tlahuelilpan.gob.mx",
-    image: obraspublicas,
-    textSvg: txtObras,
-  },
-];
+import { getOfficials, type Official } from "../services/goverment.service";
+import { getImageUrl } from "../utils/cloudinary";
 
 export default function Gobierno() {
+  const [officials, setOfficials] = useState<Official[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedOfficial, setSelectedOfficial] = useState(0);
+  const svgMap: Record<string, string> = {
+    presidente: txtPresidente,
+    proteccion_civil: txtProteccion,
+    seguridad: txtSeguridad,
+    comision_agua: txtAgua,
+    obras_publicas: txtObras,
+    desarrollo_social: txtSocial,
+  };
+
+  useEffect(() => {
+    getOfficials()
+      .then(setOfficials)
+      .catch(() => setError("Error get officials"))
+      .finally(() => setLoading(false));
+  }, []);
 
   const selected = officials[selectedOfficial];
+
+  if (loading) {
+    return (
+      <section id="gobierno" className="py-16 px-6 relative min-h-screen">
+        <div className="max-w-7xl mx-auto animate-pulse">
+          <div className="text-center mb-8 flex flex-col items-center gap-1.5">
+            <div className="h-5 w-32 rounded bg-[#D5B35F]/20" />
+            <div className="h-10 w-64 rounded bg-gray-200" />
+          </div>
+          <div className="lg:flex justify-start items-center gap-6">
+            <div className="flex pt-3 md:justify-center lg:flex-col gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 rounded-full bg-gray-200" />
+                  <div className="h-3 w-16 rounded bg-gray-200" />
+                </div>
+              ))}
+            </div>
+            <div className="w-full flex lg:p-4 items-start md:flex-row flex-col gap-4">
+              <div className="w-full md:w-80 lg:w-130 aspect-square rounded bg-gray-200" />
+              <div className="w-full space-y-3 p-5">
+                <div className="h-8 w-64 rounded bg-gray-200" />
+                <div className="h-4 w-48 rounded bg-gray-200" />
+                <div className="h-10 w-full rounded bg-gray-200" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section
+        id="gobierno"
+        className="py-16 px-6 relative min-h-screen flex items-center justify-center"
+      >
+        <p className="font-body text-red-500">{error}</p>
+      </section>
+    );
+  }
+
+  if (!selected) return null;
 
   return (
     <section id="gobierno" className="py-16 px-6 relative">
@@ -143,7 +121,7 @@ export default function Gobierno() {
                     }`}
                   >
                     <img
-                      src={official.image}
+                      src={getImageUrl(official.image)}
                       alt={official.name}
                       className="w-full h-full object-cover"
                     />
@@ -155,7 +133,7 @@ export default function Gobierno() {
                         : "text-[#4B5563]"
                     }`}
                   >
-                    {official.title.split(" de ")[0].split(" y ")[0]}
+                    {official.title.split(" y ")[0]}
                   </span>
                 </button>
               );
@@ -165,15 +143,15 @@ export default function Gobierno() {
           <div className="w-full flex lg:p-4 relative justify-center lg:justify-start items-start md:flex-row flex-col">
             {/* Image avatar */}
             <img
-              src={selected.image}
+              src={getImageUrl(selected.image)}
               alt={selected.name}
               className="w-full md:w-80 lg:w-130 object-cover mask-[linear-gradient(to_bottom,black_80%,transparent)]"
             />
 
             {/* Text avatar */}
             <img
-              src={selected.textSvg}
-              alt="txtPresidenteSvg"
+              src={svgMap[selected.textSvg] ?? ""}
+              alt="txtSvg"
               className="absolute z-10 w-100 md:w-150 lg:w-270 text-[10px] bottom-2/5 md:bottom-0 lg:bottom-0 lg:right-20 opacity-40 pointer-events-none select-none"
             />
 
@@ -196,26 +174,32 @@ export default function Gobierno() {
 
               {/* Buttons */}
               <div className="flex flex-col lg:flex-row gap-3 lg:pt-4 border-t border-cool-gray">
-                <a
-                  href={`tel:${selected.phone}`}
-                  className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"
-                >
-                  <IconPhone className="w-4 h-4" />
-                  <span>
-                    {selected.phone}{" "}
-                    <span className="text-white/70 text-xs ml-1">
-                      ext. {selected.extension}
+                {selected.phone && (
+                  <a
+                    href={`tel:${selected.phone}`}
+                    className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <IconPhone className="w-4 h-4" />
+                    <span>
+                      {selected.phone}{" "}
+                      {selected.ext && (
+                        <span className="text-white/70 text-xs ml-1">
+                          ext. {selected.ext}
+                        </span>
+                      )}
                     </span>
-                  </span>
-                </a>
+                  </a>
+                )}
 
-                <a
-                  href={`mailto:${selected.email}`}
-                  className="w-full sm:w-auto bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-5 py-2.5 font-body text-sm font-medium hover:bg-[#3A85AC]/10 transition-all inline-flex items-center justify-center gap-2"
-                >
-                  <IconMail className="w-4 h-4" />
-                  <span>{selected.email}</span>
-                </a>
+                {selected.email && (
+                  <a
+                    href={`mailto:${selected.email}`}
+                    className="w-full sm:w-auto bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-5 py-2.5 font-body text-sm font-medium hover:bg-[#3A85AC]/10 transition-all inline-flex items-center justify-center gap-2"
+                  >
+                    <IconMail className="w-4 h-4" />
+                    <span>{selected.email}</span>
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -229,21 +213,7 @@ export default function Gobierno() {
             className="inline-flex items-center gap-2 bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-6 py-2.5 font-body text-base font-medium hover:bg-[#3A85AC]/5 transition-all"
           >
             Ver más
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12H19M19 12L12 5M19 12L12 19"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <IconArrowRight className="w-4 h-4" />
           </a>
         </div>
       </div>
