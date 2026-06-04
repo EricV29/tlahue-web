@@ -15,4 +15,5 @@ export interface GalleryItem {
   categories: string[];
 }
 
-export const getImages = () => apiGet<GalleryItem[]>("/images");
+export const getImages = (limit = 10, offset = 0) =>
+  apiGet<GalleryItem[]>(`/images?limit=${limit}&offset=${offset}`);
