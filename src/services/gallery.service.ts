@@ -17,3 +17,12 @@ export interface GalleryItem {
 
 export const getImages = (limit = 10, offset = 0) =>
   apiGet<GalleryItem[]>(`/images?limit=${limit}&offset=${offset}`);
+
+export const getImagesByCategory = (
+  categoryId: number,
+  limit = 10,
+  offset = 0,
+) =>
+  apiGet<GalleryItem[]>(
+    `/images/category/${categoryId}?limit=${limit}&offset=${offset}`,
+  );

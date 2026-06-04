@@ -7,7 +7,11 @@ import Navbar from "./Navbar";
 import IconSearch from "./icons/IconSearch";
 import IconChevronDown from "./icons/IconChevronDown";
 import galeriaBg from "../assets/images/galeria.webp";
-import { getImages, type GalleryItem } from "../services/gallery.service";
+import {
+  getImages,
+  getImagesByCategory,
+  type GalleryItem,
+} from "../services/gallery.service";
 import {
   getCategories,
   type CategoryItem,
@@ -15,7 +19,9 @@ import {
 
 export default function GalleryPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Todas");
+  const [selectedCategory, setSelectedCategory] = useState<number | "Todas">(
+    "Todas",
+  );
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [showNavbar, setShowNavbar] = useState(true);
   const [images, setImages] = useState<GalleryItem[]>([]);
@@ -27,6 +33,16 @@ export default function GalleryPage() {
   const loadingRef = useRef(false);
   const heroRef = useRef(null);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [fetchKey, setFetchKey] = useState(0);
+
+  // Reset cambio de categoría
+  useEffect(() => {
+    setImages([]);
+    setOffset(0);
+    setHasMore(true);
+    loadingRef.current = false;
+    setFetchKey((k) => k + 1);
+  }, [selectedCategory]);
 
   // Carga de imágenes
   useEffect(() => {
@@ -34,12 +50,16 @@ export default function GalleryPage() {
     loadingRef.current = true;
     setLoading(true);
 
-    getImages(LIMIT, offset)
+    const fetch =
+      selectedCategory === "Todas"
+        ? getImages(LIMIT, offset)
+        : getImagesByCategory(Number(selectedCategory), LIMIT, offset);
+
+    fetch
       .then((data) => {
         setImages((prev) => {
           const ids = new Set(prev.map((i) => i.id));
-          const newData = data.filter((i) => !ids.has(i.id));
-          return [...prev, ...newData];
+          return [...prev, ...data.filter((i) => !ids.has(i.id))];
         });
         if (data.length < LIMIT) setHasMore(false);
       })
@@ -48,7 +68,7 @@ export default function GalleryPage() {
         setLoading(false);
         loadingRef.current = false;
       });
-  }, [offset]);
+  }, [fetchKey, offset]);
 
   useEffect(() => {
     getCategories().then(setCategories).catch(console.error);
@@ -108,11 +128,7 @@ export default function GalleryPage() {
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description?.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesCategory =
-        selectedCategory === "Todas" ||
-        item.categories?.includes(selectedCategory);
-
-      return matchesSearch && matchesCategory;
+      return matchesSearch;
     });
   }, [searchQuery, selectedCategory, images]);
 
@@ -158,12 +174,21 @@ export default function GalleryPage() {
           <div className="relative">
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedCategory(val === "Todas" ? "Todas" : Number(val));
+              }}
               className="px-3.5 py-2 pr-8 rounded-xl text-xs font-medium bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white transition-all outline-none cursor-pointer appearance-none"
             >
-              <option value="Todas" className="bg-black text-gray-300">Todas</option>
+              <option value="Todas" className="bg-black text-gray-300">
+                Todas
+              </option>
               {categories.map((cat) => (
-                <option key={cat.id} value={cat.name} className="bg-black text-gray-300">
+                <option
+                  key={cat.id}
+                  value={cat.id}
+                  className="bg-black text-gray-300"
+                >
                   {cat.name}
                 </option>
               ))}
