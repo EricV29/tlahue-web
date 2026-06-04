@@ -1,8 +1,9 @@
 import { useEffect, useCallback } from "react";
-import type { GalleryItem } from "../data/gallery";
+import type { GalleryItem } from "../services/gallery.service";
 import IconChevronLeft from "./icons/IconChevronLeft";
 import IconChevronRight from "./icons/IconChevronRight";
 import IconClose from "./icons/IconClose";
+import { getImageUrl } from "../utils/cloudinary";
 
 interface GalleryLightboxProps {
   items: GalleryItem[];
@@ -35,7 +36,7 @@ export default function GalleryLightbox({
           break;
       }
     },
-    [onClose, onPrev, onNext]
+    [onClose, onPrev, onNext],
   );
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export default function GalleryLightbox({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 backdrop-blur-sm"
+      className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-black/95 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
       <button
@@ -75,8 +76,8 @@ export default function GalleryLightbox({
           </button>
 
           <img
-            src={item.imagen_url}
-            alt={item.titulo}
+            src={getImageUrl(item.url)}
+            alt={item.title}
             className="max-h-[70vh] md:max-h-[80vh] w-full object-contain rounded-lg"
           />
 
@@ -112,7 +113,7 @@ export default function GalleryLightbox({
         </div>
 
         <p className="text-xs text-gray-500 hidden md:block">
-          {currentIndex + 1} / {items.length} &mdash; {item.titulo}
+          {currentIndex + 1} / {items.length} &mdash; {item.title}
         </p>
       </div>
     </div>
