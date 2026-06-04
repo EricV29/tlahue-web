@@ -29,11 +29,17 @@ export default function GalleryPage() {
   const [error, setError] = useState<string | null>(null);
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const LIMIT = 10;
+  const LIMIT = 12;
   const loadingRef = useRef(false);
   const heroRef = useRef(null);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [fetchKey, setFetchKey] = useState(0);
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchQuery), 400);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Reset cambio de categoría
   useEffect(() => {
@@ -42,7 +48,7 @@ export default function GalleryPage() {
     setHasMore(true);
     loadingRef.current = false;
     setFetchKey((k) => k + 1);
-  }, [selectedCategory]);
+  }, [selectedCategory, debouncedSearch]);
 
   // Carga de imágenes
   useEffect(() => {
@@ -53,7 +59,12 @@ export default function GalleryPage() {
     const fetch =
       selectedCategory === "Todas"
         ? getImages(LIMIT, offset)
-        : getImagesByCategory(Number(selectedCategory), LIMIT, offset);
+        : getImagesByCategory(
+            Number(selectedCategory),
+            LIMIT,
+            offset,
+            debouncedSearch,
+          );
 
     fetch
       .then((data) => {

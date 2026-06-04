@@ -15,14 +15,17 @@ export interface GalleryItem {
   categories: string[];
 }
 
-export const getImages = (limit = 10, offset = 0) =>
-  apiGet<GalleryItem[]>(`/images?limit=${limit}&offset=${offset}`);
+export const getImages = (limit = 12, offset = 0, search = "") =>
+  apiGet<GalleryItem[]>(
+    `/images?limit=${limit}&offset=${offset}${search ? `$search=${encodeURIComponent(search)}` : ""}`,
+  );
 
 export const getImagesByCategory = (
   categoryId: number,
   limit = 10,
   offset = 0,
+  search = "",
 ) =>
   apiGet<GalleryItem[]>(
-    `/images/category/${categoryId}?limit=${limit}&offset=${offset}`,
+    `/images/category/${categoryId}?limit=${limit}&offset=${offset}${search ? `&search=${encodeURIComponent(search)}` : ""}`,
   );
