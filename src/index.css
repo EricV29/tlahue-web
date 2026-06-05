@@ -65,7 +65,7 @@
 
 .model-card {
   width: 300px;
-  background: #fff;
+  background: #f3f3f3;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   overflow: visible;
@@ -111,8 +111,8 @@
 
 .model-card-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  margin: 15px 0px 5px 0px;
+  justify-content: space-between;
 }
 
 .model-card-date {
@@ -140,6 +140,7 @@
   color: var(--color-slate-gray);
   line-height: 1.4;
   margin: 0 0 10px 0;
+  text-align: justify;
 }
 
 .model-card-actions {

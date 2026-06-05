@@ -32,6 +32,8 @@ import {
 } from "../data/modelCards";
 import IconChevronDown from "./icons/IconChevronDown";
 import IconReset from "./icons/IconReset";
+import modelos3D from "../data/modelos3D.json";
+import { getImageUrl } from "../utils/cloudinary";
 
 // Vista MAPA 3D mapbox
 const INITIAL_CENTER: [number, number] = [-99.2333, 20.1325];
@@ -218,7 +220,7 @@ const create3DLabel = (name, icon = "📍") => {
 };
 
 const createModelCardPopup = (
-  data: import("../data/modelCards").ModelCardData,
+  data: (typeof modelos3D)[number],
   onClose: () => void,
 ) => {
   const div = document.createElement("div");
@@ -226,7 +228,7 @@ const createModelCardPopup = (
 
   div.innerHTML = `
     <div class="model-card-img-wrap">
-      <img class="model-card-img" src="${data.image}" alt="${data.title}" />
+      <img class="model-card-img" src="${getImageUrl(data.card.image)}" alt="${data.name}" />
     </div>
     <button class="model-card-close" aria-label="Cerrar">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -234,8 +236,9 @@ const createModelCardPopup = (
       </svg>
     </button>
     <div class="model-card-header-text">
-      <h3 class="model-card-title">${data.title}</h3>
-      <div class="model-card-meta">
+      <h3 class="model-card-title">${data.name}</h3>
+    </div>
+    <div class="model-card-meta">
         <span class="model-card-date">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 4V2M15 4V6M15 4H10.5M3 10V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V10H3Z"/>
@@ -243,21 +246,20 @@ const createModelCardPopup = (
             <path d="M7 2V6"/>
             <path d="M21 10V6C21 4.89543 20.1046 4 19 4H18.5"/>
           </svg>
-          ${data.date}
+          ${data.card.date}
         </span>
-        <span class="model-card-style">${data.style}</span>
+        <span class="model-card-style">${data.card.style}</span>
       </div>
-    </div>
-    <p class="model-card-desc">${data.description}</p>
+    <p class="model-card-desc">${data.card.description}</p>
     <div class="model-card-actions">
-      <a class="model-card-link" href="${data.mapsUrl}" target="_blank" rel="noopener noreferrer">
+      <a class="model-card-link" href="${data.card.mapsUrl}" target="_blank" rel="noopener noreferrer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 10C20 14.4183 12 22 12 22C12 22 4 14.4183 4 10C4 5.58172 7.58172 2 12 2C16.4183 2 20 5.58172 20 10Z"/>
           <path d="M12 11C12.5523 11 13 10.5523 13 10C13 9.44772 12.5523 9 12 9C11.4477 9 11 9.44772 11 10C11 10.5523 11.4477 11 12 11Z"/>
         </svg>
         Visitar
       </a>
-      <a class="model-card-link" href="${data.galleryUrl}">
+      <a class="model-card-link" href="${data.card.galleryUrl}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 12.6V20.4C22 20.7314 21.7314 21 21.4 21H13.6C13.2686 21 13 20.7314 13 20.4V12.6C13 12.2686 13.2686 12 13.6 12H21.4C21.7314 12 22 12.2686 22 12.6Z"/>
           <path d="M19.5 14.51L19.51 14.4989"/>
@@ -311,6 +313,8 @@ function MapTlahue() {
       card?: CSS2DObject;
     }[]
   >([]);
+  const modelData = modelos3D.find((m) => m.id === "1");
+  if (!modelData) return;
 
   //* HELPER para posición de modelos
   function mercatorToScenePosition(targetTransform: any) {
@@ -705,38 +709,55 @@ function MapTlahue() {
 
           //* MODELO RELOJ
           loader.load(
-            "/assets/3D/reloj.glb",
+            modelData?.gbl,
             (gltf) => {
               const modelReloj = gltf.scene;
 
               prepareModel(modelReloj);
 
               // Características de visualización
-              modelReloj.scale.set(10, 10, 10);
-              modelReloj.rotation.x = Math.PI / 2;
-              modelReloj.position.copy(mercatorToScenePosition(relojTransform));
+              // modelReloj.scale.set(10, 10, 10);
+              modelReloj.scale.set(
+                ...(modelData.scale as [number, number, number]),
+              );
+              // modelReloj.rotation.x = Math.PI / 2;
+              modelReloj.rotation.x = modelData?.rotation[0];
+              modelReloj.rotation.y = modelData?.rotation[1];
+              modelReloj.rotation.z = modelData?.rotation[2];
+              // modelReloj.position.copy(mercatorToScenePosition(relojTransform));
+              modelReloj.position.copy(
+                mercatorToScenePosition(
+                  createTransform([modelData.coords[0], modelData.coords[1]]),
+                ),
+              );
 
               fbScene.current?.add(modelReloj);
 
               // Etiqueta
-              const etiqueta = create3DLabel("Reloj Monumental", "🏛️");
-              etiqueta.position.set(0, 1.3, 0);
+              const etiqueta = create3DLabel(modelData?.name, modelData?.icon);
+              etiqueta.position.set(
+                ...(modelData?.labelOffset as [number, number, number]),
+              );
               modelReloj.add(etiqueta);
 
               // Card
-              const cardPopup = createModelCardPopup(relojCard, () => {
+              const cardPopup = createModelCardPopup(modelData, () => {
                 cardPopup.visible = false;
                 cardActiveRef.current = null;
               });
-              cardPopup.position.set(1.3, 0.5, 0);
+              cardPopup.position.set(
+                ...(modelData?.cardOffset as [number, number, number]),
+              );
               cardPopup.visible = false;
               modelReloj.add(cardPopup);
 
               modelosRef.current.push({
-                id: "reloj",
+                id: modelData?.id,
                 mesh: modelReloj,
-                coords: [-99.232346, 20.131354],
-                zoom: 20.5,
+                coords: modelData?.coords as [number, number],
+                zoom: modelData?.zoomCard,
+                zoomCardMin: modelData?.zoomCardMin,
+                bearing: modelData?.bearing,
                 card: cardPopup,
               });
 

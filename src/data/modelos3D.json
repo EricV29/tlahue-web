@@ -1,23 +1,24 @@
-{
-  "id": "1",
-  "name": "Reloj",
-  "icon": "🏠",
-  "glb": "/assets/3D/reloj.glb",
-  "coords": [-99.232346, 20.131354],
-  "zoom": 19,
-  "zoomCardMin": 18.5,
-  "scale": [60, 60, 60],
-  "rotation": [1.5708, 3.1416, 0],
-  "cardOffset": [-1, 0.3, 0],
-  "labelOffset": [0, 0.5, 0],
-  "bearing": 0,
-  "card": {
-    "title": "Toril",
-    "image": "/assets/img/toril.jpg",
-    "date": "Siglo XIX",
-    "style": "Colonial",
-    "description": "...",
-    "mapsUrl": "https://maps.google.com/...",
-    "galleryUrl": "/galeria/toril"
+[
+  {
+    "id": "1",
+    "gbl": "/assets/3D/reloj.glb",
+    "coords": [-99.232346, 20.131354],
+    "scale": [10, 10, 10],
+    "rotation": [1.5708, 0, 0],
+    "name": "Reloj en \"Honor al Ejido\"",
+    "icon": "🕰️",
+    "labelOffset": [0, 1.3, 0],
+    "cardOffset": [1.3, 0.5, 0],
+    "zoomCard": 20.5,
+    "zoomCardMin": 20,
+    "bearing": 0,
+    "card": {
+      "image": "relojCard_dzga7a",
+      "date": "5 de Mayo de 1937",
+      "style": "Vernáculo, rústico",
+      "description": "Estructura única en Hidalgo que funciona como kiosco y reloj monumental, edificada por los pobladores para honrar al Ejido. Conserva su maquinaria mecánica original, a la cual se le da cuerda manualmente hasta el día de hoy.",
+      "mapsUrl": "https://maps.app.goo.gl/H8AUSPxmdeveauut8",
+      "galleryUrl": "/galeria/reloj"
+    }
   }
-}
+]
