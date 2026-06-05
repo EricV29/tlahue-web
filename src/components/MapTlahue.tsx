@@ -50,8 +50,7 @@ const TLAHUE_BOUNDS: [[number, number], [number, number]] = [
 ];
 
 // Coordenadas TRHEE - Reloj
-const coordsReloj = [-99.232346, 20.131354];
-const relojTransform = createTransform(coordsReloj);
+const relojTransform = createTransform([-99.232346, 20.131354]);
 
 //  Coordenadas TRHEE - Iglesia Vieja
 const iglesiaVTransform = createTransform([-99.232775, 20.131755]);
@@ -1299,7 +1298,7 @@ function MapTlahue() {
   return (
     <section
       aria-label="Mapa"
-      className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-20 ${back}`}
+      className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-20 ${back} `}
     >
       <div
         id="mapa"

@@ -1,0 +1,23 @@
+{
+  "id": "1",
+  "name": "Reloj",
+  "icon": "🏠",
+  "glb": "/assets/3D/reloj.glb",
+  "coords": [-99.232346, 20.131354],
+  "zoom": 19,
+  "zoomCardMin": 18.5,
+  "scale": [60, 60, 60],
+  "rotation": [1.5708, 3.1416, 0],
+  "cardOffset": [-1, 0.3, 0],
+  "labelOffset": [0, 0.5, 0],
+  "bearing": 0,
+  "card": {
+    "title": "Toril",
+    "image": "/assets/img/toril.jpg",
+    "date": "Siglo XIX",
+    "style": "Colonial",
+    "description": "...",
+    "mapsUrl": "https://maps.google.com/...",
+    "galleryUrl": "/galeria/toril"
+  }
+}
