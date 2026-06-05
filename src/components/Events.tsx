@@ -20,6 +20,9 @@ interface MonthOption {
   icon: string | null;
 }
 
+const INITIAL_MONTH = new Date().getMonth() + 1;
+const CURRENT_YEAR = new Date().getFullYear();
+
 const months: MonthOption[] = [
   { id: 1, name: "Enero", icon: aniversario },
   { id: 2, name: "Febrero", icon: carnaval },
@@ -36,8 +39,7 @@ const months: MonthOption[] = [
 ];
 
 export default function Novedades() {
-  const now = new Date();
-  const [selectedMonth, setSelectedMonth] = useState(now.getMonth() + 1);
+  const [selectedMonth, setSelectedMonth] = useState(INITIAL_MONTH);
   const [events, setEvents] = useState<TlaueEvents[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +70,7 @@ export default function Novedades() {
 
     setError(null);
 
-    getEventsByMonth(now.getFullYear(), selectedMonth, controller.signal)
+    getEventsByMonth(CURRENT_YEAR, selectedMonth, controller.signal)
       .then((data) => {
         if (ignore.current) return;
         clearTimeout(timer);

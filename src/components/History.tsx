@@ -131,7 +131,6 @@ export default function History() {
     <div id="historia" className="w-full overflow-hidden">
       {/* MOBILE*/}
       <section
-        id="historia"
         aria-label="Historia - móvil"
         className="md:hidden bg-dark-charcoal"
         onTouchStart={handleTouchStart}
