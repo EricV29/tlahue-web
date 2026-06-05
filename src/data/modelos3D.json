@@ -112,7 +112,7 @@
   {
     "id": "6",
     "name": "Monumento \"El Jarrón\"",
-    "icon": "🏛️",
+    "icon": "🗿",
     "glb": "/assets/3D/jarron.glb",
     "coords": [-99.234274, 20.13148],
     "scale": [8, 8, 8],
