@@ -94,7 +94,7 @@ export default function Novedades() {
   }, [events]);
 
   return (
-    <section id="eventos" className="relative py-16 px-6">
+    <section id="eventos" aria-label="Eventos" className="relative py-16 px-6">
       <img
         src={reloj}
         alt=""
@@ -142,7 +142,7 @@ export default function Novedades() {
 
         {/* Events */}
         {loading || error ? (
-          <div className="min-h-125 animate-pulse">
+          <div className="min-h-125 animate-pulse" aria-busy={loading ? "true" : undefined}>
                 <span role="alert" className="text-red-500">{error}</span>
             <div className="flex md:hidden gap-4 overflow-x-auto pb-4 -mx-6 px-6">
               {[1, 2, 3].map((i) => (
@@ -224,6 +224,7 @@ export default function Novedades() {
                               ? `- ${event.uiEndDate}`
                               : ""}{" "}
                             | agendar
+                            <span className="sr-only"> (se abre en nueva ventana)</span>
                           </span>
                         </a>
                         <h3 className="font-display font-medium text-lg text-dark-charcoal mb-2">
@@ -236,12 +237,13 @@ export default function Novedades() {
                           href={event.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[#4B5563] hover:text-[#3A85AC] hover:underline transition-colors min-w-0"
+                           className="flex items-center gap-1 text-[#4B5563] hover:text-[#3A85AC] hover:underline transition-colors min-w-0"
                         >
                           <IconLocation className="w-3.5 h-3.5" />
                           <span className="font-body text-xs truncate">
                             {event.location}
                           </span>
+                          <span className="sr-only"> (se abre en nueva ventana)</span>
                         </a>
                       </div>
                     </div>
@@ -280,6 +282,7 @@ export default function Novedades() {
                               ? `- ${event.uiEndDate}`
                               : ""}{" "}
                             | agendar
+                            <span className="sr-only"> (se abre en nueva ventana)</span>
                           </span>
                         </a>
                         <h3 className="font-display font-medium text-xl text-dark-charcoal mb-2">
@@ -293,12 +296,13 @@ export default function Novedades() {
                             href={event.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 text-[#3A85AC] hover:text-[#D5B35F] hover:underline transition-colors min-w-0"
+                             className="flex items-center gap-1 text-[#3A85AC] hover:text-[#D5B35F] hover:underline transition-colors min-w-0"
                           >
                             <IconLocation className="w-3.5 h-3.5" />
                             <span className="font-body text-xs truncate">
                               {event.location}
                             </span>
+                            <span className="sr-only"> (se abre en nueva ventana)</span>
                           </a>
                         </div>
                       </div>

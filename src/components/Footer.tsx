@@ -125,10 +125,13 @@ export default function Footer() {
                     }
                     className="flex items-center gap-2.5 group"
                   >
-                    <item.icon className="w-4 h-4 shrink-0 text-[#D5B35F]" />
+                    <item.icon className="w-4 h-4 shrink-0 text-[#D5B35F]" aria-hidden="true" />
                     <span className="font-body text-sm text-white/60 group-hover:text-[#3A85AC] transition-colors leading-tight">
                       {item.value}
                     </span>
+                    {item.href.startsWith("http") && (
+                      <span className="sr-only"> (se abre en nueva ventana)</span>
+                    )}
                   </a>
                 </li>
               ))}
@@ -141,9 +144,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 text-white/60 hover:bg-[#3A85AC] hover:text-white transition-all duration-300"
-                  aria-label={social.name}
+                  aria-label={`${social.name} (se abre en nueva ventana)`}
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon className="w-5 h-5" aria-hidden="true" />
                 </a>
               ))}
             </div>
@@ -162,9 +165,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 text-white/60 hover:bg-[#3A85AC] hover:text-white transition-all duration-300"
-                  aria-label={link.name}
+                  aria-label={`${link.name} (se abre en nueva ventana)`}
                 >
-                  <link.icon className="w-5 h-5" />
+                  <link.icon className="w-5 h-5" aria-hidden="true" />
                 </a>
               ))}
             </div>
@@ -189,6 +192,7 @@ export default function Footer() {
               className="text-[#D5B35F] hover:text-[#3A85AC] transition-colors"
             >
               Eric Villeda
+              <span className="sr-only"> (se abre en nueva ventana)</span>
             </a>
           </p>
           <button

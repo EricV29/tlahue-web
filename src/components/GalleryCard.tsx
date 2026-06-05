@@ -54,7 +54,7 @@ export default function GalleryCard({ item, onImageClick }: GalleryCardProps) {
         {item.description}
       </p>
 
-      <time className="text-xs text-gray-500">{formattedDate}</time>
+      <time dateTime={item.captureAt.split("T")[0]} className="text-xs text-gray-500">{formattedDate}</time>
 
       <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
         <span className="text-xs text-gray-500">{item.nameCreator}</span>

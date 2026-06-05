@@ -64,6 +64,7 @@ export default function FloatingSocial({
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${social.name} (se abre en nueva ventana)`}
               className={`flex items-center justify-center w-12 h-12 rounded-full bg-[#FEFFFC] border border-[#dee2de]/50 shadow-lg text-[#3A85AC] hover:text-[#AA642A] hover:border-[#3A85AC] transition-all duration-300 ${
                 isOpen
                   ? "opacity-100 translate-y-0 mb-3"
@@ -71,7 +72,7 @@ export default function FloatingSocial({
               }`}
               style={{ transitionDelay: `${index * 50}ms` }}
             >
-              <social.icon className="w-5 h-5" />
+              <social.icon className="w-5 h-5" aria-hidden="true" />
             </a>
           ))}
         </div>

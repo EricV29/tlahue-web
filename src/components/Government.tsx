@@ -37,7 +37,7 @@ export default function Gobierno() {
 
   if (loading || error) {
     return (
-      <section id="gobierno" className="py-16 px-6 relative min-h-screen">
+      <section id="gobierno" className="py-16 px-6 relative min-h-screen" aria-busy="true">
         <div className="max-w-7xl mx-auto animate-pulse">
           <div className="text-center mb-8 flex flex-col items-center gap-1.5">
             {error && <span className="text-red-500">{error}</span>}
@@ -70,7 +70,7 @@ export default function Gobierno() {
   if (!selected) return null;
 
   return (
-    <section id="gobierno" className="py-16 px-6 relative">
+    <section id="gobierno" aria-label="Gobierno y Gabinete" className="py-16 px-6 relative">
       <img
         src={presidencia}
         alt=""

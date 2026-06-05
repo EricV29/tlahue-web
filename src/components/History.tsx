@@ -132,6 +132,7 @@ export default function History() {
       {/* MOBILE*/}
       <section
         id="historia"
+        aria-label="Historia - móvil"
         className="md:hidden bg-dark-charcoal"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -237,6 +238,7 @@ export default function History() {
       {/* DESKTOP  */}
       <section
         ref={sectionRef}
+        aria-label="Historia"
         className="hidden md:block relative h-screen bg-black isolate"
       >
         {slides.map((slide, i) => (

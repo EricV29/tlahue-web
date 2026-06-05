@@ -31,6 +31,11 @@ export default function GalleryPage() {
   const [hasMore, setHasMore] = useState(true);
   const LIMIT = 12;
   const loadingRef = useRef(false);
+
+  useEffect(() => {
+    document.title = "Galería - Tlahuelilpan";
+    return () => { document.title = "Tlahuelilpan - Guia Local & Perspectiva"; };
+  }, []);
   const heroRef = useRef(null);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [fetchKey, setFetchKey] = useState(0);
@@ -160,6 +165,7 @@ export default function GalleryPage() {
         <div className="absolute top-0 left-0 right-0 h-40 md:h-56 bg-[radial-gradient(ellipse_60%_80px_at_50%_0px,rgba(255,255,255,0.30),transparent)] pointer-events-none" />
         <section
           ref={heroRef}
+          aria-label="Galería - encabezado"
           className="flex flex-col items-center justify-center min-h-[70vh] md:min-h-[80vh] px-4 text-center overflow-hidden"
         >
           <h1
@@ -216,7 +222,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-8 md:py-12">
+      <section aria-label="Galería de imágenes" className="mx-auto max-w-7xl px-4 py-8 md:py-12">
         {filtered.length === 0 && !loading ? (
           <p className="text-center text-gray-500 py-20">
             No se encontraron resultados.

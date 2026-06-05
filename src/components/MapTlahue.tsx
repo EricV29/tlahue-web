@@ -1298,6 +1298,7 @@ function MapTlahue() {
 
   return (
     <section
+      aria-label="Mapa"
       className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-20 ${back}`}
     >
       <div
