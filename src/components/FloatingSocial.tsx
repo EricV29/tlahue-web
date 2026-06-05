@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { SectionId } from "../App";
 import IconLink from "./icons/IconLink";
 import IconFacebook from "./icons/IconFacebook";
@@ -12,6 +12,13 @@ export default function FloatingSocial({
   activeSection: SectionId;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (panelRef.current) {
+      (panelRef.current as unknown as Record<string, boolean>).inert = !isOpen;
+    }
+  }, [isOpen]);
 
   const socialLinks = [
     {
@@ -46,6 +53,7 @@ export default function FloatingSocial({
     >
       <div className="relative">
         <div
+          ref={panelRef}
           className={`transition-all duration-300 ease-in-out overflow-hidden ${
             isOpen ? "mb-4" : "mb-0"
           }`}

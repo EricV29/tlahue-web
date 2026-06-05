@@ -143,7 +143,7 @@ export default function GalleryPage() {
     });
   }, [searchQuery, selectedCategory, images]);
 
-  if (error) return <p className="text-white text-center py-20">{error}</p>;
+  if (error) return <p role="alert" className="text-white text-center py-20">{error}</p>;
 
   return (
     <div className="min-h-screen bg-black">

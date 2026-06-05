@@ -97,7 +97,7 @@ export default function Novedades() {
     <section id="eventos" className="relative py-16 px-6">
       <img
         src={reloj}
-        alt="relojSvg"
+        alt=""
         className="absolute z-0 w-50 md:w-[20rem] top-1/2 -translate-y-1/2 right-0 md:right-20 opacity-10 pointer-events-none select-none"
       />
 
@@ -143,7 +143,7 @@ export default function Novedades() {
         {/* Events */}
         {loading || error ? (
           <div className="min-h-125 animate-pulse">
-            <span className="text-red-500">{error}</span>
+                <span role="alert" className="text-red-500">{error}</span>
             <div className="flex md:hidden gap-4 overflow-x-auto pb-4 -mx-6 px-6">
               {[1, 2, 3].map((i) => (
                 <div
@@ -201,8 +201,9 @@ export default function Novedades() {
                       key={event.id}
                       className="shrink-0 w-70 bg-white rounded-xl overflow-hidden shadow-[rgba(17,24,39,0.03)_0px_8px_24px_0px] border border-[#dee2de]/50"
                     >
-                      <div
-                        className="h-40 overflow-hidden cursor-pointer"
+                      <button
+                        type="button"
+                        className="h-40 w-full overflow-hidden cursor-pointer appearance-none bg-transparent border-none p-0 text-left"
                         onClick={() => setLightboxUrl(getImageUrl(event.image))}
                       >
                         <img
@@ -210,7 +211,7 @@ export default function Novedades() {
                           alt={event.title}
                           className="w-full h-full object-cover"
                         />
-                      </div>
+                      </button>
                       <div className="p-4">
                         <a
                           href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.calendarDates}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location + ", Tlahuelilpan Hidalgo")}`}
@@ -254,8 +255,9 @@ export default function Novedades() {
                       key={event.id}
                       className="bg-white rounded-xl overflow-hidden shadow-[rgba(17,24,39,0.03)_0px_8px_24px_0px] border border-[#dee2de]/50 transition-all duration-300 hover:shadow-lg"
                     >
-                      <div
-                        className="h-48 overflow-hidden cursor-pointer"
+                      <button
+                        type="button"
+                        className="h-48 w-full overflow-hidden cursor-pointer appearance-none bg-transparent border-none p-0 text-left"
                         onClick={() => setLightboxUrl(getImageUrl(event.image))}
                       >
                         <img
@@ -263,7 +265,7 @@ export default function Novedades() {
                           alt={event.title}
                           className="w-full h-full object-cover transition-transform duration-300 hover:scale-120"
                         />
-                      </div>
+                      </button>
                       <div className="p-4">
                         <a
                           href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.calendarDates}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location + ", Tlahuelilpan Hidalgo")}`}

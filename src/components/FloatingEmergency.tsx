@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { SectionId } from "../App";
 import IconSiren from "./icons/IconSiren";
 import IconPhone from "./icons/IconPhone";
@@ -11,6 +11,13 @@ export default function FloatingEmergency({
   activeSection: SectionId;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (panelRef.current) {
+      (panelRef.current as unknown as Record<string, boolean>).inert = !isOpen;
+    }
+  }, [isOpen]);
 
   const emergencyServices = [
     {
@@ -38,6 +45,7 @@ export default function FloatingEmergency({
     >
       <div className="relative flex flex-col items-start">
         <div
+          ref={panelRef}
           className={`transition-all duration-300 ease-in-out overflow-hidden ${
             isOpen ? "mb-4 opacity-100 pointer-events-auto" : "mb-0 opacity-0"
           }`}

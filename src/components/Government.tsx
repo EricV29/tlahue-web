@@ -73,7 +73,7 @@ export default function Gobierno() {
     <section id="gobierno" className="py-16 px-6 relative">
       <img
         src={presidencia}
-        alt="presidenciaSvg"
+        alt=""
         className="absolute z-0 w-100 lg:w-150 -translate-x-1/2 lg:-translate-x-1/3 md:-translate-y-15 left-0 md:left-20 pointer-events-none opacity-10 select-none"
       />
 
@@ -141,7 +141,7 @@ export default function Gobierno() {
             {/* Text avatar */}
             <img
               src={svgMap[selected.textSvg] ?? ""}
-              alt="txtSvg"
+                alt=""
               className="absolute z-10 w-100 md:w-150 lg:w-270 text-[10px] bottom-2/5 md:bottom-0 lg:bottom-0 lg:right-20 opacity-40 pointer-events-none select-none"
             />
 
