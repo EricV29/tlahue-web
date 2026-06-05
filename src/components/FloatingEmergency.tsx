@@ -3,6 +3,7 @@ import type { SectionId } from "../App";
 import IconSiren from "./icons/IconSiren";
 import IconPhone from "./icons/IconPhone";
 import IconLocation from "./icons/IconLocation";
+import IconFacebook from "./icons/IconFacebook";
 
 export default function FloatingEmergency({
   activeSection,
@@ -85,18 +86,7 @@ export default function FloatingEmergency({
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[#3A85AC] hover:text-[#AA642A] transition-colors"
                   >
-                    <svg
-                      className="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M17 2H14C12.6739 2 11.4021 2.52678 10.4645 3.46447C9.52678 4.40215 9 5.67392 9 7V10H6V14H9V22H13V14H16L17 10H13V7C13 6.73478 13.1054 6.48043 13.2929 6.29289C13.4804 6.10536 13.7348 6 14 6H17V2Z"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        fill="none"
-                      />
-                    </svg>
+                    <IconFacebook className="w-4 h-4" />
                     <span className="font-body text-sm">Facebook</span>
                   </a>
                 )}
@@ -116,7 +106,7 @@ export default function FloatingEmergency({
         </div>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-center w-14 h-14 rounded-full bg-[#9F2241] text-white shadow-lg hover:bg-[#7d1a33] transition-all duration-300 pointer-events-auto"
+          className="flex items-center justify-center w-14 h-14 rounded-full bg-[#9F2241] text-white shadow-lg hover:bg-[#7d1a33] transition-all duration-300 pointer-events-auto cursor-pointer"
           aria-label="Emergencias"
         >
           <IconSiren

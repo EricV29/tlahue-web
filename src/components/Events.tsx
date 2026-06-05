@@ -2,14 +2,14 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import IconCalendar from "./icons/IconCalendar";
 import IconLocation from "./icons/IconLocation";
 import IconClose from "./icons/IconClose";
-import reloj from "../assets/reloj.svg";
-import carnaval from "../assets/images/carnaval.webp";
-import cerveza from "../assets/images/cerveza.webp";
-import feria from "../assets/images/feria.webp";
-import muertos from "../assets/images/muertos.webp";
-import navidad from "../assets/images/navidad.webp";
-import aniversario from "../assets/images/aniversario.webp";
-import mexico from "../assets/images/mexico.webp";
+import reloj from "../assets/images/reloj.svg";
+import carnaval from "../assets/images/events/carnaval.webp";
+import cerveza from "../assets/images/events/cerveza.webp";
+import feria from "../assets/images/events/feria.webp";
+import muertos from "../assets/images/events/muertos.webp";
+import navidad from "../assets/images/events/navidad.webp";
+import aniversario from "../assets/images/events/aniversario.webp";
+import mexico from "../assets/images/events/mexico.webp";
 import { getImageUrl } from "../utils/cloudinary";
 import { getEventsByMonth, type TlaueEvents } from "../services/events.service";
 
@@ -64,7 +64,7 @@ export default function Novedades() {
       .then(setEvents)
       .catch(() => {
         setEvents([]);
-        setError("Error get officials");
+        setError("Error get events");
       })
       .finally(() => setLoading(false));
   }, [selectedMonth]);
@@ -139,8 +139,9 @@ export default function Novedades() {
         </div>
 
         {/* Events */}
-        {loading ? (
+        {loading || error ? (
           <div className="min-h-125 animate-pulse">
+            <span className="text-red-500">{error}</span>
             <div className="flex md:hidden gap-4 overflow-x-auto pb-4 -mx-6 px-6">
               {[1, 2, 3].map((i) => (
                 <div

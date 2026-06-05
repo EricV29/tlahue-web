@@ -59,7 +59,7 @@ export default function GalleryLightbox({
     >
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
         aria-label="Cerrar"
       >
         <IconClose className="w-6 h-6" />
@@ -69,7 +69,7 @@ export default function GalleryLightbox({
         <div className="relative w-full flex items-center">
           <button
             onClick={onPrev}
-            className="hidden md:flex absolute left-0 z-10 p-3 -translate-x-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="hidden md:flex absolute left-0 z-10 p-3 -translate-x-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Anterior"
           >
             <IconChevronLeft className="w-6 h-6" />
@@ -83,7 +83,7 @@ export default function GalleryLightbox({
 
           <button
             onClick={onNext}
-            className="hidden md:flex absolute right-0 z-10 p-3 translate-x-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="hidden md:flex absolute right-0 z-10 p-3 translate-x-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Siguiente"
           >
             <IconChevronRight className="w-6 h-6" />

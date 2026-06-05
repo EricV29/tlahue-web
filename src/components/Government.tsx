@@ -8,8 +8,8 @@ import txtSeguridad from "../assets/images/government/txtSeguridad.svg";
 import txtAgua from "../assets/images/government/txtAgua.svg";
 import txtObras from "../assets/images/government/txtObras.svg";
 import txtSocial from "../assets/images/government/txtSocial.svg";
-import presidencia from "../assets/presidencia.svg";
-import { getOfficials, type Official } from "../services/goverment.service";
+import presidencia from "../assets/images/presidencia.svg";
+import { getOfficials, type Official } from "../services/government.service";
 import { getImageUrl } from "../utils/cloudinary";
 
 export default function Gobierno() {
@@ -35,11 +35,12 @@ export default function Gobierno() {
 
   const selected = officials[selectedOfficial];
 
-  if (loading) {
+  if (loading || error) {
     return (
       <section id="gobierno" className="py-16 px-6 relative min-h-screen">
         <div className="max-w-7xl mx-auto animate-pulse">
           <div className="text-center mb-8 flex flex-col items-center gap-1.5">
+            {error && <span className="text-red-500">{error}</span>}
             <div className="h-5 w-32 rounded bg-[#D5B35F]/20" />
             <div className="h-10 w-64 rounded bg-gray-200" />
           </div>
@@ -62,17 +63,6 @@ export default function Gobierno() {
             </div>
           </div>
         </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section
-        id="gobierno"
-        className="py-16 px-6 relative min-h-screen flex items-center justify-center"
-      >
-        <p className="font-body text-red-500">{error}</p>
       </section>
     );
   }

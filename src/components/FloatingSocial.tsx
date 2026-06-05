@@ -70,7 +70,7 @@ export default function FloatingSocial({
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-center w-14 h-14 rounded-full bg-[#AA642A] text-white shadow-lg hover:bg-[#8f5220] transition-all duration-300"
+          className="flex items-center justify-center w-14 h-14 rounded-full bg-[#AA642A] text-white shadow-lg hover:bg-[#8f5220] transition-all duration-300 cursor-pointer"
           aria-label="Redes sociales"
         >
           <IconLink
