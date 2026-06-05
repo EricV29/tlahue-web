@@ -45,7 +45,7 @@ export default function Gobierno() {
             <div className="h-10 w-64 rounded bg-gray-200" />
           </div>
           <div className="lg:flex justify-start items-center gap-6">
-            <div className="flex pt-3 md:justify-center lg:flex-col gap-6">
+            <div className="flex pt-3 md:justify-center lg:flex-col gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="flex flex-col items-center gap-2">
                   <div className="w-14 h-14 rounded-full bg-gray-200" />
@@ -130,7 +130,7 @@ export default function Gobierno() {
             })}
           </div>
 
-          <div className="w-full flex lg:p-4 relative justify-center lg:justify-start items-start md:flex-row flex-col">
+          <div className="w-full flex lg:p-4 relative justify-center lg:justify-start items-start md:flex-row flex-col overflow-hidden">
             {/* Image avatar */}
             <img
               src={getImageUrl(selected.image)}
