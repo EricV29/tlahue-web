@@ -12,5 +12,5 @@ export interface TlaueEvents {
   createdAt: string;
 }
 
-export const getEventsByMonth = (year: number, month: number) =>
-  apiGet<TlaueEvents[]>(`/events/month/${year}/${month}`);
+export const getEventsByMonth = (year: number, month: number, signal?: AbortSignal) =>
+  apiGet<TlaueEvents[]>(`/events/month/${year}/${month}`, signal);

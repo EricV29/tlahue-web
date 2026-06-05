@@ -39,7 +39,7 @@ export default function Novedades() {
   const now = new Date();
   const [selectedMonth, setSelectedMonth] = useState(now.getMonth() + 1);
   const [events, setEvents] = useState<TlaueEvents[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
 
@@ -62,13 +62,34 @@ export default function Novedades() {
   }, [lightboxUrl, closeLightbox]);
 
   useEffect(() => {
-    getEventsByMonth(now.getFullYear(), selectedMonth)
-      .then(setEvents)
-      .catch(() => {
-        setEvents([]);
-        setError("Error get events");
+    const ignore = { current: false };
+    const controller = new AbortController();
+    const timer = setTimeout(() => setLoading(true), 300);
+
+    setError(null);
+
+    getEventsByMonth(now.getFullYear(), selectedMonth, controller.signal)
+      .then((data) => {
+        if (ignore.current) return;
+        clearTimeout(timer);
+        setEvents(data);
+        setLoading(false);
       })
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        if (ignore.current) return;
+        clearTimeout(timer);
+        setEvents([]);
+        setLoading(false);
+        if (err?.status !== 404) {
+          setError("Servicio no disponible");
+        }
+      });
+
+    return () => {
+      ignore.current = true;
+      controller.abort();
+      clearTimeout(timer);
+    };
   }, [selectedMonth]);
 
   const formattedEvents = useMemo(() => {
@@ -142,8 +163,12 @@ export default function Novedades() {
 
         {/* Events */}
         {loading || error ? (
-          <div className="min-h-125 animate-pulse" aria-busy={loading ? "true" : undefined}>
-                <span role="alert" className="text-red-500">{error}</span>
+          <div className="min-h-125 animate-pulse" aria-busy="true">
+            {error && (
+              <div className="text-center pt-8 pb-4">
+                <p role="alert" className="font-body text-sm text-red-500">{error}</p>
+              </div>
+            )}
             <div className="flex md:hidden gap-4 overflow-x-auto pb-4 -mx-6 px-6">
               {[1, 2, 3].map((i) => (
                 <div
@@ -224,7 +249,10 @@ export default function Novedades() {
                               ? `- ${event.uiEndDate}`
                               : ""}{" "}
                             | agendar
-                            <span className="sr-only"> (se abre en nueva ventana)</span>
+                            <span className="sr-only">
+                              {" "}
+                              (se abre en nueva ventana)
+                            </span>
                           </span>
                         </a>
                         <h3 className="font-display font-medium text-lg text-dark-charcoal mb-2">
@@ -237,13 +265,16 @@ export default function Novedades() {
                           href={event.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                           className="flex items-center gap-1 text-[#4B5563] hover:text-[#3A85AC] hover:underline transition-colors min-w-0"
+                          className="flex items-center gap-1 text-[#4B5563] hover:text-[#3A85AC] hover:underline transition-colors min-w-0"
                         >
                           <IconLocation className="w-3.5 h-3.5" />
                           <span className="font-body text-xs truncate">
                             {event.location}
                           </span>
-                          <span className="sr-only"> (se abre en nueva ventana)</span>
+                          <span className="sr-only">
+                            {" "}
+                            (se abre en nueva ventana)
+                          </span>
                         </a>
                       </div>
                     </div>
@@ -282,7 +313,10 @@ export default function Novedades() {
                               ? `- ${event.uiEndDate}`
                               : ""}{" "}
                             | agendar
-                            <span className="sr-only"> (se abre en nueva ventana)</span>
+                            <span className="sr-only">
+                              {" "}
+                              (se abre en nueva ventana)
+                            </span>
                           </span>
                         </a>
                         <h3 className="font-display font-medium text-xl text-dark-charcoal mb-2">
@@ -296,13 +330,16 @@ export default function Novedades() {
                             href={event.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                             className="flex items-center gap-1 text-[#3A85AC] hover:text-[#D5B35F] hover:underline transition-colors min-w-0"
+                            className="flex items-center gap-1 text-[#3A85AC] hover:text-[#D5B35F] hover:underline transition-colors min-w-0"
                           >
                             <IconLocation className="w-3.5 h-3.5" />
                             <span className="font-body text-xs truncate">
                               {event.location}
                             </span>
-                            <span className="sr-only"> (se abre en nueva ventana)</span>
+                            <span className="sr-only">
+                              {" "}
+                              (se abre en nueva ventana)
+                            </span>
                           </a>
                         </div>
                       </div>
