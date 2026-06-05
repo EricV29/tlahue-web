@@ -21,15 +21,6 @@ import geoColCentro from "../../public/assets/3D/geo/colCentro.json";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
-import {
-  relojCard,
-  iglesiaVCard,
-  iglesiaNCard,
-  casaCulturaCard,
-  presidenciaCard,
-  jarronCard,
-  torilCard,
-} from "../data/modelCards";
 import IconChevronDown from "./icons/IconChevronDown";
 import IconReset from "./icons/IconReset";
 import modelos3D from "../data/modelos3D.json";
@@ -53,24 +44,6 @@ const TLAHUE_BOUNDS: [[number, number], [number, number]] = [
 
 // Coordenadas TRHEE - Reloj
 const relojTransform = createTransform([-99.232346, 20.131354]);
-
-//  Coordenadas TRHEE - Iglesia Vieja
-const iglesiaVTransform = createTransform([-99.232775, 20.131755]);
-
-//  Coordenadas TRHEE - Iglesia Nueva
-const iglesiaNTransform = createTransform([-99.233566, 20.132749]);
-
-//  Coordenadas TRHEE - Casa cultura
-const casaculturaTransform = createTransform([-99.23509, 20.130639]);
-
-//  Coordenadas TRHEE - Presidencia Municipal
-const presidenciaTransform = createTransform([-99.234655, 20.130599]);
-
-//  Coordenadas TRHEE - Jarron
-const jarronTransform = createTransform([-99.234274, 20.13148]);
-
-//  Coordenadas TRHEE - Toril
-const torilTransform = createTransform([-99.236034, 20.130934]);
 
 //* HELPER para coordenadas de modelos
 function createTransform(coords: [number, number], altitude = 0) {
@@ -707,365 +680,424 @@ function MapTlahue() {
 
           //* MODELOS
 
-          //* MODELO RELOJ
-          loader.load(
-            modelData?.gbl,
-            (gltf) => {
-              const modelReloj = gltf.scene;
+          modelos3D.forEach((modelData) => {
+            loader.load(
+              modelData.glb,
+              (gltf) => {
+                const model = gltf.scene;
+                prepareModel(model);
 
-              prepareModel(modelReloj);
+                model.scale.set(
+                  ...(modelData.scale as [number, number, number]),
+                );
+                model.rotation.x = modelData.rotation[0];
+                model.rotation.y = modelData.rotation[1];
+                model.rotation.z = modelData.rotation[2];
+                model.position.copy(
+                  mercatorToScenePosition(
+                    createTransform([modelData.coords[0], modelData.coords[1]]),
+                  ),
+                );
 
-              // Características de visualización
-              // modelReloj.scale.set(10, 10, 10);
-              modelReloj.scale.set(
-                ...(modelData.scale as [number, number, number]),
-              );
-              // modelReloj.rotation.x = Math.PI / 2;
-              modelReloj.rotation.x = modelData?.rotation[0];
-              modelReloj.rotation.y = modelData?.rotation[1];
-              modelReloj.rotation.z = modelData?.rotation[2];
-              // modelReloj.position.copy(mercatorToScenePosition(relojTransform));
-              modelReloj.position.copy(
-                mercatorToScenePosition(
-                  createTransform([modelData.coords[0], modelData.coords[1]]),
-                ),
-              );
+                fbScene.current?.add(model);
 
-              fbScene.current?.add(modelReloj);
+                const etiqueta = create3DLabel(modelData.name, modelData.icon);
+                etiqueta.position.set(
+                  modelData.labelOffset[0],
+                  modelData.labelOffset[1],
+                  modelData.labelOffset[2],
+                );
+                model.add(etiqueta);
 
-              // Etiqueta
-              const etiqueta = create3DLabel(modelData?.name, modelData?.icon);
-              etiqueta.position.set(
-                ...(modelData?.labelOffset as [number, number, number]),
-              );
-              modelReloj.add(etiqueta);
-
-              // Card
-              const cardPopup = createModelCardPopup(modelData, () => {
+                const cardPopup = createModelCardPopup(modelData, () => {
+                  cardPopup.visible = false;
+                  cardActiveRef.current = null;
+                });
+                cardPopup.position.set(
+                  modelData.cardOffset[0],
+                  modelData.cardOffset[1],
+                  modelData.cardOffset[2],
+                );
                 cardPopup.visible = false;
-                cardActiveRef.current = null;
-              });
-              cardPopup.position.set(
-                ...(modelData?.cardOffset as [number, number, number]),
-              );
-              cardPopup.visible = false;
-              modelReloj.add(cardPopup);
+                model.add(cardPopup);
 
-              modelosRef.current.push({
-                id: modelData?.id,
-                mesh: modelReloj,
-                coords: modelData?.coords as [number, number],
-                zoom: modelData?.zoomCard,
-                zoomCardMin: modelData?.zoomCardMin,
-                bearing: modelData?.bearing,
-                card: cardPopup,
-              });
+                modelosRef.current.push({
+                  id: modelData.id,
+                  mesh: model,
+                  coords: modelData.coords as [number, number],
+                  zoom: modelData.zoomCard,
+                  zoomCardMin: modelData.zoomCardMin,
+                  bearing: modelData.bearing,
+                  card: cardPopup,
+                });
 
-              if (mapRef.current) {
-                mapRef.current.triggerRepaint();
-              }
-            },
-            undefined,
-            (error) => {
-              console.error("Error cargando reloj:", error);
-            },
-          );
+                if (mapRef.current) mapRef.current.triggerRepaint();
+              },
+              undefined,
+              (error) =>
+                console.error(`Error cargando ${modelData.id}:`, error),
+            );
+          });
 
-          //* MODELO IGLESIA VIEJA
-          loader.load(
-            "/assets/3D/iglesiaV.glb",
-            (gltf) => {
-              const modelIglesiaV = gltf.scene;
+          // //* MODELO RELOJ
+          // loader.load(
+          //   modelData?.gbl,
+          //   (gltf) => {
+          //     const modelReloj = gltf.scene;
 
-              prepareModel(modelIglesiaV);
+          //     prepareModel(modelReloj);
 
-              // Características de visualización
-              modelIglesiaV.scale.set(45, 40, 45);
-              modelIglesiaV.rotation.x = Math.PI / 2;
-              modelIglesiaV.rotation.y = Math.PI;
-              modelIglesiaV.position.copy(
-                mercatorToScenePosition(iglesiaVTransform),
-              );
+          //     // Características de visualización
+          //     // modelReloj.scale.set(10, 10, 10);
+          //     modelReloj.scale.set(
+          //       ...(modelData.scale as [number, number, number]),
+          //     );
+          //     // modelReloj.rotation.x = Math.PI / 2;
+          //     modelReloj.rotation.x = modelData?.rotation[0];
+          //     modelReloj.rotation.y = modelData?.rotation[1];
+          //     modelReloj.rotation.z = modelData?.rotation[2];
+          //     // modelReloj.position.copy(mercatorToScenePosition(relojTransform));
+          //     modelReloj.position.copy(
+          //       mercatorToScenePosition(
+          //         createTransform([modelData.coords[0], modelData.coords[1]]),
+          //       ),
+          //     );
 
-              fbScene.current?.add(modelIglesiaV);
+          //     fbScene.current?.add(modelReloj);
 
-              // Etiqueta
-              const etiqueta = create3DLabel("Iglesia San Francisco", "🏠");
-              etiqueta.position.set(0, 0.6, 0);
-              modelIglesiaV.add(etiqueta);
+          //     // Etiqueta
+          //     const etiqueta = create3DLabel(modelData?.name, modelData?.icon);
+          //     etiqueta.position.set(
+          //       ...(modelData?.labelOffset as [number, number, number]),
+          //     );
+          //     modelReloj.add(etiqueta);
 
-              // Card
-              const cardPopup = createModelCardPopup(iglesiaVCard, () => {
-                cardPopup.visible = false;
-                cardActiveRef.current = null;
-              });
-              cardPopup.position.set(0, 0, -0.8);
-              cardPopup.visible = false;
-              modelIglesiaV.add(cardPopup);
+          //     // Card
+          //     const cardPopup = createModelCardPopup(modelData, () => {
+          //       cardPopup.visible = false;
+          //       cardActiveRef.current = null;
+          //     });
+          //     cardPopup.position.set(
+          //       ...(modelData?.cardOffset as [number, number, number]),
+          //     );
+          //     cardPopup.visible = false;
+          //     modelReloj.add(cardPopup);
 
-              modelosRef.current.push({
-                id: "iglesia",
-                mesh: modelIglesiaV,
-                coords: [-99.232775, 20.131755],
-                zoom: 19.5,
-                zoomCardMin: 19,
-                card: cardPopup,
-                bearing: 90,
-              });
+          //     modelosRef.current.push({
+          //       id: modelData?.id,
+          //       mesh: modelReloj,
+          //       coords: modelData?.coords as [number, number],
+          //       zoom: modelData?.zoomCard,
+          //       zoomCardMin: modelData?.zoomCardMin,
+          //       bearing: modelData?.bearing,
+          //       card: cardPopup,
+          //     });
 
-              if (mapRef.current) mapRef.current.triggerRepaint();
-            },
-            undefined,
-            (error) => {
-              console.error("Error cargando iglesiav:", error);
-            },
-          );
+          //     if (mapRef.current) {
+          //       mapRef.current.triggerRepaint();
+          //     }
+          //   },
+          //   undefined,
+          //   (error) => {
+          //     console.error("Error cargando reloj:", error);
+          //   },
+          // );
 
-          //* MODELO IGLESIA NUEVA
-          loader.load(
-            "/assets/3D/iglesiaN.glb",
-            (gltf) => {
-              const modelIglesiaN = gltf.scene;
+          // //* MODELO IGLESIA VIEJA
+          // loader.load(
+          //   "/assets/3D/iglesiaV.glb",
+          //   (gltf) => {
+          //     const modelIglesiaV = gltf.scene;
 
-              prepareModel(modelIglesiaN);
+          //     prepareModel(modelIglesiaV);
 
-              // Características de visualización
-              modelIglesiaN.scale.set(60, 60, 60);
-              modelIglesiaN.rotation.x = Math.PI / 2;
-              modelIglesiaN.rotation.y = Math.PI / -3;
-              modelIglesiaN.position.copy(
-                mercatorToScenePosition(iglesiaNTransform),
-              );
+          //     // Características de visualización
+          //     modelIglesiaV.scale.set(45, 40, 45);
+          //     modelIglesiaV.rotation.x = Math.PI / 2;
+          //     modelIglesiaV.rotation.y = Math.PI;
+          //     modelIglesiaV.position.copy(
+          //       mercatorToScenePosition(iglesiaVTransform),
+          //     );
 
-              fbScene.current?.add(modelIglesiaN);
+          //     fbScene.current?.add(modelIglesiaV);
 
-              // Etiqueta
-              const etiqueta = create3DLabel("Iglesia Nueva", "🏠");
-              etiqueta.position.set(0, 0.6, 0);
-              modelIglesiaN.add(etiqueta);
+          //     // Etiqueta
+          //     const etiqueta = create3DLabel("Iglesia San Francisco", "🏠");
+          //     etiqueta.position.set(0, 0.6, 0);
+          //     modelIglesiaV.add(etiqueta);
 
-              // Card
-              const cardPopup = createModelCardPopup(iglesiaNCard, () => {
-                cardPopup.visible = false;
-                cardActiveRef.current = null;
-              });
-              cardPopup.position.set(0, 0, -0.8);
-              cardPopup.visible = false;
-              modelIglesiaN.add(cardPopup);
+          //     // Card
+          //     const cardPopup = createModelCardPopup(iglesiaVCard, () => {
+          //       cardPopup.visible = false;
+          //       cardActiveRef.current = null;
+          //     });
+          //     cardPopup.position.set(0, 0, -0.8);
+          //     cardPopup.visible = false;
+          //     modelIglesiaV.add(cardPopup);
 
-              modelosRef.current.push({
-                id: "iglesian",
-                mesh: modelIglesiaN,
-                coords: [-99.233566, 20.132749],
-                zoom: 19,
-                zoomCardMin: 19,
-                card: cardPopup,
-              });
+          //     modelosRef.current.push({
+          //       id: "iglesia",
+          //       mesh: modelIglesiaV,
+          //       coords: [-99.232775, 20.131755],
+          //       zoom: 19.5,
+          //       zoomCardMin: 19,
+          //       card: cardPopup,
+          //       bearing: 90,
+          //     });
 
-              if (mapRef.current) mapRef.current.triggerRepaint();
-            },
-            undefined,
-            (error) => {
-              console.error("Error cargando iglesian:", error);
-            },
-          );
+          //     if (mapRef.current) mapRef.current.triggerRepaint();
+          //   },
+          //   undefined,
+          //   (error) => {
+          //     console.error("Error cargando iglesiav:", error);
+          //   },
+          // );
 
-          //* MODELO CASA DE LA CULTURA
-          loader.load(
-            "/assets/3D/casacultura.glb",
-            (gltf) => {
-              const modelCasacultura = gltf.scene;
+          // //* MODELO IGLESIA NUEVA
+          // loader.load(
+          //   "/assets/3D/iglesiaN.glb",
+          //   (gltf) => {
+          //     const modelIglesiaN = gltf.scene;
 
-              prepareModel(modelCasacultura);
+          //     prepareModel(modelIglesiaN);
 
-              // Características de visualización
-              modelCasacultura.scale.set(20, 20, 20);
-              modelCasacultura.rotation.x = Math.PI / 2;
-              modelCasacultura.rotation.y = Math.PI / 1.6;
-              modelCasacultura.position.copy(
-                mercatorToScenePosition(casaculturaTransform),
-              );
+          //     // Características de visualización
+          //     modelIglesiaN.scale.set(60, 60, 60);
+          //     modelIglesiaN.rotation.x = Math.PI / 2;
+          //     modelIglesiaN.rotation.y = Math.PI / -3;
+          //     modelIglesiaN.position.copy(
+          //       mercatorToScenePosition(iglesiaNTransform),
+          //     );
 
-              fbScene.current?.add(modelCasacultura);
+          //     fbScene.current?.add(modelIglesiaN);
 
-              // Etiqueta
-              const etiqueta = create3DLabel("Casa de la Cultura", "🏠");
-              etiqueta.position.set(0, 1, 0);
-              modelCasacultura.add(etiqueta);
+          //     // Etiqueta
+          //     const etiqueta = create3DLabel("Iglesia Nueva", "🏠");
+          //     etiqueta.position.set(0, 0.6, 0);
+          //     modelIglesiaN.add(etiqueta);
 
-              // Card
-              const cardPopup = createModelCardPopup(casaCulturaCard, () => {
-                cardPopup.visible = false;
-                cardActiveRef.current = null;
-              });
-              cardPopup.position.set(0, 0.3, -1.3);
-              cardPopup.visible = false;
-              modelCasacultura.add(cardPopup);
+          //     // Card
+          //     const cardPopup = createModelCardPopup(iglesiaNCard, () => {
+          //       cardPopup.visible = false;
+          //       cardActiveRef.current = null;
+          //     });
+          //     cardPopup.position.set(0, 0, -0.8);
+          //     cardPopup.visible = false;
+          //     modelIglesiaN.add(cardPopup);
 
-              modelosRef.current.push({
-                id: "casac",
-                mesh: modelCasacultura,
-                coords: [-99.23509, 20.130639],
-                zoom: 20,
-                zoomCardMin: 20,
-                card: cardPopup,
-                bearing: 160,
-              });
+          //     modelosRef.current.push({
+          //       id: "iglesian",
+          //       mesh: modelIglesiaN,
+          //       coords: [-99.233566, 20.132749],
+          //       zoom: 19,
+          //       zoomCardMin: 19,
+          //       card: cardPopup,
+          //     });
 
-              if (mapRef.current) mapRef.current.triggerRepaint();
-            },
-            undefined,
-            (error) => {
-              console.error("Error cargando iglesian:", error);
-            },
-          );
+          //     if (mapRef.current) mapRef.current.triggerRepaint();
+          //   },
+          //   undefined,
+          //   (error) => {
+          //     console.error("Error cargando iglesian:", error);
+          //   },
+          // );
 
-          //* MODELO PRESIDENCIA
-          loader.load(
-            "/assets/3D/presidencia.glb",
-            (gltf) => {
-              const modelPresidencia = gltf.scene;
+          // //* MODELO CASA DE LA CULTURA
+          // loader.load(
+          //   "/assets/3D/casacultura.glb",
+          //   (gltf) => {
+          //     const modelCasacultura = gltf.scene;
 
-              prepareModel(modelPresidencia);
+          //     prepareModel(modelCasacultura);
 
-              // Características de visualización
-              modelPresidencia.scale.set(20, 20, 20);
-              modelPresidencia.rotation.x = Math.PI / 2;
-              modelPresidencia.rotation.y = Math.PI / 1.8;
-              modelPresidencia.position.copy(
-                mercatorToScenePosition(presidenciaTransform),
-              );
+          //     // Características de visualización
+          //     modelCasacultura.scale.set(20, 20, 20);
+          //     modelCasacultura.rotation.x = Math.PI / 2;
+          //     modelCasacultura.rotation.y = Math.PI / 1.6;
+          //     modelCasacultura.position.copy(
+          //       mercatorToScenePosition(casaculturaTransform),
+          //     );
 
-              fbScene.current?.add(modelPresidencia);
+          //     fbScene.current?.add(modelCasacultura);
 
-              // Etiqueta
-              const etiqueta = create3DLabel("Presidencia", "🏠");
-              etiqueta.position.set(0, 1, 0);
-              modelPresidencia.add(etiqueta);
+          //     // Etiqueta
+          //     const etiqueta = create3DLabel("Casa de la Cultura", "🏠");
+          //     etiqueta.position.set(0, 1, 0);
+          //     modelCasacultura.add(etiqueta);
 
-              // Card
-              const cardPopup = createModelCardPopup(presidenciaCard, () => {
-                cardPopup.visible = false;
-                cardActiveRef.current = null;
-              });
-              cardPopup.position.set(0, 0.3, -1);
-              cardPopup.visible = false;
-              modelPresidencia.add(cardPopup);
+          //     // Card
+          //     const cardPopup = createModelCardPopup(casaCulturaCard, () => {
+          //       cardPopup.visible = false;
+          //       cardActiveRef.current = null;
+          //     });
+          //     cardPopup.position.set(0, 0.3, -1.3);
+          //     cardPopup.visible = false;
+          //     modelCasacultura.add(cardPopup);
 
-              modelosRef.current.push({
-                id: "presidencia",
-                mesh: modelPresidencia,
-                coords: [-99.234655, 20.130599],
-                zoom: 20,
-                zoomCardMin: 20,
-                card: cardPopup,
-                bearing: 160,
-              });
+          //     modelosRef.current.push({
+          //       id: "casac",
+          //       mesh: modelCasacultura,
+          //       coords: [-99.23509, 20.130639],
+          //       zoom: 20,
+          //       zoomCardMin: 20,
+          //       card: cardPopup,
+          //       bearing: 160,
+          //     });
 
-              if (mapRef.current) mapRef.current.triggerRepaint();
-            },
-            undefined,
-            (error) => {
-              console.error("Error cargando iglesian:", error);
-            },
-          );
+          //     if (mapRef.current) mapRef.current.triggerRepaint();
+          //   },
+          //   undefined,
+          //   (error) => {
+          //     console.error("Error cargando iglesian:", error);
+          //   },
+          // );
 
-          //* MODELO JARRON
-          loader.load(
-            "/assets/3D/jarron.glb",
-            (gltf) => {
-              const modelJarron = gltf.scene;
+          // //* MODELO PRESIDENCIA
+          // loader.load(
+          //   "/assets/3D/presidencia.glb",
+          //   (gltf) => {
+          //     const modelPresidencia = gltf.scene;
 
-              prepareModel(modelJarron);
+          //     prepareModel(modelPresidencia);
 
-              // Características de visualización
-              modelJarron.scale.set(8, 8, 8);
-              modelJarron.rotation.x = Math.PI / 2;
-              modelJarron.rotation.y = Math.PI;
-              modelJarron.position.copy(
-                mercatorToScenePosition(jarronTransform),
-              );
+          //     // Características de visualización
+          //     modelPresidencia.scale.set(20, 20, 20);
+          //     modelPresidencia.rotation.x = Math.PI / 2;
+          //     modelPresidencia.rotation.y = Math.PI / 1.8;
+          //     modelPresidencia.position.copy(
+          //       mercatorToScenePosition(presidenciaTransform),
+          //     );
 
-              fbScene.current?.add(modelJarron);
+          //     fbScene.current?.add(modelPresidencia);
 
-              // Etiqueta
-              const etiqueta = create3DLabel("Jarron", "🏠");
-              etiqueta.position.set(0, 1, 0);
-              modelJarron.add(etiqueta);
+          //     // Etiqueta
+          //     const etiqueta = create3DLabel("Presidencia", "🏠");
+          //     etiqueta.position.set(0, 1, 0);
+          //     modelPresidencia.add(etiqueta);
 
-              // Card
-              const cardPopup = createModelCardPopup(jarronCard, () => {
-                cardPopup.visible = false;
-                cardActiveRef.current = null;
-              });
-              cardPopup.position.set(0, 0.3, -1.3);
-              cardPopup.visible = false;
-              modelJarron.add(cardPopup);
+          //     // Card
+          //     const cardPopup = createModelCardPopup(presidenciaCard, () => {
+          //       cardPopup.visible = false;
+          //       cardActiveRef.current = null;
+          //     });
+          //     cardPopup.position.set(0, 0.3, -1);
+          //     cardPopup.visible = false;
+          //     modelPresidencia.add(cardPopup);
 
-              modelosRef.current.push({
-                id: "jarron",
-                mesh: modelJarron,
-                coords: [-99.234274, 20.13148],
-                zoom: 21,
-                zoomCardMin: 20,
-                card: cardPopup,
-                bearing: 90,
-              });
+          //     modelosRef.current.push({
+          //       id: "presidencia",
+          //       mesh: modelPresidencia,
+          //       coords: [-99.234655, 20.130599],
+          //       zoom: 20,
+          //       zoomCardMin: 20,
+          //       card: cardPopup,
+          //       bearing: 160,
+          //     });
 
-              if (mapRef.current) mapRef.current.triggerRepaint();
-            },
-            undefined,
-            (error) => {
-              console.error("Error cargando iglesian:", error);
-            },
-          );
+          //     if (mapRef.current) mapRef.current.triggerRepaint();
+          //   },
+          //   undefined,
+          //   (error) => {
+          //     console.error("Error cargando iglesian:", error);
+          //   },
+          // );
 
-          //* MODELO TORIL
-          loader.load(
-            "/assets/3D/toril.glb",
-            (gltf) => {
-              const modelToril = gltf.scene;
+          // //* MODELO JARRON
+          // loader.load(
+          //   "/assets/3D/jarron.glb",
+          //   (gltf) => {
+          //     const modelJarron = gltf.scene;
 
-              prepareModel(modelToril);
+          //     prepareModel(modelJarron);
 
-              // Características de visualización
-              modelToril.scale.set(60, 60, 60);
-              modelToril.rotation.x = Math.PI / 2;
-              modelToril.rotation.y = Math.PI;
-              modelToril.position.copy(mercatorToScenePosition(torilTransform));
+          //     // Características de visualización
+          //     modelJarron.scale.set(8, 8, 8);
+          //     modelJarron.rotation.x = Math.PI / 2;
+          //     modelJarron.rotation.y = Math.PI;
+          //     modelJarron.position.copy(
+          //       mercatorToScenePosition(jarronTransform),
+          //     );
 
-              fbScene.current?.add(modelToril);
+          //     fbScene.current?.add(modelJarron);
 
-              // Etiqueta
-              const etiqueta = create3DLabel("Toril", "🏠");
-              etiqueta.position.set(0, 0.5, 0);
-              modelToril.add(etiqueta);
+          //     // Etiqueta
+          //     const etiqueta = create3DLabel("Jarron", "🏠");
+          //     etiqueta.position.set(0, 1, 0);
+          //     modelJarron.add(etiqueta);
 
-              // Card
-              const cardPopup = createModelCardPopup(torilCard, () => {
-                cardPopup.visible = false;
-                cardActiveRef.current = null;
-              });
-              cardPopup.position.set(-1, 0.3, 0);
-              cardPopup.visible = false;
-              modelToril.add(cardPopup);
+          //     // Card
+          //     const cardPopup = createModelCardPopup(jarronCard, () => {
+          //       cardPopup.visible = false;
+          //       cardActiveRef.current = null;
+          //     });
+          //     cardPopup.position.set(0, 0.3, -1.3);
+          //     cardPopup.visible = false;
+          //     modelJarron.add(cardPopup);
 
-              modelosRef.current.push({
-                id: "toril",
-                mesh: modelToril,
-                coords: [-99.236034, 20.130934],
-                zoom: 19,
-                zoomCardMin: 18.5,
-                card: cardPopup,
-              });
+          //     modelosRef.current.push({
+          //       id: "jarron",
+          //       mesh: modelJarron,
+          //       coords: [-99.234274, 20.13148],
+          //       zoom: 21,
+          //       zoomCardMin: 20,
+          //       card: cardPopup,
+          //       bearing: 90,
+          //     });
 
-              if (mapRef.current) mapRef.current.triggerRepaint();
-            },
-            undefined,
-            (error) => {
-              console.error("Error cargando iglesian:", error);
-            },
-          );
+          //     if (mapRef.current) mapRef.current.triggerRepaint();
+          //   },
+          //   undefined,
+          //   (error) => {
+          //     console.error("Error cargando iglesian:", error);
+          //   },
+          // );
+
+          // //* MODELO TORIL
+          // loader.load(
+          //   "/assets/3D/toril.glb",
+          //   (gltf) => {
+          //     const modelToril = gltf.scene;
+
+          //     prepareModel(modelToril);
+
+          //     // Características de visualización
+          //     modelToril.scale.set(60, 60, 60);
+          //     modelToril.rotation.x = Math.PI / 2;
+          //     modelToril.rotation.y = Math.PI;
+          //     modelToril.position.copy(mercatorToScenePosition(torilTransform));
+
+          //     fbScene.current?.add(modelToril);
+
+          //     // Etiqueta
+          //     const etiqueta = create3DLabel("Toril", "🏠");
+          //     etiqueta.position.set(0, 0.5, 0);
+          //     modelToril.add(etiqueta);
+
+          //     // Card
+          //     const cardPopup = createModelCardPopup(torilCard, () => {
+          //       cardPopup.visible = false;
+          //       cardActiveRef.current = null;
+          //     });
+          //     cardPopup.position.set(-1, 0.3, 0);
+          //     cardPopup.visible = false;
+          //     modelToril.add(cardPopup);
+
+          //     modelosRef.current.push({
+          //       id: "toril",
+          //       mesh: modelToril,
+          //       coords: [-99.236034, 20.130934],
+          //       zoom: 19,
+          //       zoomCardMin: 18.5,
+          //       card: cardPopup,
+          //     });
+
+          //     if (mapRef.current) mapRef.current.triggerRepaint();
+          //   },
+          //   undefined,
+          //   (error) => {
+          //     console.error("Error cargando iglesian:", error);
+          //   },
+          // );
 
           //* TERRITORIOS
           catalogoColonias.forEach((colonia) => {

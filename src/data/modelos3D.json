@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "gbl": "/assets/3D/reloj.glb",
+    "glb": "/assets/3D/reloj.glb",
     "coords": [-99.232346, 20.131354],
     "scale": [10, 10, 10],
     "rotation": [1.5708, 0, 0],
@@ -19,6 +19,138 @@
       "description": "Estructura única en Hidalgo que funciona como kiosco y reloj monumental, edificada por los pobladores para honrar al Ejido. Conserva su maquinaria mecánica original, a la cual se le da cuerda manualmente hasta el día de hoy.",
       "mapsUrl": "https://maps.app.goo.gl/H8AUSPxmdeveauut8",
       "galleryUrl": "/galeria/reloj"
+    }
+  },
+  {
+    "id": "2",
+    "glb": "/assets/3D/iglesiaV.glb",
+    "coords": [-99.232775, 20.131755],
+    "scale": [45, 40, 45],
+    "rotation": [1.5708, 3.1416, 0],
+    "name": "Templo y Exconvento de \"San Francisco\"",
+    "icon": "⛪",
+    "labelOffset": [0, 0.6, 0],
+    "cardOffset": [0, 0, -0.8],
+    "zoomCard": 19.5,
+    "zoomCardMin": 19,
+    "bearing": 90,
+    "card": {
+      "image": "iglesiaVCard_g2hrwi",
+      "date": "1560",
+      "style": "Plateresco",
+      "description": "Fue un convento \"de visita\" (de paso para los frailes), por lo que es de dimensiones pequeñas. Destaca a nivel nacional por su hermosa y única capilla abierta de piedra labrada, y por conservar valiosas pinturas murales originales en sus pasillos que relatan escenas religiosas.",
+      "mapsUrl": "https://maps.app.goo.gl/Q1rqeevoJDJgBe7u7",
+      "galleryUrl": "/galeria/iglesia"
+    }
+  },
+  {
+    "id": "3",
+    "glb": "/assets/3D/iglesiaN.glb",
+    "coords": [-99.233566, 20.132749],
+    "scale": [60, 60, 60],
+    "rotation": [1.5708, -1.0472, 0],
+    "name": "Nueva Parroquia de \"San Francisco de Asís\"",
+    "icon": "⛪",
+    "labelOffset": [0, 0.6, 0],
+    "cardOffset": [0, 0, -0.8],
+    "zoomCard": 19,
+    "zoomCardMin": 19,
+    "bearing": 0,
+    "card": {
+      "image": "iglesiaNCard_xpzapu",
+      "date": "Siglo XX - XXI",
+      "style": "Moderno y funcional",
+      "description": "Conocida localmente como la \"Iglesia Nueva\", es un recinto moderno construido a un costado de la iglesia antigua (el exconvento del siglo XVI). Se edificó por pura necesidad: la construcción original era demasiado pequeña para la población actual, por lo que este nuevo espacio es mucho más amplio y se utiliza para oficiar las misas principales y albergar a los fieles durante las fiestas patronales.",
+      "mapsUrl": "https://maps.app.goo.gl/HZ6oL4Li9sp5iPML7",
+      "galleryUrl": "/galeria/iglesia"
+    }
+  },
+  {
+    "id": "4",
+    "name": "Centro Cultural Regional",
+    "icon": "🏛️",
+    "glb": "/assets/3D/casacultura.glb",
+    "coords": [-99.23509, 20.130639],
+    "scale": [20, 20, 20],
+    "rotation": [1.5708, 1.9635, 0],
+    "labelOffset": [0, 1, 0],
+    "cardOffset": [0, 0.3, -1.3],
+    "zoomCard": 20,
+    "zoomCardMin": 20,
+    "bearing": 160,
+    "card": {
+      "image": "centroCCard_cbkvae",
+      "date": "2018",
+      "style": "Civil institucional y funcional",
+      "description": "Recinto de carácter municipal destinado a la enseñanza, fomento y difusión de las artes y tradiciones locales. Es el punto de encuentro para talleres, exposiciones y eventos sociales que preservan la identidad de la comunidad.",
+      "mapsUrl": "https://maps.app.goo.gl/Mu4NRz2P2QhtxocU6",
+      "galleryUrl": "/galeria/casacultura"
+    }
+  },
+  {
+    "id": "5",
+    "name": "Presidencia Municipal",
+    "icon": "🏛️",
+    "glb": "/assets/3D/presidencia.glb",
+    "coords": [-99.234655, 20.130599],
+    "scale": [20, 20, 20],
+    "rotation": [1.5708, 1.7453, 0],
+    "labelOffset": [0, 1, 0],
+    "cardOffset": [0, 0.3, -1],
+    "zoomCard": 20,
+    "zoomCardMin": 20,
+    "bearing": 160,
+    "card": {
+      "image": "presidenciaCard_xp3yjz",
+      "date": "1970",
+      "style": "Civil institucional y de carácter funcional",
+      "description": "Edificio de orden gubernamental que alberga la sede del ayuntamiento. Carece de un diseño histórico ornamental, ya que su construcción y posteriores remodelaciones se han enfocado puramente en la utilidad práctica para la administración pública y la atención ciudadana.",
+      "mapsUrl": "https://maps.app.goo.gl/DWBDBu7AG5Ei7tBYA",
+      "galleryUrl": "/galeria/presidencia"
+    }
+  },
+  {
+    "id": "6",
+    "name": "Monumento \"El Jarrón\"",
+    "icon": "🏛️",
+    "glb": "/assets/3D/jarron.glb",
+    "coords": [-99.234274, 20.13148],
+    "scale": [8, 8, 8],
+    "rotation": [1.5708, 3.1416, 0],
+    "labelOffset": [0, 1, 0],
+    "cardOffset": [0, 0.3, -1.3],
+    "zoomCard": 21,
+    "zoomCardMin": 20,
+    "bearing": 90,
+    "card": {
+      "image": "jarronCard_tqkkte",
+      "date": "2020",
+      "style": "Monumento urbano",
+      "description": "\"El Jarrón\" es un conocido hito urbano y punto de referencia cotidiano para los habitantes de Tlahuelilpan. Funciona como un elemento de identidad local contemporánea y, es un excelente punto de orientación para conectar las rutas y calles principales del municipio.",
+      "mapsUrl": "https://maps.app.goo.gl/pGhS7swtdbTGPebF6",
+      "galleryUrl": "/galeria/jarron"
+    }
+  },
+  {
+    "id": "7",
+    "name": "Plaza de Toros \"Jorge Gutierrez\"",
+    "icon": "🐂",
+    "glb": "/assets/3D/toril.glb",
+    "coords": [-99.236034, 20.130934],
+    "scale": [60, 60, 60],
+    "rotation": [1.5708, 3.1416, 0],
+    "labelOffset": [0, 0.5, 0],
+    "cardOffset": [-1, 0.3, 0],
+    "zoomCard": 19,
+    "zoomCardMin": 18.5,
+    "bearing": 0,
+    "card": {
+      "image": "plazatorosCard_xxtrtf",
+      "date": "Siglo XX",
+      "style": "Civil de entretenimiento",
+      "description": "Es uno de los recintos de espectáculos más importantes del municipio, cobrando especial protagonismo durante la tradicional feria de octubre. Funciona como el escenario principal para eventos taurinos, charreadas y espectáculos masivos.",
+      "mapsUrl": "https://maps.app.goo.gl/W8D6AFCb41WpKcQy6",
+      "galleryUrl": "/galeria/toril"
     }
   }
 ]

@@ -40,14 +40,14 @@
 }
 
 .territory-text {
-  color: #d5b35f;
+  color: #aa642a;
   font-size: 13px;
-  -webkit-text-stroke: 0.1px #000;
+  -webkit-text-stroke: 0.1px #fff;
   text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
 }
 
 .territory-icon {
@@ -64,7 +64,7 @@
 }
 
 .model-card {
-  width: 300px;
+  width: 330px;
   background: #f3f3f3;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
@@ -96,23 +96,25 @@
 }
 
 .model-card-header-text {
-  padding-left: 74px;
-  margin-bottom: 6px;
+  display: flex;
+  padding-left: 70px;
+  padding-right: 20px;
+  margin-bottom: 10px;
+  min-height: 50px;
 }
 
 .model-card-title {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--color-dark-charcoal);
-  margin: 0 0 4px 0;
   line-height: 1.2;
 }
 
 .model-card-meta {
   display: flex;
-  margin: 15px 0px 5px 0px;
   justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 .model-card-date {
@@ -147,7 +149,7 @@
   display: flex;
   justify-content: space-between;
   padding-top: 8px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #aa642a;
 }
 
 .model-card-link {
