@@ -48,8 +48,14 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-canvas-white">
+      <a
+        href="#main-content"
+        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-[#AA642A] text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
+      >
+        Saltar al contenido
+      </a>
       <Navbar activeSection={activeSection} />
-      <main>
+      <main id="main-content">
         <Hero />
         <div className="relative z-10 mt-[100vh] bg-canvas-white">
           <Events />

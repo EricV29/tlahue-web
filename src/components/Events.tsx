@@ -11,6 +11,7 @@ import navidad from "../assets/images/events/navidad.webp";
 import aniversario from "../assets/images/events/aniversario.webp";
 import mexico from "../assets/images/events/mexico.webp";
 import { getImageUrl } from "../utils/cloudinary";
+import { useFocusTrap } from "../hooks/useFocusTrap";
 import { getEventsByMonth, type TlaueEvents } from "../services/events.service";
 
 interface MonthOption {
@@ -43,6 +44,7 @@ export default function Novedades() {
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
 
   const closeLightbox = useCallback(() => setLightboxUrl(null), []);
+  const lightboxRef = useFocusTrap(!!lightboxUrl);
 
   useEffect(() => {
     document.dispatchEvent(
@@ -309,6 +311,7 @@ export default function Novedades() {
 
       {lightboxUrl && (
         <div
+          ref={lightboxRef}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
           onClick={closeLightbox}
         >

@@ -4,6 +4,7 @@ import IconChevronLeft from "./icons/IconChevronLeft";
 import IconChevronRight from "./icons/IconChevronRight";
 import IconClose from "./icons/IconClose";
 import { getImageUrl } from "../utils/cloudinary";
+import { useFocusTrap } from "../hooks/useFocusTrap";
 
 interface GalleryLightboxProps {
   items: GalleryItem[];
@@ -21,6 +22,7 @@ export default function GalleryLightbox({
   onNext,
 }: GalleryLightboxProps) {
   const item = items[currentIndex];
+  const lightboxRef = useFocusTrap(true);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -54,6 +56,7 @@ export default function GalleryLightbox({
 
   return (
     <div
+      ref={lightboxRef}
       className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-black/95 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >

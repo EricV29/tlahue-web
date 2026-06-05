@@ -147,7 +147,14 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-black">
+      <a
+        href="#galeria-content"
+        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-[#AA642A] text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
+      >
+        Saltar al contenido
+      </a>
       <Navbar activeSection="inicio" isHidden={!showNavbar} />
+      <main id="galeria-content">
 
       <div className="relative">
         <div className="absolute top-0 left-0 right-0 h-40 md:h-56 bg-[radial-gradient(ellipse_60%_80px_at_50%_0px,rgba(255,255,255,0.30),transparent)] pointer-events-none" />
@@ -242,6 +249,7 @@ export default function GalleryPage() {
           onNext={nextLightbox}
         />
       )}
+      </main>
     </div>
   );
 }
