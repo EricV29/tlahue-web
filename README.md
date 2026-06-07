@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=vite,react,tailwind,typescript,threejs" />
-    <img src="https://skills.syvixor.com/api/icons?i=cloudinary" />
+    <img src="https://skills.syvixor.com/api/icons?i=mapbox,gsap,opencode,cloudinary" />
   </a>
 </p>
 
