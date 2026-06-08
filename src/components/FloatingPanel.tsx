@@ -31,11 +31,11 @@ export default function FloatingPanel({
 
   return (
     <div
-      className={`fixed bottom-6 z-50 transition-all duration-500 ease-in-out ${
+      className={`fixed bottom-6 z-50 pointer-events-none transition-all duration-500 ease-in-out ${
         position === "right" ? "right-6" : "left-6"
       } ${
         isHidden
-          ? `opacity-0 ${position === "right" ? "translate-x-5" : "-translate-x-5"} pointer-events-none`
+          ? `opacity-0 ${position === "right" ? "translate-x-5" : "-translate-x-5"}`
           : "opacity-100 translate-x-0"
       }`}
     >
@@ -53,7 +53,7 @@ export default function FloatingPanel({
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`flex items-center justify-center w-14 h-14 rounded-full ${buttonBg} text-white shadow-lg ${buttonHover} transition-all duration-300 cursor-pointer ${position === "left" ? "pointer-events-auto" : ""}`}
+          className={`flex items-center justify-center w-14 h-14 rounded-full ${buttonBg} text-white shadow-lg ${buttonHover} transition-all duration-300 cursor-pointer pointer-events-auto`}
           aria-label={buttonAriaLabel}
         >
           <div
