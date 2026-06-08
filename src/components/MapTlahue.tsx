@@ -1014,7 +1014,7 @@ function MapTlahue() {
   return (
     <section
       aria-label="Mapa"
-      className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-20 ${back} `}
+      className={`w-full min-h-screen overflow-x-hidden flex flex-col items-center justify-center py-12 md:py-20 ${back} `}
     >
       <div
         id="mapa"
@@ -1024,18 +1024,18 @@ function MapTlahue() {
           mapa municipal
         </span>
         <h2
-          className={`font-display font-light text-[40px] ${title} tracking-[-0.0200em] leading-[1.1]`}
+          className={`font-display font-light text-2xl md:text-[40px] ${title} tracking-[-0.0200em] leading-[1.1]`}
         >
           Visitanos
         </h2>
       </div>
-      <div className="relative w-full max-w-6xl h-150 rounded-xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-6xl h-[50vh] md:h-150 rounded-xl shadow-2xl overflow-hidden">
         {/* Select de Territorios */}
-        <div className="absolute top-6 right-6 z-20 flex flex-row items-center gap-2">
+        <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20 flex flex-row items-center gap-2">
           <div className="relative">
             <select
               id="territoriosSelect"
-              className="appearance-none px-4 py-2.5 min-w-44 bg-white text-dark-charcoal font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50"
+              className="appearance-none px-4 py-2.5 min-w-36 md:min-w-44 bg-white text-dark-charcoal font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50"
               value={selectedColoniaId}
               onChange={handleTerritorioChange}
             >
