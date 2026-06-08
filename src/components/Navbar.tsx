@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { SectionId } from "../App";
 import { useLightbox } from "../context/LightboxContext";
@@ -36,6 +36,22 @@ export default function Navbar({
   const { isLightboxOpen } = useLightbox();
   const location = useLocation();
   const isGaleria = location.pathname === "/galeria";
+
+  const handleSamePageNav = useCallback(
+    (href: string) => {
+      const [path, hash] = href.split("#");
+      if (path === location.pathname || (path === "" && location.pathname === "/")) {
+        if (hash) {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        setIsOpen(false);
+      }
+    },
+    [location.pathname],
+  );
 
   useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 768);
@@ -80,7 +96,10 @@ export default function Navbar({
           key={link.label}
           to={link.href}
           className={linkClass(link.label)}
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            handleSamePageNav(link.href);
+          }}
         >
           {link.label}
         </Link>
@@ -100,7 +119,10 @@ export default function Navbar({
           key={link.label}
           to={link.href}
           className={mobileLinkClass(link.label)}
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            handleSamePageNav(link.href);
+          }}
         >
           {link.label}
         </Link>
@@ -133,7 +155,11 @@ export default function Navbar({
             : "bg-white/10 backdrop-blur-md border border-white/20"
         }`}
       >
-        <Link to="/" className="flex items-center shrink-0">
+        <Link
+          to="/"
+          className="flex items-center shrink-0"
+          onClick={() => handleSamePageNav("/")}
+        >
           <img
             src="/logo.svg"
             alt="Tlahuelilpan"
