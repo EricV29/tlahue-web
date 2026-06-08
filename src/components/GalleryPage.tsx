@@ -79,7 +79,7 @@ export default function GalleryPage() {
         });
         if (data.length < LIMIT) setHasMore(false);
       })
-      .catch(() => setError("Error get images"))
+      .catch(() => setError("Servicio no disponible"))
       .finally(() => {
         setLoading(false);
         loadingRef.current = false;
@@ -152,7 +152,7 @@ export default function GalleryPage() {
     <div className="min-h-screen bg-black">
       <a
         href="#galeria-content"
-        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-[#AA642A] text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
+        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-tlahu-clay text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
       >
         Saltar al contenido
       </a>
@@ -227,7 +227,7 @@ export default function GalleryPage() {
             <p className="font-body text-sm text-gray-600">No se pudo conectar con el servidor. Verifica tu conexión o intenta más tarde.</p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-2 rounded-md bg-tlahu-clay px-5 py-2 font-body text-sm font-medium text-white transition-colors hover:bg-[#8f5220]"
+              className="mt-2 rounded-md bg-tlahu-clay px-5 py-2 font-body text-sm font-medium text-white transition-colors hover:brightness-90"
             >
               Reintentar
             </button>
@@ -248,7 +248,7 @@ export default function GalleryPage() {
           </div>
         )}
         {loading && (
-          <p className="text-center text-gray-500 py-8">Cargando...</p>
+          <p aria-live="polite" className="text-center text-gray-500 py-8">Cargando...</p>
         )}
         {!hasMore && !loading && (
           <p className="text-center text-gray-500 py-8">No hay más imágenes</p>

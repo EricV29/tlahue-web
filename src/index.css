@@ -40,27 +40,27 @@
 }
 
 .territory-text {
-  color: #aa642a;
+  color: var(--color-tlahu-clay);
   font-size: 13px;
-  -webkit-text-stroke: 0.1px #fff;
+  -webkit-text-stroke: 0.1px var(--color-canvas-white);
   text-shadow:
-    -1px -1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px 1px 0 #fff;
+    -1px -1px 0 var(--color-canvas-white),
+    1px -1px 0 var(--color-canvas-white),
+    -1px 1px 0 var(--color-canvas-white),
+    1px 1px 0 var(--color-canvas-white);
 }
 
 .territory-icon {
   font-size: 14px;
   width: 28px;
   height: 28px;
-  background: #d5b35f;
+  background: var(--color-tlahu-gold);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-  border: 2px solid #fff;
+  border: 2px solid var(--color-canvas-white);
 }
 
 .model-card {
@@ -149,7 +149,7 @@
   display: flex;
   justify-content: space-between;
   padding-top: 8px;
-  border-top: 1px solid #aa642a;
+  border-top: 1px solid var(--color-tlahu-clay);
 }
 
 .model-card-link {

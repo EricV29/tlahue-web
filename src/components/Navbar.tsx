@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { SectionId } from "../App";
+import { useLightbox } from "../context/LightboxContext";
 import IconMenu from "./icons/IconMenu";
 import IconClose from "./icons/IconClose";
 
@@ -31,18 +32,7 @@ export default function Navbar({
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-
-  useEffect(() => {
-    const open = () => setLightboxOpen(true);
-    const close = () => setLightboxOpen(false);
-    document.addEventListener("lightbox:open", open);
-    document.addEventListener("lightbox:close", close);
-    return () => {
-      document.removeEventListener("lightbox:open", open);
-      document.removeEventListener("lightbox:close", close);
-    };
-  }, []);
+  const { isLightboxOpen } = useLightbox();
   const location = useLocation();
   const isGaleria = location.pathname === "/galeria";
 
@@ -71,10 +61,10 @@ export default function Navbar({
     const isActive = isActiveLink(label);
     return `px-4 py-1.5 font-body text-sm font-medium rounded-md transition-all whitespace-nowrap ${
       isActive
-        ? "text-[#3A85AC]"
+        ? "text-tlahu-blue"
         : isScrolled
-          ? "text-dark-charcoal hover:text-[#3A85AC] hover:bg-gray-100"
-          : "text-white hover:text-[#D5B35F] hover:bg-white/10"
+          ? "text-dark-charcoal hover:text-tlahu-blue hover:bg-gray-100"
+          : "text-white hover:text-tlahu-gold hover:bg-white/10"
     }`;
   };
 
@@ -82,10 +72,10 @@ export default function Navbar({
     const isActive = isActiveLink(label);
     return `px-4 py-3 font-body text-sm font-medium rounded-lg transition-all text-center ${
       isActive
-        ? "text-[#3A85AC]"
+        ? "text-tlahu-blue"
         : isScrolled
-          ? "text-dark-charcoal hover:text-[#3A85AC] hover:bg-gray-100"
-          : "text-white hover:text-[#D5B35F] hover:bg-white/10"
+          ? "text-dark-charcoal hover:text-tlahu-blue hover:bg-gray-100"
+          : "text-white hover:text-tlahu-gold hover:bg-white/10"
     }`;
   };
 
@@ -137,7 +127,7 @@ export default function Navbar({
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 px-4 md:px-0 transition-all duration-500 ease-in-out ${
-        isHistory || isHidden || lightboxOpen
+        isHistory || isHidden || isLightboxOpen
           ? "opacity-0 -translate-y-full pointer-events-none"
           : "opacity-100 translate-y-0"
       }`}
@@ -166,8 +156,8 @@ export default function Navbar({
         <button
           className={`md:hidden p-1.5 transition-colors rounded-md ${
             isScrolled
-              ? "text-dark-charcoal hover:text-[#3A85AC] hover:bg-gray-100"
-              : "text-white hover:text-[#D5B35F] hover:bg-white/10"
+              ? "text-dark-charcoal hover:text-tlahu-blue hover:bg-gray-100"
+              : "text-white hover:text-tlahu-gold hover:bg-white/10"
           }`}
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Menu"

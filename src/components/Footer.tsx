@@ -90,7 +90,7 @@ export default function Footer() {
 
           {/* Navegación */}
           <div className="hidden md:flex flex-col items-center md:items-start text-center md:text-left">
-            <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20 mb-5">
+            <span className="text-[11px] font-mono tracking-wider uppercase text-tlahu-gold bg-tlahu-gold/10 px-2.5 py-0.5 rounded border border-tlahu-gold/20 mb-5">
               Navegación
             </span>
             <ul className="flex flex-col gap-2.5">
@@ -98,7 +98,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="font-body text-sm text-white/60 hover:text-[#3A85AC] transition-colors"
+                    className="font-body text-sm text-white/60 hover:text-tlahu-blue transition-colors"
                   >
                     {link.label}
                   </a>
@@ -109,7 +109,7 @@ export default function Footer() {
 
           {/* Contacto */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20 mb-5">
+            <span className="text-[11px] font-mono tracking-wider uppercase text-tlahu-gold bg-tlahu-gold/10 px-2.5 py-0.5 rounded border border-tlahu-gold/20 mb-5">
               Contacto
             </span>
             <ul className="flex flex-col gap-3.5 mb-5">
@@ -125,8 +125,8 @@ export default function Footer() {
                     }
                     className="flex items-center gap-2.5 group"
                   >
-                    <item.icon className="w-4 h-4 shrink-0 text-[#D5B35F]" aria-hidden="true" />
-                    <span className="font-body text-sm text-white/60 group-hover:text-[#3A85AC] transition-colors leading-tight">
+                    <item.icon className="w-4 h-4 shrink-0 text-tlahu-gold" aria-hidden="true" />
+                    <span className="font-body text-sm text-white/60 group-hover:text-tlahu-blue transition-colors leading-tight">
                       {item.value}
                     </span>
                     {item.href.startsWith("http") && (
@@ -143,7 +143,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 text-white/60 hover:bg-[#3A85AC] hover:text-white transition-all duration-300"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 text-white/60 hover:bg-tlahu-blue hover:text-white transition-all duration-300"
                   aria-label={`${social.name} (se abre en nueva ventana)`}
                 >
                   <social.icon className="w-5 h-5" aria-hidden="true" />
@@ -154,7 +154,7 @@ export default function Footer() {
 
           {/* Desarrollador */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20 mb-5">
+            <span className="text-[11px] font-mono tracking-wider uppercase text-tlahu-gold bg-tlahu-gold/10 px-2.5 py-0.5 rounded border border-tlahu-gold/20 mb-5">
               Desarrollador
             </span>
             <div className="flex flex-wrap justify-center md:justify-start gap-3 max-w-39 mb-3">
@@ -164,7 +164,7 @@ export default function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 text-white/60 hover:bg-[#3A85AC] hover:text-white transition-all duration-300"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 text-white/60 hover:bg-tlahu-blue hover:text-white transition-all duration-300"
                   aria-label={`${link.name} (se abre en nueva ventana)`}
                 >
                   <link.icon className="w-5 h-5" aria-hidden="true" />
@@ -173,7 +173,7 @@ export default function Footer() {
             </div>
             <a
               href="mailto:ericjared29@gmail.com"
-              className="font-body text-sm text-white/60 hover:text-[#3A85AC] transition-colors"
+              className="font-body text-sm text-white/60 hover:text-tlahu-blue transition-colors"
             >
               ericjared29@gmail.com
             </a>
@@ -189,7 +189,7 @@ export default function Footer() {
               href="https://ericvilleda.netlify.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#D5B35F] hover:text-[#3A85AC] transition-colors"
+              className="text-tlahu-gold hover:text-tlahu-blue transition-colors"
             >
               Eric Villeda
               <span className="sr-only"> (se abre en nueva ventana)</span>
@@ -197,7 +197,7 @@ export default function Footer() {
           </p>
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 font-body text-xs text-white/40 hover:text-[#D5B35F] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 font-body text-xs text-white/40 hover:text-tlahu-gold transition-colors cursor-pointer"
           >
             Volver arriba
             <IconChevronDown className="w-3.5 h-3.5 rotate-180" />

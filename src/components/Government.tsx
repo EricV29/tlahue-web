@@ -29,7 +29,7 @@ export default function Gobierno() {
   useEffect(() => {
     getOfficials()
       .then(setOfficials)
-      .catch(() => setError("Error get officials"))
+      .catch(() => setError("Servicio no disponible"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -37,11 +37,11 @@ export default function Gobierno() {
 
   if (loading || error) {
     return (
-      <section id="gobierno" className="py-16 px-6 relative min-h-screen" aria-busy="true">
+      <section id="gobierno" className="py-16 px-6 relative min-h-screen" aria-busy="true" aria-live="polite">
         <div className="max-w-7xl mx-auto animate-pulse">
           <div className="text-center mb-8 flex flex-col items-center gap-1.5">
-            {error && <span className="text-red-500">{error}</span>}
-            <div className="h-5 w-32 rounded bg-[#D5B35F]/20" />
+            {error && <span role="alert" className="text-red-500">{error}</span>}
+            <div className="h-5 w-32 rounded bg-tlahu-gold/20" />
             <div className="h-10 w-64 rounded bg-gray-200" />
           </div>
           <div className="lg:flex justify-start items-center gap-6">
@@ -80,7 +80,7 @@ export default function Gobierno() {
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <div className="text-center mb-8 flex flex-col items-center gap-1.5">
-          <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20">
+          <span className="text-[11px] font-mono tracking-wider uppercase text-tlahu-gold bg-tlahu-gold/10 px-2.5 py-0.5 rounded border border-tlahu-gold/20">
             DIRECTORIO CIUDADANO
           </span>
           <h2 className="font-display font-light text-[40px] text-dark-charcoal tracking-[-0.0200em] leading-[1.1]">
@@ -106,7 +106,7 @@ export default function Gobierno() {
                   <div
                     className={`w-14 h-14 rounded-full overflow-hidden border-2 transition-all duration-300 shrink-0 ${
                       isSelected
-                        ? "border-[#AA642A] shadow-md"
+                        ? "border-tlahu-clay shadow-md"
                         : "border-transparent"
                     }`}
                   >
@@ -120,7 +120,7 @@ export default function Gobierno() {
                     className={`font-body text-xs text-center max-w-30 leading-tight transition-all duration-300 ${
                       isSelected
                         ? "text-dark-charcoal font-semibold"
-                        : "text-[#4B5563]"
+                        : "text-slate-gray"
                     }`}
                   >
                     {official.title.split(" y ")[0]}
@@ -151,13 +151,13 @@ export default function Gobierno() {
               <div className="flex flex-col items-center lg:items-start justify-start">
                 <h3
                   className={`font-display font-medium text-1xl md:text-25 lg:text-3xl text-dark-charcoal mb-2 transition-colors ${
-                    selectedOfficial === 0 ? "text-[#AA642A]" : ""
+                    selectedOfficial === 0 ? "text-tlahu-clay" : ""
                   }`}
                 >
                   {selected.name}
                 </h3>
 
-                <span className="inline-block text-xs font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded mb-4 border border-[#D5B35F]/20">
+                <span className="inline-block text-xs font-mono tracking-wider uppercase text-tlahu-gold bg-tlahu-gold/10 px-2.5 py-0.5 rounded mb-4 border border-tlahu-gold/20">
                   {selected.degree}
                 </span>
               </div>
@@ -167,7 +167,7 @@ export default function Gobierno() {
                 {selected.phone && (
                   <a
                     href={`tel:${selected.phone}`}
-                    className="w-full sm:w-auto bg-[#AA642A] text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:bg-[#8f5220] transition-all inline-flex items-center justify-center gap-2 shadow-sm"
+                    className="w-full sm:w-auto bg-tlahu-clay text-white rounded-md px-5 py-3 font-body text-sm font-medium hover:brightness-90 transition-all inline-flex items-center justify-center gap-2 shadow-sm"
                   >
                     <IconPhone className="w-4 h-4" />
                     <span>
@@ -184,7 +184,7 @@ export default function Gobierno() {
                 {selected.email && (
                   <a
                     href={`mailto:${selected.email}`}
-                    className="w-full sm:w-auto bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-5 py-2.5 font-body text-sm font-medium hover:bg-[#3A85AC]/10 transition-all inline-flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto bg-transparent border-2 border-tlahu-blue text-tlahu-blue rounded-md px-5 py-2.5 font-body text-sm font-medium hover:bg-tlahu-blue/10 transition-all inline-flex items-center justify-center gap-2"
                   >
                     <IconMail className="w-4 h-4" />
                     <span>{selected.email}</span>
@@ -200,7 +200,7 @@ export default function Gobierno() {
             href="https://tlahuelilpan.gob.mx/gabinete"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-transparent border-2 border-[#3A85AC] text-[#3A85AC] rounded-md px-6 py-2.5 font-body text-base font-medium hover:bg-[#3A85AC]/5 transition-all"
+            className="inline-flex items-center gap-2 bg-transparent border-2 border-tlahu-blue text-tlahu-blue rounded-md px-6 py-2.5 font-body text-base font-medium hover:bg-tlahu-blue/5 transition-all"
           >
             Ver más
             <IconArrowRight className="w-4 h-4" />

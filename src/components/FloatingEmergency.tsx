@@ -53,7 +53,7 @@ export default function FloatingEmergency({
           {emergencyServices.map((service, index) => (
             <div
               key={service.name}
-              className={`bg-[#FEFFFC] border border-[#dee2de]/50 rounded-xl p-4 shadow-lg mb-3 w-72 transition-all duration-300 ${
+              className={`bg-off-white border border-[#dee2de]/50 rounded-xl p-4 shadow-lg mb-3 w-72 transition-all duration-300 ${
                 isOpen
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 -translate-x-4"
@@ -67,7 +67,7 @@ export default function FloatingEmergency({
               <div className="space-y-2">
                 <a
                   href={`tel:${service.phone}`}
-                  className="flex items-center gap-2 text-[#AA642A] hover:text-[#D5B35F] transition-colors"
+                  className="flex items-center gap-2 text-tlahu-clay hover:text-tlahu-gold transition-colors"
                 >
                   <IconPhone className="w-4 h-4" />
                   <span className="font-body text-sm font-medium">
@@ -78,7 +78,7 @@ export default function FloatingEmergency({
                 {service.altPhone && (
                   <a
                     href={`tel:${service.altPhone}`}
-                    className="flex items-center gap-2 text-[#AA642A] hover:text-[#D5B35F] transition-colors"
+                    className="flex items-center gap-2 text-tlahu-clay hover:text-tlahu-gold transition-colors"
                   >
                     <IconPhone className="w-4 h-4" />
                     <span className="font-body text-sm font-medium">
@@ -92,7 +92,7 @@ export default function FloatingEmergency({
                     href={service.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-[#3A85AC] hover:text-[#AA642A] transition-colors"
+                    className="flex items-center gap-2 text-tlahu-blue hover:text-tlahu-clay transition-colors"
                   >
                     <IconFacebook className="w-4 h-4" />
                     <span className="font-body text-sm">Facebook</span>
@@ -103,7 +103,7 @@ export default function FloatingEmergency({
                   href={service.location}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[#4B5563] hover:text-[#AA642A] transition-colors"
+                  className="flex items-center gap-2 text-slate-gray hover:text-tlahu-clay transition-colors"
                 >
                   <IconLocation className="w-4 h-4" />
                   <span className="font-body text-sm">Ver ubicación</span>

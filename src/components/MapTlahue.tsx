@@ -1020,7 +1020,7 @@ function MapTlahue() {
         id="mapa"
         className="text-center mb-8 flex flex-col items-center gap-1.5"
       >
-        <span className="text-[11px] font-mono tracking-wider uppercase text-[#D5B35F] bg-[#D5B35F]/10 px-2.5 py-0.5 rounded border border-[#D5B35F]/20">
+        <span className="text-[11px] font-mono tracking-wider uppercase text-tlahu-gold bg-tlahu-gold/10 px-2.5 py-0.5 rounded border border-tlahu-gold/20">
           mapa municipal
         </span>
         <h2

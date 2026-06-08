@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { LightboxProvider } from "./context/LightboxContext";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Events from "./components/Events";
@@ -51,7 +52,7 @@ function HomePage() {
     <div className="min-h-screen bg-canvas-white">
       <a
         href="#main-content"
-        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-[#AA642A] text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
+        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-tlahu-clay text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
       >
         Saltar al contenido
       </a>
@@ -75,10 +76,12 @@ function HomePage() {
 function App() {
   return (
     <ErrorBoundary>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/galeria" element={<GalleryPage />} />
-      </Routes>
+      <LightboxProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/galeria" element={<GalleryPage />} />
+        </Routes>
+      </LightboxProvider>
     </ErrorBoundary>
   );
 }

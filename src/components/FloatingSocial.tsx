@@ -65,7 +65,7 @@ export default function FloatingSocial({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${social.name} (se abre en nueva ventana)`}
-              className={`flex items-center justify-center w-12 h-12 rounded-full bg-[#FEFFFC] border border-[#dee2de]/50 shadow-lg text-[#3A85AC] hover:text-[#AA642A] hover:border-[#3A85AC] transition-all duration-300 ${
+              className={`flex items-center justify-center w-12 h-12 rounded-full bg-off-white border border-[#dee2de]/50 shadow-lg text-tlahu-blue hover:text-tlahu-clay hover:border-tlahu-blue transition-all duration-300 ${
                 isOpen
                   ? "opacity-100 translate-y-0 mb-3"
                   : "opacity-0 translate-y-4 pointer-events-none"
@@ -79,7 +79,7 @@ export default function FloatingSocial({
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-center w-14 h-14 rounded-full bg-[#AA642A] text-white shadow-lg hover:bg-[#8f5220] transition-all duration-300 cursor-pointer"
+          className="flex items-center justify-center w-14 h-14 rounded-full bg-tlahu-clay text-white shadow-lg hover:brightness-90 transition-all duration-300 cursor-pointer"
           aria-label="Redes sociales"
         >
           <IconLink
