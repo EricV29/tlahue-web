@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { SectionId } from "../App";
 import { useLightbox } from "../context/LightboxContext";
+import { useScrolledPast } from "../hooks/useScroll";
 import IconMenu from "./icons/IconMenu";
 import IconClose from "./icons/IconClose";
 
@@ -30,18 +31,11 @@ export default function Navbar({
   isHidden?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const isScrolled = useScrolledPast(20);
   const [isDesktop, setIsDesktop] = useState(false);
   const { isLightboxOpen } = useLightbox();
   const location = useLocation();
   const isGaleria = location.pathname === "/galeria";
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 768);

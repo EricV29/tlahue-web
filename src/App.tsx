@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LightboxProvider } from "./context/LightboxContext";
+import { useScrollEvent } from "./hooks/useScroll";
+import SkipToContent from "./components/SkipToContent";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Events from "./components/Events";
@@ -19,43 +21,32 @@ export type SectionId = (typeof sectionIds)[number] | "inicio";
 function HomePage() {
   const [activeSection, setActiveSection] = useState<SectionId>("inicio");
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const offsets: Record<string, number> = {};
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          offsets[id] = el.getBoundingClientRect().top + window.scrollY - 120;
-        }
+  useScrollEvent(() => {
+    const offsets: Record<string, number> = {};
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) {
+        offsets[id] = el.getBoundingClientRect().top + window.scrollY - 120;
       }
+    }
 
-      const scrollY = window.scrollY;
-      const sortedSections = [...sectionIds]
-        .filter((id) => offsets[id] !== undefined)
-        .sort((a, b) => offsets[b] - offsets[a]);
-      let current: SectionId = "inicio";
-      for (const id of sortedSections) {
-        if (scrollY >= offsets[id]) {
-          current = id;
-          break;
-        }
+    const scrollY = window.scrollY;
+    const sortedSections = [...sectionIds]
+      .filter((id) => offsets[id] !== undefined)
+      .sort((a, b) => offsets[b] - offsets[a]);
+    let current: SectionId = "inicio";
+    for (const id of sortedSections) {
+      if (scrollY >= offsets[id]) {
+        current = id;
+        break;
       }
-      setActiveSection(current);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    }
+    setActiveSection(current);
   }, []);
 
   return (
     <div className="min-h-screen bg-canvas-white">
-      <a
-        href="#main-content"
-        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-tlahu-clay text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
-      >
-        Saltar al contenido
-      </a>
+      <SkipToContent targetId="main-content" />
       <Navbar activeSection={activeSection} />
       <main id="main-content">
         <Hero />

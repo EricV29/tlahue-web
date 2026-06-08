@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import IconCalendar from "./icons/IconCalendar";
 import IconClose from "./icons/IconClose";
 import EventCard from "./EventCard";
+import { SkeletonCard } from "./Skeleton";
 import reloj from "../assets/images/reloj.svg";
 import carnaval from "../assets/images/events/carnaval.webp";
 import cerveza from "../assets/images/events/cerveza.webp";
@@ -177,36 +178,16 @@ export default function Novedades() {
             )}
             <div className="flex md:hidden gap-4 overflow-x-auto pb-4 -mx-6 px-6">
               {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="shrink-0 w-70 bg-white rounded-xl overflow-hidden border border-[#dee2de]/50"
-                >
-                  <div className="h-40 bg-gray-200" />
-                  <div className="p-4 space-y-3">
-                    <div className="h-3 w-32 bg-gray-200 rounded" />
-                    <div className="h-5 w-48 bg-gray-200 rounded" />
-                    <div className="h-10 w-full bg-gray-200 rounded" />
-                    <div className="h-3 w-24 bg-gray-200 rounded" />
-                  </div>
+                <div key={i} className="shrink-0 w-70">
+                  <SkeletonCard />
                 </div>
               ))}
             </div>
             <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-xl overflow-hidden border border-[#dee2de]/50"
-                >
-                  <div className="h-48 bg-gray-200" />
-                  <div className="p-4 space-y-3">
-                    <div className="h-3 w-32 bg-gray-200 rounded" />
-                    <div className="h-6 w-48 bg-gray-200 rounded" />
-                    <div className="h-10 w-full bg-gray-200 rounded" />
-                    <div className="h-3 w-24 bg-gray-200 rounded" />
-                  </div>
-                </div>
+                <SkeletonCard key={i} imageHeight="h-48" />
               ))}
-            </div>
+          </div>
           </div>
         ) : (
           <div className="min-h-125">

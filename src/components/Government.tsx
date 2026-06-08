@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import IconPhone from "./icons/IconPhone";
 import IconMail from "./icons/IconMail";
 import IconArrowRight from "./icons/IconArrowRight";
+import { SkeletonAvatar, SkeletonText, SkeletonBlock } from "./Skeleton";
 import txtPresidente from "../assets/images/government/txtPresidente.svg";
 import txtProteccion from "../assets/images/government/txtProteccion.svg";
 import txtSeguridad from "../assets/images/government/txtSeguridad.svg";
@@ -41,24 +42,24 @@ export default function Gobierno() {
         <div className="max-w-7xl mx-auto animate-pulse">
           <div className="text-center mb-8 flex flex-col items-center gap-1.5">
             {error && <span role="alert" className="text-red-500">{error}</span>}
-            <div className="h-5 w-32 rounded bg-tlahu-gold/20" />
-            <div className="h-10 w-64 rounded bg-gray-200" />
+            <SkeletonText className="h-5 w-32 bg-tlahu-gold/20" />
+            <SkeletonText className="h-10 w-64" />
           </div>
           <div className="lg:flex justify-start items-center gap-6">
             <div className="flex pt-3 md:justify-center lg:flex-col gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="flex flex-col items-center gap-2">
-                  <div className="w-14 h-14 rounded-full bg-gray-200" />
-                  <div className="h-3 w-16 rounded bg-gray-200" />
+                  <SkeletonAvatar />
+                  <SkeletonText className="h-3 w-16" />
                 </div>
               ))}
             </div>
             <div className="w-full flex lg:p-4 items-start md:flex-row flex-col gap-4">
-              <div className="w-full md:w-80 lg:w-130 aspect-square rounded bg-gray-200" />
+              <SkeletonBlock className="w-full md:w-80 lg:w-130 aspect-square" />
               <div className="w-full space-y-3 p-5">
-                <div className="h-8 w-64 rounded bg-gray-200" />
-                <div className="h-4 w-48 rounded bg-gray-200" />
-                <div className="h-10 w-full rounded bg-gray-200" />
+                <SkeletonText className="h-8 w-64" />
+                <SkeletonText className="h-4 w-48" />
+                <SkeletonBlock />
               </div>
             </div>
           </div>

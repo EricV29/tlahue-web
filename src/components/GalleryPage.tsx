@@ -4,6 +4,9 @@ import gsap from "gsap";
 import GalleryCard from "./GalleryCard";
 import GalleryLightbox from "./GalleryLightbox";
 import Navbar from "./Navbar";
+import { SkeletonCard } from "./Skeleton";
+import SkipToContent from "./SkipToContent";
+import { useScrollEvent } from "../hooks/useScroll";
 import IconSearch from "./icons/IconSearch";
 import IconChevronDown from "./icons/IconChevronDown";
 import galeriaBg from "../assets/images/galeria.webp";
@@ -91,26 +94,17 @@ export default function GalleryPage() {
   }, []);
 
   // Scroll infinito
-  useEffect(() => {
-    const handleScroll = () => {
-      const nearBottom =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
-      if (nearBottom && !loadingRef.current && hasMore) {
-        setOffset((prev) => prev + LIMIT);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+  useScrollEvent(() => {
+    const nearBottom =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
+    if (nearBottom && !loadingRef.current && hasMore) {
+      setOffset((prev) => prev + LIMIT);
+    }
   }, [hasMore]);
 
   // Navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowNavbar(window.scrollY < window.innerHeight * 0.5);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+  useScrollEvent(() => {
+    setShowNavbar(window.scrollY < window.innerHeight * 0.5);
   }, []);
 
   useGSAP(() => {
@@ -150,12 +144,7 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <a
-        href="#galeria-content"
-        className="fixed left-4 top-4 z-[9999] -translate-y-full focus:translate-y-0 transition-transform duration-200 bg-tlahu-clay text-white px-4 py-2 rounded-md font-body text-sm font-medium shadow-lg"
-      >
-        Saltar al contenido
-      </a>
+      <SkipToContent targetId="galeria-content" />
       <Navbar activeSection="inicio" isHidden={!showNavbar} />
       <main id="galeria-content">
 
@@ -247,7 +236,12 @@ export default function GalleryPage() {
             ))}
           </div>
         )}
-        {loading && (
+        {loading && images.length === 0 && (
+          <div aria-live="polite" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-14 lg:gap-16">
+            {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
+          </div>
+        )}
+        {loading && images.length > 0 && (
           <p aria-live="polite" className="text-center text-gray-500 py-8">Cargando...</p>
         )}
         {!hasMore && !loading && (
