@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Events from "./components/Events";
@@ -73,10 +74,12 @@ function HomePage() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/galeria" element={<GalleryPage />} />
-    </Routes>
+    <ErrorBoundary>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/galeria" element={<GalleryPage />} />
+      </Routes>
+    </ErrorBoundary>
   );
 }
 

@@ -17,7 +17,7 @@ export interface GalleryItem {
 
 export const getImages = (limit = 12, offset = 0, search = "") =>
   apiGet<GalleryItem[]>(
-    `/images?limit=${limit}&offset=${offset}${search ? `$search=${encodeURIComponent(search)}` : ""}`,
+    `/images?limit=${limit}&offset=${offset}${search ? `&search=${encodeURIComponent(search)}` : ""}`,
   );
 
 export const getImagesByCategory = (

@@ -148,8 +148,6 @@ export default function GalleryPage() {
     });
   }, [searchQuery, selectedCategory, images]);
 
-  if (error) return <p role="alert" className="text-white text-center py-20">{error}</p>;
-
   return (
     <div className="min-h-screen bg-black">
       <a
@@ -223,7 +221,18 @@ export default function GalleryPage() {
       </section>
 
       <section aria-label="Galería de imágenes" className="mx-auto max-w-7xl px-4 py-8 md:py-12">
-        {filtered.length === 0 && !loading ? (
+        {error ? (
+          <div role="alert" className="flex flex-col items-center justify-center py-20 gap-4">
+            <p className="font-display text-2xl text-gray-400">Error al cargar las imágenes</p>
+            <p className="font-body text-sm text-gray-600">No se pudo conectar con el servidor. Verifica tu conexión o intenta más tarde.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-2 rounded-md bg-tlahu-clay px-5 py-2 font-body text-sm font-medium text-white transition-colors hover:bg-[#8f5220]"
+            >
+              Reintentar
+            </button>
+          </div>
+        ) : filtered.length === 0 && !loading ? (
           <p className="text-center text-gray-500 py-20">
             No se encontraron resultados.
           </p>
