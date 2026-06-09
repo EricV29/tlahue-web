@@ -33,14 +33,18 @@ const INITIAL_ZOOM = 15.93;
 const INITIAL_PITCH = 59;
 const INITIAL_BEARING = 0;
 
+// Vista MOBILE
+const MOBILE_INITIAL_ZOOM = 15;
+const MOBILE_ZOOM_OFFSET = -0.8;
+
 // Vista "2D" territorio mapbox
 const TERRITORIO_ZOOM = 12;
 const TERRITORIO_PITCH = 0;
 
 // Limitación de mapa mapbox
 const TLAHUE_BOUNDS: [[number, number], [number, number]] = [
-  [-99.3, 20.08],
-  [-99.15, 20.18],
+  [-99.33, 20.05],
+  [-99.12, 20.21],
 ];
 
 // Coordenadas principales
@@ -265,8 +269,9 @@ const createModelCardPopup = (
 function MapTlahue() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const [center] = useState(INITIAL_CENTER);
-  const [zoom] = useState(INITIAL_ZOOM);
+  const isMobile = window.innerWidth < 768;
+  const [center] = useState<[number, number]>(INITIAL_CENTER);
+  const [zoom] = useState(isMobile ? MOBILE_INITIAL_ZOOM : INITIAL_ZOOM);
   const [pitch] = useState(INITIAL_PITCH);
   const [bearing] = useState(INITIAL_BEARING);
   const [showTerritorio, setShowTerritorio] = useState(false);
@@ -290,8 +295,10 @@ function MapTlahue() {
       mesh: THREE.Object3D;
       coords: [number, number];
       zoom: number;
+      zoomMobile: number;
       bearing?: number;
       zoomCardMin?: number;
+      zoomCardMinMobile?: number;
       card?: CSS2DObject;
     }[]
   >([]);
@@ -422,7 +429,7 @@ function MapTlahue() {
 
           mapRef.current?.flyTo({
             center: modelo.coords,
-            zoom: modelo.zoom,
+            zoom: isMobile ? modelo.zoomMobile : modelo.zoom,
             pitch: 60,
             bearing: modelo.bearing ?? 0,
             essential: true,
@@ -736,11 +743,10 @@ function MapTlahue() {
                   cardPopup.visible = false;
                   cardActiveRef.current = null;
                 });
-                cardPopup.position.set(
-                  modelData.cardOffset[0],
-                  modelData.cardOffset[1],
-                  modelData.cardOffset[2],
-                );
+                const offset = isMobile
+                  ? (modelData.cardOffsetMobile ?? modelData.cardOffset)
+                  : modelData.cardOffset;
+                cardPopup.position.set(offset[0], offset[1], offset[2]);
                 cardPopup.visible = false;
                 model.add(cardPopup);
 
@@ -749,7 +755,9 @@ function MapTlahue() {
                   mesh: model,
                   coords: modelData.coords as [number, number],
                   zoom: modelData.zoomCard,
+                  zoomMobile: modelData.zoomCardMobile ?? modelData.zoomCard,
                   zoomCardMin: modelData.zoomCardMin,
+                  zoomCardMinMobile: modelData.zoomCardMinMobile ?? modelData.zoomCardMin,
                   bearing: modelData.bearing,
                   card: cardPopup,
                 });
@@ -868,12 +876,23 @@ function MapTlahue() {
                 if (el.classList.contains("model-card")) {
                   const modelo = modelosRef.current.find((m) => m.card === obj);
 
-                  const ZOOM_CARD_MIN = modelo?.zoomCardMin ?? 20;
+                  const ZOOM_CARD_MIN = isMobile
+                    ? (modelo?.zoomCardMinMobile ?? modelo?.zoomCardMin ?? 20)
+                    : (modelo?.zoomCardMin ?? 20);
                   const wasVisible = obj.visible;
                   const isActive = cardActiveRef.current === modelo?.id;
                   obj.visible = isActive && zoom >= ZOOM_CARD_MIN;
                   if (wasVisible && zoom < ZOOM_CARD_MIN)
                     cardActiveRef.current = null;
+
+                  if (obj.visible) {
+                    const cardScale = Math.max(
+                      0.4,
+                      Math.min(1.0, (zoom - 16) * 0.25),
+                    );
+                    el.style.transform = `scale(${cardScale})`;
+                    el.style.transformOrigin = "center center";
+                  }
                   return;
                 }
 
@@ -946,7 +965,7 @@ function MapTlahue() {
     // Volar de vuelta a vista 3D principal
     mapRef.current.flyTo({
       center: INITIAL_CENTER,
-      zoom: INITIAL_ZOOM,
+      zoom: isMobile ? MOBILE_INITIAL_ZOOM : INITIAL_ZOOM,
       pitch: INITIAL_PITCH,
       bearing: INITIAL_BEARING,
       essential: true,
@@ -982,7 +1001,7 @@ function MapTlahue() {
 
       mapRef.current.flyTo({
         center: getColoniaCenter(geoTlahuelilpan) as [number, number],
-        zoom: TERRITORIO_ZOOM,
+        zoom: isMobile ? TERRITORIO_ZOOM + MOBILE_ZOOM_OFFSET : TERRITORIO_ZOOM,
         pitch: TERRITORIO_PITCH,
         bearing: 0,
         essential: true,
@@ -1002,7 +1021,9 @@ function MapTlahue() {
       );
       mapRef.current.flyTo({
         center: targetColonia.center as [number, number],
-        zoom: targetColonia.zoom,
+        zoom: isMobile
+          ? targetColonia.zoom + MOBILE_ZOOM_OFFSET
+          : targetColonia.zoom,
         pitch: 0,
         bearing: 0,
         essential: true,
@@ -1029,7 +1050,7 @@ function MapTlahue() {
           Visitanos
         </h2>
       </div>
-      <div className="relative w-full max-w-6xl h-[50vh] md:h-150 rounded-xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-6xl h-[65vh] md:h-150 rounded-xl shadow-2xl overflow-hidden">
         {/* Select de Territorios */}
         <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20 flex flex-row items-center gap-2">
           <div className="relative">
