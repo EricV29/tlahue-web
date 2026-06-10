@@ -25,7 +25,14 @@ import IconChevronDown from "./icons/IconChevronDown";
 import IconReset from "./icons/IconReset";
 import modelos3D from "../data/modelos3D.json";
 import { getImageUrl } from "../utils/cloudinary";
-import type { FeatureCollection } from "geojson";
+import type { Feature, FeatureCollection, Point } from "geojson";
+
+interface MercatorTransform {
+  translateX: number;
+  translateY: number;
+  translateZ: number;
+  scale: number;
+}
 
 // Vista MAPA 3D mapbox
 const INITIAL_CENTER: [number, number] = [-99.2333, 20.1325];
@@ -51,7 +58,7 @@ const TLAHUE_BOUNDS: [[number, number], [number, number]] = [
 const mainCoords = createTransform([-99.232346, 20.131354]);
 
 //* HELPER para coordenadas de modelos
-function createTransform(coords: [number, number], altitude = 0) {
+function createTransform(coords: [number, number], altitude = 0): MercatorTransform {
   const mercator = mapboxgl.MercatorCoordinate.fromLngLat(coords, altitude);
 
   return {
@@ -62,16 +69,17 @@ function createTransform(coords: [number, number], altitude = 0) {
   };
 }
 
-function getColoniaCenter(geoData: any): [number, number] {
+function getColoniaCenter(geoData: FeatureCollection): [number, number] {
   const centerFeature = geoData.features?.find(
-    (f: any) => f.geometry?.type === "Point",
+    (f: Feature) => f.geometry?.type === "Point",
   );
-  return centerFeature?.geometry?.coordinates ?? INITIAL_CENTER;
+  const coords = (centerFeature?.geometry as Point)?.coordinates;
+  return coords ? (coords as [number, number]) : INITIAL_CENTER;
 }
 
-function getColoniaCP(geoData: any): string {
+function getColoniaCP(geoData: FeatureCollection): string {
   const polygonFeature = geoData.features?.find(
-    (f: any) =>
+    (f: Feature) =>
       f.geometry?.type === "Polygon" || f.geometry?.type === "MultiPolygon",
   );
   return polygonFeature?.properties?.cp ?? "";
@@ -88,105 +96,105 @@ const catalogoColonias: {
   {
     id: "municipio",
     nombre: "Tlahuelilpan",
-    cp: getColoniaCP(geoTlahuelilpan),
+    cp: getColoniaCP(geoTlahuelilpan as FeatureCollection),
     data: geoTlahuelilpan as FeatureCollection,
-    center: getColoniaCenter(geoTlahuelilpan),
+    center: getColoniaCenter(geoTlahuelilpan as FeatureCollection),
     zoom: 14,
   },
   {
     id: "centro",
     nombre: "Colonia Centro",
-    cp: getColoniaCP(geoColCentro),
+    cp: getColoniaCP(geoColCentro as FeatureCollection),
     data: geoColCentro as FeatureCollection,
-    center: getColoniaCenter(geoColCentro),
+    center: getColoniaCenter(geoColCentro as FeatureCollection),
     zoom: 15,
   },
   {
     id: "cerroCruz",
     nombre: "Cerro de la Cruz",
-    cp: getColoniaCP(geoColCerroCruz),
+    cp: getColoniaCP(geoColCerroCruz as FeatureCollection),
     data: geoColCerroCruz as FeatureCollection,
-    center: getColoniaCenter(geoColCerroCruz),
+    center: getColoniaCenter(geoColCerroCruz as FeatureCollection),
     zoom: 15.4,
   },
   {
     id: "cuauhtemoc",
     nombre: "Colonia Cuauhtémoc",
-    cp: getColoniaCP(geoColCuauhtemoc),
+    cp: getColoniaCP(geoColCuauhtemoc as FeatureCollection),
     data: geoColCuauhtemoc as FeatureCollection,
-    center: getColoniaCenter(geoColCuauhtemoc),
+    center: getColoniaCenter(geoColCuauhtemoc as FeatureCollection),
     zoom: 15.4,
   },
   {
     id: "miravalle",
     nombre: "Fracc. Miravalle",
-    cp: getColoniaCP(geoColMiravalle),
+    cp: getColoniaCP(geoColMiravalle as FeatureCollection),
     data: geoColMiravalle as FeatureCollection,
-    center: getColoniaCenter(geoColMiravalle),
+    center: getColoniaCenter(geoColMiravalle as FeatureCollection),
     zoom: 15.2,
   },
   {
     id: "rancheria",
     nombre: "Ranchería",
-    cp: getColoniaCP(geoColRancheria),
+    cp: getColoniaCP(geoColRancheria as FeatureCollection),
     data: geoColRancheria as FeatureCollection,
-    center: getColoniaCenter(geoColRancheria),
+    center: getColoniaCenter(geoColRancheria as FeatureCollection),
     zoom: 15,
   },
   {
     id: "salitre",
     nombre: "El Salitre",
-    cp: getColoniaCP(geoColSalitre),
+    cp: getColoniaCP(geoColSalitre as FeatureCollection),
     data: geoColSalitre as FeatureCollection,
-    center: getColoniaCenter(geoColSalitre),
+    center: getColoniaCenter(geoColSalitre as FeatureCollection),
     zoom: 16,
   },
   {
     id: "sanFrancisco",
     nombre: "San Francisco",
-    cp: getColoniaCP(geoColSanFrancisco),
+    cp: getColoniaCP(geoColSanFrancisco as FeatureCollection),
     data: geoColSanFrancisco as FeatureCollection,
-    center: getColoniaCenter(geoColSanFrancisco),
+    center: getColoniaCenter(geoColSanFrancisco as FeatureCollection),
     zoom: 15.4,
   },
   {
     id: "sanPrimitivo",
     nombre: "San Primitivo",
-    cp: getColoniaCP(geoColSanPrimitivo),
+    cp: getColoniaCP(geoColSanPrimitivo as FeatureCollection),
     data: geoColSanPrimitivo as FeatureCollection,
-    center: getColoniaCenter(geoColSanPrimitivo),
+    center: getColoniaCenter(geoColSanPrimitivo as FeatureCollection),
     zoom: 15.5,
   },
   {
     id: "deposito",
     nombre: "El Depósito",
-    cp: getColoniaCP(geoDeposito),
+    cp: getColoniaCP(geoDeposito as FeatureCollection),
     data: geoDeposito as FeatureCollection,
-    center: getColoniaCenter(geoDeposito),
+    center: getColoniaCenter(geoDeposito as FeatureCollection),
     zoom: 15,
   },
   {
     id: "dexhe",
     nombre: "El Dexhe",
-    cp: getColoniaCP(geoDexhe),
+    cp: getColoniaCP(geoDexhe as FeatureCollection),
     data: geoDexhe as FeatureCollection,
-    center: getColoniaCenter(geoDexhe),
+    center: getColoniaCenter(geoDexhe as FeatureCollection),
     zoom: 16,
   },
   {
     id: "ejidoMediaLuna",
     nombre: "Ejido Media Luna",
-    cp: getColoniaCP(geoEjidoMediaLuna),
+    cp: getColoniaCP(geoEjidoMediaLuna as FeatureCollection),
     data: geoEjidoMediaLuna as FeatureCollection,
-    center: getColoniaCenter(geoEjidoMediaLuna),
+    center: getColoniaCenter(geoEjidoMediaLuna as FeatureCollection),
     zoom: 15,
   },
   {
     id: "munitepec",
     nombre: "Munitepec",
-    cp: getColoniaCP(geoMunitepec),
+    cp: getColoniaCP(geoMunitepec as FeatureCollection),
     data: geoMunitepec as FeatureCollection,
-    center: getColoniaCenter(geoMunitepec),
+    center: getColoniaCenter(geoMunitepec as FeatureCollection),
     zoom: 14.5,
   },
 ];
@@ -307,7 +315,7 @@ function MapTlahue() {
   if (!modelData) return;
 
   //* HELPER para posición de modelos
-  function mercatorToScenePosition(targetTransform: any) {
+  function mercatorToScenePosition(targetTransform: MercatorTransform) {
     return new THREE.Vector3(
       (targetTransform.translateX - mainCoords.translateX) / mainCoords.scale,
 
@@ -318,15 +326,17 @@ function MapTlahue() {
   }
 
   //* HELPER para preparar modelo
-  function prepareModel(model: any) {
-    model.traverse((child: any) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
+  function prepareModel(model: THREE.Object3D) {
+    model.traverse((child: THREE.Object3D) => {
+      const mesh = child as THREE.Mesh;
+      if (mesh.isMesh) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
-        if (child.material) {
-          child.material.envMapIntensity = 0;
-          child.material.needsUpdate = true;
+        const mat = mesh.material as THREE.MeshStandardMaterial;
+        if (mat) {
+          mat.envMapIntensity = 0;
+          mat.needsUpdate = true;
         }
       }
     });
@@ -590,7 +600,7 @@ function MapTlahue() {
       //* POLIGONO MUNICIPIO
       mapRef.current!.addSource("tlahue-data", {
         type: "geojson",
-        data: geoTlahuelilpan as any,
+        data: geoTlahuelilpan as FeatureCollection,
       });
       mapRef.current!.addLayer({
         id: "tlahue-fill",
@@ -1015,7 +1025,7 @@ function MapTlahue() {
       setShowTerritorio(true);
 
       mapRef.current.flyTo({
-        center: getColoniaCenter(geoTlahuelilpan) as [number, number],
+        center: getColoniaCenter(geoTlahuelilpan as FeatureCollection),
         zoom: isMobile ? TERRITORIO_ZOOM + MOBILE_ZOOM_OFFSET : TERRITORIO_ZOOM,
         pitch: TERRITORIO_PITCH,
         bearing: 0,
