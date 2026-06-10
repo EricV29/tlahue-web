@@ -189,7 +189,7 @@ export default function GalleryPage() {
                 const val = e.target.value;
                 setSelectedCategory(val === "Todas" ? "Todas" : Number(val));
               }}
-              className="px-3.5 py-2 pr-8 rounded-xl text-xs font-medium bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white transition-all outline-none cursor-pointer appearance-none"
+              className="w-full px-3.5 py-2 pr-8 rounded-xl text-xs font-medium bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white transition-all outline-none cursor-pointer appearance-none"
             >
               <option value="Todas" className="bg-black text-gray-300">
                 Todas
@@ -204,7 +204,9 @@ export default function GalleryPage() {
                 </option>
               ))}
             </select>
-            <IconChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <IconChevronDown className="w-4 h-4 text-gray-400" />
+            </div>
           </div>
         </div>
       </section>
