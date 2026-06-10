@@ -60,7 +60,7 @@ export default function Navbar({
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const isHistory = ["historia", "mapa"].includes(activeSection) && isDesktop;
+  const isHistory = (activeSection === "historia" && isDesktop) || activeSection === "mapa";
 
   const isActiveLink = (label: string) => {
     if (isGaleria) return label === "Galería";
