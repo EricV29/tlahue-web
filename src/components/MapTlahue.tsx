@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {
@@ -285,6 +285,7 @@ function MapTlahue() {
   const [back, setBack] = useState("#fff");
   const [title, setTitle] = useState("text-dark-charcoal");
   const [selectedColoniaId, setSelectedColoniaId] = useState("");
+  const [selectedModeloId, setSelectedModeloId] = useState("");
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const fbLabelRenderer = useRef<CSS2DRenderer | null>(null);
 
@@ -426,6 +427,10 @@ function MapTlahue() {
           modelosRef.current.forEach((m) => {
             if (m.card) m.card.visible = false;
           });
+
+          hideAllTerritories();
+          setSelectedColoniaId("");
+          setSelectedModeloId(modelo.id);
 
           mapRef.current?.flyTo({
             center: modelo.coords,
@@ -944,23 +949,33 @@ function MapTlahue() {
     mapRef.current.setLayoutProperty("tlahue-line", "visibility", visibility);
   }, [showTerritorio]);
 
+  const hideAllTerritories = useCallback(() => {
+    if (!mapRef.current) return;
+    catalogoColonias.forEach((c) => {
+      if (c.id === "municipio") return;
+      try {
+        mapRef.current!.setLayoutProperty(`layer-${c.id}`, "visibility", "none");
+        mapRef.current!.setLayoutProperty(`line-${c.id}`, "visibility", "none");
+      } catch {
+        // layer may not exist yet
+      }
+    });
+    try {
+      mapRef.current.setLayoutProperty("tlahue-fill", "visibility", "none");
+      mapRef.current.setLayoutProperty("tlahue-line", "visibility", "none");
+    } catch {
+      // layer may not exist yet
+    }
+    setShowTerritorio(false);
+  }, []);
+
   // Boton Reset view
   const handleResetClick = () => {
     if (!mapRef.current) return;
 
-    // Ocultar todas las colonias
-    catalogoColonias.forEach((c) => {
-      if (c.id === "municipio") return;
-      mapRef.current!.setLayoutProperty(`layer-${c.id}`, "visibility", "none");
-      mapRef.current!.setLayoutProperty(`line-${c.id}`, "visibility", "none");
-    });
-
-    // Ocultar polígono municipio
-    mapRef.current.setLayoutProperty("tlahue-fill", "visibility", "none");
-    mapRef.current.setLayoutProperty("tlahue-line", "visibility", "none");
-
-    setShowTerritorio(false);
+    hideAllTerritories();
     setSelectedColoniaId("");
+    setSelectedModeloId("");
 
     // Volar de vuelta a vista 3D principal
     mapRef.current.flyTo({
@@ -1032,6 +1047,46 @@ function MapTlahue() {
     }
   };
 
+  // Handle select modelo 3D
+  const handleModeloChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    if (!mapRef.current) return;
+
+    const newModeloId = event.target.value;
+    const targetModelo = modelos3D.find((m) => m.id === newModeloId);
+    if (!targetModelo) return;
+
+    setSelectedModeloId(newModeloId);
+    setSelectedColoniaId("");
+
+    // Ocultar capas de territorio
+    hideAllTerritories();
+
+    // Mostrar card del modelo
+    modelosRef.current.forEach((m) => {
+      if (m.card) m.card.visible = false;
+    });
+
+    const modelo = modelosRef.current.find((m) => m.id === newModeloId);
+    if (modelo) {
+      cardActiveRef.current = modelo.id;
+    }
+
+    const zoom = isMobile
+      ? (targetModelo.zoomCardMobile ?? targetModelo.zoomCard)
+      : targetModelo.zoomCard;
+
+    mapRef.current.flyTo({
+      center: targetModelo.coords as [number, number],
+      zoom,
+      pitch: 60,
+      bearing: targetModelo.bearing ?? 0,
+      essential: true,
+      duration: 1200,
+    });
+  };
+
   return (
     <section
       aria-label="Mapa"
@@ -1050,13 +1105,66 @@ function MapTlahue() {
           Visitanos
         </h2>
       </div>
+      {/* Selects solo en Mobile */}
+      <div className="w-full max-w-6xl flex md:hidden flex-wrap gap-3 mb-4 px-4">
+        <div className="relative flex-1 min-w-0">
+          <select
+            className="appearance-none w-full px-3 py-2 pr-8 text-sm bg-white text-dark-charcoal font-semibold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50 truncate"
+            value={selectedColoniaId}
+            onChange={handleTerritorioChange}
+          >
+            <option value="" disabled>
+              Territorios
+            </option>
+            {catalogoColonias.map((colonia) => (
+              <option
+                key={colonia.id}
+                value={colonia.id}
+                className="text-dark-charcoal"
+              >
+                {colonia.id === "municipio"
+                  ? "Tlahuelilpan"
+                  : `${colonia.nombre} (CP ${colonia.cp})`}
+              </option>
+            ))}
+          </select>
+          <span className="absolute top-1/2 -translate-y-1/2 right-3 bg-white pl-1 pointer-events-none">
+            <IconChevronDown className="text-dark-charcoal w-3 h-3" />
+          </span>
+        </div>
+
+        <div className="relative flex-1 min-w-0">
+          <select
+            id="modelosSelect"
+            className="appearance-none w-full px-3 py-2 pr-8 text-sm bg-white text-dark-charcoal font-semibold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50 truncate"
+            value={selectedModeloId}
+            onChange={handleModeloChange}
+          >
+            <option value="" disabled>
+              Monumentos 3D
+            </option>
+            {modelos3D.map((modelo) => (
+              <option
+                key={modelo.id}
+                value={modelo.id}
+                className="text-dark-charcoal"
+              >
+                {modelo.name}
+              </option>
+            ))}
+          </select>
+          <span className="absolute top-1/2 -translate-y-1/2 right-3 bg-white pl-1 pointer-events-none">
+            <IconChevronDown className="text-dark-charcoal w-3 h-3" />
+          </span>
+        </div>
+      </div>
       <div className="relative w-full max-w-6xl h-[65vh] md:h-150 rounded-xl shadow-2xl overflow-hidden">
-        {/* Select de Territorios */}
+        {/* Controles dentro del mapa: Desktop: territorios + reset | Mobile: solo reset */}
         <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20 flex flex-row items-center gap-2">
-          <div className="relative">
+          {/* Selects solo en Desktop */}
+          <div className="relative hidden md:block">
             <select
-              id="territoriosSelect"
-              className="appearance-none px-3 py-1.5 pr-8 text-sm md:px-4 md:py-2.5 md:pr-10 md:text-base min-w-28 md:min-w-44 bg-white text-dark-charcoal font-semibold md:font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50 truncate"
+              className="appearance-none px-4 py-2.5 pr-10 text-base min-w-44 bg-white text-dark-charcoal font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50 truncate"
               value={selectedColoniaId}
               onChange={handleTerritorioChange}
             >
@@ -1075,8 +1183,33 @@ function MapTlahue() {
                 </option>
               ))}
             </select>
-            <span className="absolute top-1/2 -translate-y-1/2 right-3 md:right-4 bg-white pl-1 pointer-events-none">
-              <IconChevronDown className="text-dark-charcoal w-3 h-3 md:w-4 md:h-4" />
+            <span className="absolute top-1/2 -translate-y-1/2 right-4 bg-white pl-1 pointer-events-none">
+              <IconChevronDown className="text-dark-charcoal w-4 h-4" />
+            </span>
+          </div>
+
+          {/* Select Modelos solo en Desktop */}
+          <div className="relative hidden md:block">
+            <select
+              className="appearance-none px-4 py-2.5 pr-10 text-base min-w-44 bg-white text-dark-charcoal font-bold rounded-md shadow-lg cursor-pointer border-none focus:outline-none focus:ring-0 transition-colors hover:bg-gray-50 truncate"
+              value={selectedModeloId}
+              onChange={handleModeloChange}
+            >
+              <option value="" disabled>
+                Monumentos 3D
+              </option>
+              {modelos3D.map((modelo) => (
+                <option
+                  key={modelo.id}
+                  value={modelo.id}
+                  className="text-dark-charcoal"
+                >
+                  {modelo.name}
+                </option>
+              ))}
+            </select>
+            <span className="absolute top-1/2 -translate-y-1/2 right-4 bg-white pl-1 pointer-events-none">
+              <IconChevronDown className="text-dark-charcoal w-4 h-4" />
             </span>
           </div>
 
