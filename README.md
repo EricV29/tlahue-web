@@ -47,7 +47,7 @@
 1. **Clonar el repositorio**
 
    ```bash
-   git clone https://github.com/jared29x/tlahue-web.git
+   git clone https://github.com/EricV29/tlahue-web.git
    cd tlahue-web
    ```
 
