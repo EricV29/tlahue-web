@@ -12,17 +12,18 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
 
 <p align="center" >
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=vite,react,tailwind,typescript,supabase,threejs,pnpm" />
+    <img src="https://skillicons.dev/icons?i=vite,react,tailwind,typescript,threejs,pnpm" />
     <img src="https://skills.syvixor.com/api/icons?i=mapbox,gsap,opencode,cloudinary" />
   </a>
   <br />
   <img src="https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=000" />
-  <img src="https://img.shields.io/badge/Vite_7-646CFF?logo=vite&logoColor=fff" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?logo=tailwindcss&logoColor=fff" />
-  <img src="https://img.shields.io/badge/TypeScript_5.9-3178C6?logo=typescript&logoColor=fff" />
-  <img src="https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=fff" />
+  <img src="https://img.shields.io/badge/Vite_6-646CFF?logo=vite&logoColor=fff" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?logo=tailwindcss&logoColor=fff" />
+  <img src="https://img.shields.io/badge/TypeScript_5.7-3178C6?logo=typescript&logoColor=fff" />
   <img src="https://img.shields.io/badge/Cloudinary-3448C5?logo=cloudinary&logoColor=fff" />
   <img src="https://img.shields.io/badge/pnpm_11-F69220?logo=pnpm&logoColor=fff" />
+  <img src="https://img.shields.io/badge/GSAP_3-88CE02?logo=greensock&logoColor=fff" />
+<img src="https://img.shields.io/badge/Mapbox_3-4264FB?logo=mapbox&logoColor=fff" />
 </p>
 
 ## 📋 Tabla de contenidos
@@ -53,7 +54,6 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
 - **Diseño Responsivo**: Interfaz mobile-first construida con **Tailwind CSS 4**, accesible y optimizada para todos los dispositivos.
 - **Optimización de Medios**: Entrega de imágenes optimizadas mediante **Cloudinary** en formato `.webp`.
 - **Componentes Accesibles**: Navegación por teclado, _skip-to-content_, _focus trap_ en modales y atributos ARIA.
--
 
 ---
 
@@ -79,7 +79,6 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
 
 - Node.js
 - pnpm
-- Una cuenta en [Supabase](https://www.supabase.com)
 - Una cuenta en [Cloudinary](https://www.cloudinary.com)
 - Una cuenta en [Mapbox](https://www.mapbox.com)
 
@@ -135,34 +134,61 @@ src/
 ├── main.tsx                    # Punto de entrada (BrowserRouter + fuentes)
 ├── App.tsx                     # Componente raíz (rutas / y /galeria)
 ├── index.css                   # Tailwind 4 (@import + @theme)
+├── vite-env.d.ts               # Tipos de Vite
 │
-├── assets/                     # Imágenes, SVGs y recursos estáticos
+├── assets/
+│   ├── images/
+│   │   ├── events/             # Imágenes de eventos (7)
+│   │   ├── government/         # SVGs del gabinete (6)
+│   │   └── history/            # Imágenes línea de tiempo (5)
+│   ├── tlahuelilpanHero.png    # Banner README
+│   ├── logo.svg                # Logotipo SVG
+│   └── *.webp                  # assets generales
+│
 ├── components/
-│   ├── Navbar.tsx              # Barra de navegación responsiva
-│   ├── Hero.tsx                # Hero section full-viewport
+│   ├── ErrorBoundary.tsx       # Captura de errores en React
+│   ├── EventCard.tsx           # Tarjeta individual de evento
 │   ├── Events.tsx              # Calendario de eventos mensual
-│   ├── MapTlahue.tsx           # Mapa 3D interactivo (Mapbox + Three.js)
-│   ├── Government.tsx          # Directorio de funcionarios
-│   ├── History.tsx             # Línea de tiempo histórica
-│   ├── GalleryPage.tsx         # Galería completa con búsqueda y filtros
+│   ├── FloatingEmergency.tsx   # Botón flotante de emergencias
+│   ├── FloatingPanel.tsx       # Panel flotante genérico
+│   ├── FloatingSocial.tsx      # Botón flotante de redes sociales
+│   ├── Footer.tsx              # Pie de página
 │   ├── GalleryCard.tsx         # Tarjeta individual de galería
 │   ├── GalleryLightbox.tsx     # Lightbox con navegación
-│   ├── Footer.tsx              # Pie de página
-│   ├── FloatingSocial.tsx      # Botón flotante de redes sociales
-│   ├── FloatingEmergency.tsx   # Botón flotante de emergencias
+│   ├── GalleryPage.tsx         # Galería completa con búsqueda y filtros
+│   ├── Government.tsx          # Directorio de funcionarios
+│   ├── Hero.tsx                # Hero section full-viewport
+│   ├── History.tsx             # Línea de tiempo histórica
+│   ├── MapTlahue.tsx           # Mapa 3D interactivo (Mapbox + Three.js)
+│   ├── Navbar.tsx              # Barra de navegación responsiva
 │   ├── ScrollToTop.tsx         # Scroll-to-top en cambio de ruta
-│   └── icons/                  # Componentes SVG (21 iconos)
+│   ├── Skeleton.tsx            # Esqueletos de carga
+│   ├── SkipToContent.tsx       # Enlace de salto al contenido
+│   ├── icons/                  # Componentes SVG (21 iconos)
+│   └── map/
+│       ├── constants.ts        # Constantes del mapa (IDs, fuentes)
+│       ├── createLabel3D.ts    # Etiquetas 3D con CSS2DRenderer
+│       ├── createModelCard.ts  # Popups hover con Cloudinary
+│       └── scene.ts            # Escena Three.js (luces, cámara, GLTF)
+│
+├── context/
+│   └── LightboxContext.tsx     # Estado global del lightbox
 │
 ├── data/
 │   └── modelos3D.json          # Configuración de modelos 3D (7 puntos)
+│
 ├── hooks/
-│   └── useFocusTrap.ts         # Hook de focus trap para modales
+│   ├── useFocusTrap.ts         # Focus trap para modales
+│   └── useScroll.ts            # Hook de detección de scroll
+│
 ├── services/
 │   ├── api.ts                  # Wrapper base de fetch
+│   ├── categories.service.ts   # API de categorías
+│   ├── env.ts                  # Validación de variables de entorno
 │   ├── events.service.ts       # API de eventos
-│   ├── government.service.ts   # API de gobierno
 │   ├── gallery.service.ts      # API de galería (paginada)
-│   └── categories.service.ts   # API de categorías
+│   └── government.service.ts   # API de gobierno
+│
 └── utils/
     └── cloudinary.ts           # Constructor de URLs de Cloudinary
 ```
