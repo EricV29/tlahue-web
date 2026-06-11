@@ -1,21 +1,49 @@
 <div align="center">
-<img width="600" alt="Tlahuelilpan" src="./src/assets/tlahuetext.png" />
-<br/>
-<img width="1200" height="475" alt="Tlahuelilpan Hero" src="./src/assets/tlahuelilpanHero.png" />
+    <img width="80" src="./public/logo.svg" alt="TlahueWeb"/>
+
+# Tlahuelilpan - Portal Web
+
+Portal digital del municipio de Tlahuelilpan, Hidalgo.
+
+  <img width="1200" height="475" alt="HeroTlahuelilpan" src="./src/assets/tlahuelilpanHero.png" />
 </div>
 
-# Portal de Tlahuelilpan
+#
 
-**TlahueWeb** es el portal digital del municipio de Tlahuelilpan, Hidalgo. Una plataforma web moderna e interactiva que centraliza información municipal, eventos, galería multimedia, mapas 3D y directorio gubernamental, ofreciendo a la ciudadanía y visitantes una experiencia de navegación inmersiva y accesible.
-
-<p align="center">
+<p align="center" >
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=vite,react,tailwind,typescript,threejs" />
+    <img src="https://skillicons.dev/icons?i=vite,react,tailwind,typescript,supabase,threejs,pnpm" />
     <img src="https://skills.syvixor.com/api/icons?i=mapbox,gsap,opencode,cloudinary" />
   </a>
+  <br />
+  <img src="https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=000" />
+  <img src="https://img.shields.io/badge/Vite_7-646CFF?logo=vite&logoColor=fff" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?logo=tailwindcss&logoColor=fff" />
+  <img src="https://img.shields.io/badge/TypeScript_5.9-3178C6?logo=typescript&logoColor=fff" />
+  <img src="https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=fff" />
+  <img src="https://img.shields.io/badge/Cloudinary-3448C5?logo=cloudinary&logoColor=fff" />
+  <img src="https://img.shields.io/badge/pnpm_11-F69220?logo=pnpm&logoColor=fff" />
 </p>
 
-## 🚀 Características Principales
+## 📋 Tabla de contenidos
+
+- [Tlahuelilpan - Portal Web](#tlahuelilpan---portal-web)
+- [](#)
+  - [📋 Tabla de contenidos](#-tabla-de-contenidos)
+  - [📖 Descripción](#-descripción)
+  - [🛠️ Tecnologías](#️-tecnologías)
+  - [✅ Requisitos previos](#-requisitos-previos)
+  - [🚀 Instalación](#-instalación)
+  - [⚙️ Configuración](#️-configuración)
+  - [💻 Uso](#-uso)
+  - [📁 Estructura del Proyecto](#-estructura-del-proyecto)
+  - [📄 Licencia](#-licencia)
+
+---
+
+## 📖 Descripción
+
+**TlahueWeb** es el portal digital del municipio de Tlahuelilpan, Hidalgo. Una plataforma web moderna e interactiva que centraliza información municipal, eventos, galería multimedia, mapas 3D y directorio gubernamental, ofreciendo a la ciudadanía y visitantes una experiencia de navegación inmersiva y accesible.
 
 - **Mapa Interactivo 3D**: Visualización del municipio con **Mapbox GL** y **Three.js**, incluyendo modelos GLTF de 7 monumentos históricos, límites territoriales y ciclos dinámicos de día/noche.
 - **Galería Multimedia**: Exploración de imágenes con búsqueda por texto, filtrado por categorías, scroll infinito y lightbox con navegación por teclado.
@@ -25,6 +53,9 @@
 - **Diseño Responsivo**: Interfaz mobile-first construida con **Tailwind CSS 4**, accesible y optimizada para todos los dispositivos.
 - **Optimización de Medios**: Entrega de imágenes optimizadas mediante **Cloudinary** en formato `.webp`.
 - **Componentes Accesibles**: Navegación por teclado, _skip-to-content_, _focus trap_ en modales y atributos ARIA.
+-
+
+---
 
 ## 🛠️ Tecnologías
 
@@ -42,49 +73,60 @@
 | **Cloudinary**         | Alojamiento y optimización de imágenes                         |
 | **ESLint 9**           | Linter con reglas para TypeScript, React Hooks y React Refresh |
 
-## 📦 Instalación y Configuración
+---
 
-1. **Clonar el repositorio**
+## ✅ Requisitos previos
 
-   ```bash
-   git clone https://github.com/EricV29/tlahue-web.git
-   cd tlahue-web
-   ```
+- Node.js
+- pnpm
+- Una cuenta en [Supabase](https://www.supabase.com)
+- Una cuenta en [Cloudinary](https://www.cloudinary.com)
+- Una cuenta en [Mapbox](https://www.mapbox.com)
 
-2. **Instalar dependencias**
+---
 
-   ```bash
-   pnpm install
-   ```
+## 🚀 Instalación
 
-3. **Crear cuenta de Mapbox**
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/EricV29/tlahue-web.git
+cd tlahue-web
 
-   Regístrate en [mapbox.com](https://www.mapbox.com) y obtén un token de acceso público.
+# 2. Instalar dependencias
+pnpm install
+```
 
-4. **Crear cuenta de Cloudinary**
+---
 
-   Regístrate en [cloudinary.com](https://cloudinary.com) y obtén tu _cloud name_.
+## ⚙️ Configuración
 
-5. **Configurar variables de entorno**
+Crea un archivo `.env` en la raíz del proyecto con tus credenciales:
 
-   ```bash
-   VITE_MAPBOX_TOKEN="pk.tu_token_aqui"
-   VITE_MAPBOX_STYLE="mapbox://styles/tu_usuario/tu_estilo"
-   VITE_API_URL="http://localhost:3000/api"
-   VITE_CLOUDINARY_CLOUD_NAME="tu_cloud_name"
-   ```
+```env
+VITE_MAPBOX_TOKEN="pk.tu_token_aqui"
+VITE_MAPBOX_STYLE="mapbox://styles/tu_usuario/tu_estilo"
+VITE_API_URL="http://localhost:3000/api"
+VITE_CLOUDINARY_CLOUD_NAME="tu_cloud_name"
+```
 
-6. **Iniciar servidor de desarrollo**
+---
 
-   ```bash
-   pnpm dev
-   ```
+## 💻 Uso
 
-7. **Construir para producción**
+```bash
+# Desarrollo
+pnpm dev
 
-   ```bash
-   pnpm build
-   ```
+# Typecheck + build
+pnpm build
+
+# Vista previa del build
+pnpm preview
+```
+
+Accede a la app en `http://localhost:5173`.
+
+---
 
 ## 📁 Estructura del Proyecto
 

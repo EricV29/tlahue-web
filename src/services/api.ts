@@ -22,9 +22,9 @@ export async function apiGet<T>(
   const response = await fetch(url, { signal });
   if (!response.ok)
     throw { status: response.status, message: "Error in the request" };
-  const data: T = await response.json();
-  cache.set(url, { data, expiresAt: Date.now() + CACHE_TTL });
-  return data;
+  const json = (await response.json()) as { data: T; message: string };
+  cache.set(url, { data: json.data, expiresAt: Date.now() + CACHE_TTL });
+  return json.data;
 }
 
 export function clearCache() {
