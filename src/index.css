@@ -187,6 +187,85 @@
   background: #000;
 }
 
+@media (max-width: 767px) {
+  .model-card {
+    width: 260px;
+    padding: 10px 10px 8px;
+  }
+
+  .model-card-img-wrap {
+    top: -20px;
+    left: -8px;
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
+  }
+
+  .model-card-header-text {
+    padding-left: 36px;
+    padding-right: 14px;
+    margin-bottom: 4px;
+    min-height: 28px;
+  }
+
+  .model-card-title {
+    font-size: 12px;
+  }
+
+  .model-card-meta {
+    flex-direction: row;
+    gap: 6px;
+    margin-bottom: 3px;
+    align-items: center;
+  }
+
+  .model-card-date {
+    font-size: 9px;
+  }
+
+  .model-card-date svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .model-card-style {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+
+  .model-card-desc {
+    font-size: 10px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .model-card-actions {
+    padding-top: 4px;
+    gap: 4px;
+  }
+
+  .model-card-link {
+    font-size: 10px;
+  }
+
+  .model-card-link svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .model-card-close {
+    top: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .model-card-close svg {
+    width: 10px;
+    height: 10px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

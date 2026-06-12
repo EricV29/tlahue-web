@@ -244,7 +244,7 @@ export default function Gobierno() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-transparent border-2 border-tlahu-blue text-tlahu-blue rounded-md px-6 py-2.5 font-body text-base font-medium hover:bg-tlahu-blue/5 transition-all"
           >
-            Ver más
+            Ver gabinete completo
             <IconArrowRight className="w-4 h-4" />
           </a>
         </div>
