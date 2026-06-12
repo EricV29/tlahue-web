@@ -1,18 +1,18 @@
 import mapboxgl from "mapbox-gl";
 import type { Feature, FeatureCollection, Point } from "geojson";
-import geoTlahuelilpan from "../../../public/assets/3D/geo/tlahuelilpan.json";
-import geoColCerroCruz from "../../../public/assets/3D/geo/colCerroCruz.json";
-import geoColCuauhtemoc from "../../../public/assets/3D/geo/colCuauhtemoc.json";
-import geoColMiravalle from "../../../public/assets/3D/geo/colMiravalle.json";
-import geoColRancheria from "../../../public/assets/3D/geo/colRancheria.json";
-import geoColSalitre from "../../../public/assets/3D/geo/colSalitre.json";
-import geoColSanFrancisco from "../../../public/assets/3D/geo/colSanFrancisco.json";
-import geoColSanPrimitivo from "../../../public/assets/3D/geo/colSanPrimitivo.json";
-import geoDeposito from "../../../public/assets/3D/geo/deposito.json";
-import geoDexhe from "../../../public/assets/3D/geo/dexhe.json";
-import geoEjidoMediaLuna from "../../../public/assets/3D/geo/ejidoMediaLuna.json";
-import geoMunitepec from "../../../public/assets/3D/geo/munitepec.json";
-import geoColCentro from "../../../public/assets/3D/geo/colCentro.json";
+import geoTlahuelilpan from "../../assets/3D/geo/tlahuelilpan.json";
+import geoColCerroCruz from "../../assets/3D/geo/colCerroCruz.json";
+import geoColCuauhtemoc from "../../assets/3D/geo/colCuauhtemoc.json";
+import geoColMiravalle from "../../assets/3D/geo/colMiravalle.json";
+import geoColRancheria from "../../assets/3D/geo/colRancheria.json";
+import geoColSalitre from "../../assets/3D/geo/colSalitre.json";
+import geoColSanFrancisco from "../../assets/3D/geo/colSanFrancisco.json";
+import geoColSanPrimitivo from "../../assets/3D/geo/colSanPrimitivo.json";
+import geoDeposito from "../../assets/3D/geo/deposito.json";
+import geoDexhe from "../../assets/3D/geo/dexhe.json";
+import geoEjidoMediaLuna from "../../assets/3D/geo/ejidoMediaLuna.json";
+import geoMunitepec from "../../assets/3D/geo/munitepec.json";
+import geoColCentro from "../../assets/3D/geo/colCentro.json";
 
 export interface MercatorTransform {
   translateX: number;
