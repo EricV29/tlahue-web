@@ -13,7 +13,7 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
 <p align="center" >
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=vite,react,tailwind,typescript,threejs,pnpm" />
-    <img src="https://skills.syvixor.com/api/icons?i=mapbox,gsap,opencode,cloudinary" />
+    <img src="https://skills.syvixor.com/api/icons?i=mapbox,gsap,opencode,cloudinary,netlify" />
   </a>
   <br />
   <img src="https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=000" />
