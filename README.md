@@ -34,6 +34,7 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
   - [📖 Descripción](#-descripción)
   - [🛠️ Tecnologías](#️-tecnologías)
   - [✅ Requisitos previos](#-requisitos-previos)
+  - [� Repositorios relacionados](#-repositorios-relacionados)
   - [🚀 Instalación](#-instalación)
   - [⚙️ Configuración](#️-configuración)
   - [💻 Uso](#-uso)
@@ -81,6 +82,14 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
 - pnpm
 - Una cuenta en [Cloudinary](https://www.cloudinary.com)
 - Una cuenta en [Mapbox](https://www.mapbox.com)
+
+---
+
+## 🔗 Repositorios relacionados
+
+| Proyecto | Repositorio                                            | Live                                                        |
+| -------- | ------------------------------------------------------ | ----------------------------------------------------------- |
+| Back-End | [TlahueAPI](https://github.com/EricV29/tlahue-api.git) | [tlahue-api.onrender.com](https://tlahue-api.onrender.com/) |
 
 ---
 
