@@ -217,7 +217,14 @@ export default function GalleryPage() {
             <p className="font-display text-2xl text-gray-400">Error al cargar las imágenes</p>
             <p className="font-body text-sm text-gray-600">No se pudo conectar con el servidor. Verifica tu conexión o intenta más tarde.</p>
             <button
-              onClick={() => window.location.reload()}
+              onClick={() => {
+                setImages([]);
+                setOffset(0);
+                setHasMore(true);
+                setError(null);
+                loadingRef.current = false;
+                setFetchKey((k) => k + 1);
+              }}
               className="mt-2 rounded-md bg-tlahu-clay px-5 py-2 font-body text-sm font-medium text-white transition-colors hover:brightness-90"
             >
               Reintentar
