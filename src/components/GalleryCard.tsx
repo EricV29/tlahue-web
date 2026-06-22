@@ -9,12 +9,16 @@ interface GalleryCardProps {
 }
 
 export default function GalleryCard({ item, onImageClick }: GalleryCardProps) {
-  const [y, m, d] = item.captureAt.split("T")[0].split("-").map(Number);
-  const formattedDate = new Date(y, m - 1, d).toLocaleDateString("es-MX", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = item.captureAt
+    ? (() => {
+        const [y, m, d] = item.captureAt.split("T")[0].split("-").map(Number);
+        return new Date(y, m - 1, d).toLocaleDateString("es-MX", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      })()
+    : "";
 
   return (
     <article className="group flex flex-col gap-2 rounded-xl">
@@ -54,7 +58,7 @@ export default function GalleryCard({ item, onImageClick }: GalleryCardProps) {
         {item.description}
       </p>
 
-      <time dateTime={item.captureAt.split("T")[0]} className="text-xs text-gray-500">{formattedDate}</time>
+      <time dateTime={item.captureAt ? item.captureAt.split("T")[0] : ""} className="text-xs text-gray-500">{formattedDate}</time>
 
       <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
         <span className="text-xs text-gray-500">{item.nameCreator}</span>

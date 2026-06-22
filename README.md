@@ -5,7 +5,7 @@
 
 Portal digital del municipio de Tlahuelilpan, Hidalgo.
 
-  <img width="1200" height="475" alt="HeroTlahuelilpan" src="./src/assets/tlahuelilpanHero.png" />
+  <img width="1200" height="475" alt="HeroTlahuelilpan" src="./src/assets/tlahuelilpanHero.webp" />
 </div>
 
 #
@@ -34,7 +34,7 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
   - [📖 Descripción](#-descripción)
   - [🛠️ Tecnologías](#️-tecnologías)
   - [✅ Requisitos previos](#-requisitos-previos)
-  - [� Repositorios relacionados](#-repositorios-relacionados)
+  - [🔗 Repositorios relacionados](#-repositorios-relacionados)
   - [🚀 Instalación](#-instalación)
   - [⚙️ Configuración](#️-configuración)
   - [💻 Uso](#-uso)

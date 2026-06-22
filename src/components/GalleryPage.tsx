@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import GalleryCard from "./GalleryCard";
@@ -21,6 +22,7 @@ import {
 } from "../services/categories.service";
 
 export default function GalleryPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<number | "Todas">(
     "Todas",
@@ -34,6 +36,7 @@ export default function GalleryPage() {
   const [hasMore, setHasMore] = useState(true);
   const LIMIT = 12;
   const loadingRef = useRef(false);
+  const latestFetchKey = useRef(0);
 
   useEffect(() => {
     document.title = "Galería - Tlahuelilpan";
@@ -64,6 +67,9 @@ export default function GalleryPage() {
     loadingRef.current = true;
     setLoading(true);
 
+    const currentKey = fetchKey;
+    latestFetchKey.current = fetchKey;
+
     const fetch =
       selectedCategory === "Todas"
         ? getImages(LIMIT, offset)
@@ -76,15 +82,21 @@ export default function GalleryPage() {
 
     fetch
       .then((data) => {
+        if (currentKey !== latestFetchKey.current) return;
         setImages((prev) => {
           const ids = new Set(prev.map((i) => i.id));
           return [...prev, ...data.filter((i) => !ids.has(i.id))];
         });
         if (data.length < LIMIT) setHasMore(false);
       })
-      .catch(() => setError("Servicio no disponible"))
+      .catch(() => {
+        if (currentKey !== latestFetchKey.current) return;
+        setError("Servicio no disponible");
+      })
       .finally(() => {
-        setLoading(false);
+        if (currentKey === latestFetchKey.current) {
+          setLoading(false);
+        }
         loadingRef.current = false;
       });
   }, [fetchKey, offset]);
@@ -92,6 +104,22 @@ export default function GalleryPage() {
   useEffect(() => {
     getCategories().then(setCategories).catch(console.error);
   }, []);
+
+  // Leer ?categoria= de la URL y auto-seleccionar al cargar categorías
+  const initialUrlCat = useRef(searchParams.get("categoria"));
+
+  useEffect(() => {
+    const urlCat = initialUrlCat.current;
+    if (!urlCat || categories.length === 0) return;
+
+    const matched = categories.find(
+      (cat) => cat.name.trim().toLowerCase() === urlCat.toLowerCase(),
+    );
+    if (matched) {
+      setSelectedCategory(Number(matched.id));
+    }
+    initialUrlCat.current = null;
+  }, [categories]);
 
   // Scroll infinito
   useScrollEvent(() => {
@@ -187,7 +215,20 @@ export default function GalleryPage() {
               value={selectedCategory}
               onChange={(e) => {
                 const val = e.target.value;
-                setSelectedCategory(val === "Todas" ? "Todas" : Number(val));
+                if (val === "Todas") {
+                  setSelectedCategory("Todas");
+                  setSearchParams({}, { replace: true });
+                } else {
+                  const catId = Number(val);
+                  setSelectedCategory(catId);
+                  const cat = categories.find((c) => Number(c.id) === catId);
+                  if (cat) {
+                    setSearchParams(
+                      { categoria: cat.name.trim() },
+                      { replace: true },
+                    );
+                  }
+                }
               }}
               className="w-full px-3.5 py-2 pr-8 rounded-xl text-xs font-medium bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white transition-all outline-none cursor-pointer appearance-none"
             >

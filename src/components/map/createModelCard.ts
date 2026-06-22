@@ -24,6 +24,7 @@ export interface ModeloData {
     description: string;
     mapsUrl: string;
     galleryUrl: string;
+    category?: string;
   };
 }
 
@@ -67,7 +68,7 @@ export function createModelCardPopup(
         </svg>
         Visitar
       </a>
-      <a class="model-card-link" href="${data.card.galleryUrl}">
+      <a class="model-card-link" href="${data.card.galleryUrl}" target="_blank" rel="noopener noreferrer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 12.6V20.4C22 20.7314 21.7314 21 21.4 21H13.6C13.2686 21 13 20.7314 13 20.4V12.6C13 12.2686 13.2686 12 13.6 12H21.4C21.7314 12 22 12.2686 22 12.6Z"/>
           <path d="M19.5 14.51L19.51 14.4989"/>
