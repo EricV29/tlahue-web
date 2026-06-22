@@ -5,7 +5,7 @@
 
 Portal digital del municipio de Tlahuelilpan, Hidalgo.
 
-  <img width="1200" height="475" alt="HeroTlahuelilpan" src="./src/assets/tlahuelilpanHero.png" />
+  <img width="1200" height="475" alt="HeroTlahuelilpan" src="./src/assets/tlahuelilpanHero.webp" />
 </div>
 
 #
@@ -13,7 +13,7 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
 <p align="center" >
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=vite,react,tailwind,typescript,threejs,pnpm" />
-    <img src="https://skills.syvixor.com/api/icons?i=mapbox,gsap,opencode,cloudinary" />
+    <img src="https://skills.syvixor.com/api/icons?i=mapbox,gsap,opencode,cloudinary,netlify" />
   </a>
   <br />
   <img src="https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=000" />
@@ -34,7 +34,7 @@ Portal digital del municipio de Tlahuelilpan, Hidalgo.
   - [📖 Descripción](#-descripción)
   - [🛠️ Tecnologías](#️-tecnologías)
   - [✅ Requisitos previos](#-requisitos-previos)
-  - [� Repositorios relacionados](#-repositorios-relacionados)
+  - [🔗 Repositorios relacionados](#-repositorios-relacionados)
   - [🚀 Instalación](#-instalación)
   - [⚙️ Configuración](#️-configuración)
   - [💻 Uso](#-uso)

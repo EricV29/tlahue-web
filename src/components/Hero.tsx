@@ -1,16 +1,25 @@
+import { useState } from "react";
 import tlahueDia from "../assets/images/tlahueDia.webp";
 import IconChevronDown from "./icons/IconChevronDown";
 import IconExternalLink from "./icons/IconExternalLink";
 
 export default function Hero() {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <div className="fixed inset-0 z-0 overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
-        style={{
-          backgroundImage: `url(${tlahueDia})`,
-        }}
-      />
+      <div className="absolute inset-0 bg-dark-charcoal">
+        <img
+          src={tlahueDia}
+          alt="Vista panorámica de Tlahuelilpan"
+          loading="eager"
+          fetchPriority="high"
+          onLoad={() => setLoaded(true)}
+          className={`absolute inset-0 w-full h-full object-cover object-center scale-105 transition-opacity duration-700 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      </div>
 
       <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/30 to-off-white/20" />
 
@@ -51,7 +60,10 @@ export default function Hero() {
         </div>
       </div>
 
-      <div aria-hidden="true" className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <div
+        aria-hidden="true"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
+      >
         <IconChevronDown className="text-white/60" />
       </div>
     </div>
